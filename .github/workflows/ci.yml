@@ -32,13 +32,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
+          cache: 'pnpm'
 
       - name: Install deps
-        run: npm ci
+        run: pnpm install
 
       - name: ESLint
-        run: npx eslint .
+        run: pnpm run lint
 
   # ----- 2) Format check (Prettier) -----
   format:
@@ -51,13 +51,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
+          cache: 'pnpm'
 
       - name: Install deps
-        run: npm ci
+        run: pnpm install
 
       - name: Prettier check
-        run: npx prettier --check .
+        run: pnpm run format:check
 
   # ----- 5) Build Next.js -----
   build:
@@ -70,14 +70,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
+          cache: 'pnpm'
 
       - name: Install deps
-        run: npm ci
+        run: pnpm install
 
       - name: Next.js build
-        run: npm run build
+        run: pnpm run build
 
       # build Storybook
       - name: Storybook build
-        run: npm run build-storybook
+        run: pnpm run build-storybook
