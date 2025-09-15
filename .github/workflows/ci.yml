@@ -73,7 +73,10 @@ jobs:
           cache: npm
 
       - name: Install deps
-        run: npm ci
+        run: npm ci --ignore-scripts
+
+      - name: Rebuild lightningcss
+        run: npm rebuild lightningcss
 
       - name: Next.js build
         run: npm run build
