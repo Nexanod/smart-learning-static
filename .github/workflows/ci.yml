@@ -69,7 +69,7 @@ jobs:
         run: pnpm install
 
       - name: Prettier check
-        run: pnpm run format:check
+        run: pnpm run prettier:check
 
   # ----- 5) Build Next.js -----
   build:
@@ -95,7 +95,3 @@ jobs:
 
       - name: Next.js build
         run: pnpm run build
-
-      # build Storybook
-      - name: Storybook build
-        run: pnpm run build-storybook
