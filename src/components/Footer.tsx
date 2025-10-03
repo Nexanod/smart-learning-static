@@ -1,367 +1,409 @@
 'use client';
 
 import * as React from 'react';
-import { Linkedin, Contact, Copyright, MonitorSmartphone } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { toast } from 'sonner';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import {
+  LayoutPanelTop,
+  Mail,
+  Phone,
+  MapPin,
+  Twitter,
+  Linkedin,
+  Youtube,
+  Instagram,
+  Github,
+  ArrowRight,
+  Sparkles,
+  Cpu,
+  Zap,
+  Target,
+  Rocket,
+  Brain,
+  Globe,
+  Lightbulb,
+  GraduationCap,
+  BookOpen,
+  Users,
+  TrendingUp,
+} from 'lucide-react';
 
-type FooterLink = {
-  label: string;
-  href?: string;
-  ariaLabel?: string;
-};
-
-type FooterColumn = {
-  heading: string;
-  links: FooterLink[];
-};
-
-export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
-  columns?: FooterColumn[];
-  companyName?: string;
-  description?: string;
-  contactEmail?: string;
-  social?: {
-    linkedin?: string;
-    appStore?: string;
-  };
-  newsletter?: {
-    enabled?: boolean;
-    label?: string;
-    placeholder?: string;
-    cta?: string;
-    onSubscribe?: (email: string) => Promise<void> | void;
-  };
-  legal?: {
-    copyrightStartYear?: number;
-    privacyHref?: string;
-    termsHref?: string;
-  };
+interface FooterProps {
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-export default function Footer({
-  className,
-  columns = [
-    {
-      heading: 'Product',
-      links: [
-        { label: 'Overview' },
-        { label: 'Features' },
-        { label: 'Pricing' },
-        { label: 'Integrations' },
-      ],
-    },
-    {
-      heading: 'Company',
-      links: [
-        { label: 'About' },
-        { label: 'Careers' },
-        { label: 'News' },
-        { label: 'Contact' },
-      ],
-    },
-    {
-      heading: 'Support',
-      links: [
-        { label: 'Help Center' },
-        { label: 'Guides' },
-        { label: 'API Docs' },
-        { label: 'Status' },
-      ],
-    },
-    {
-      heading: 'Legal',
-      links: [
-        { label: 'Privacy Policy' },
-        { label: 'Terms of Service' },
-        { label: 'Security' },
-        { label: 'GDPR' },
-      ],
-    },
-  ],
-  companyName = 'Smart Learning',
-  description = 'Transforming education with intelligent, modern tools that empower institutions, educators, and learners.',
-  contactEmail = 'hello@smartlearning.com',
-  social = {
-    linkedin: undefined,
-    appStore: undefined,
-  },
-  newsletter = {
-    enabled: true,
-    label: 'Subscribe to our newsletter',
-    placeholder: 'Enter your email',
-    cta: 'Subscribe',
-    onSubscribe: undefined,
-  },
-  legal = {
-    copyrightStartYear: new Date().getFullYear(),
-    privacyHref: undefined,
-    termsHref: undefined,
-  },
-  ...props
-}: FooterProps) {
-  const [email, setEmail] = React.useState('');
-  const [submitting, setSubmitting] = React.useState(false);
+export default function Footer({ className, style }: FooterProps) {
+  const [hoveredLink, setHoveredLink] = React.useState<string | null>(null);
+  const [isVisible, setIsVisible] = React.useState(false);
 
-  async function handleSubscribe(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const value = email.trim();
-    if (!value || !/^\S+@\S+\.\S+$/.test(value)) {
-      toast.error('Please enter a valid email address.');
-      return;
+  // Social media links with colors
+  const socialLinks = [
+    {
+      icon: Twitter,
+      href: 'https://twitter.com/smartlearning',
+      label: 'Twitter',
+      color: 'hover:text-blue-400 hover:bg-blue-50',
+    },
+    {
+      icon: Linkedin,
+      href: 'https://linkedin.com/company/smartlearning',
+      label: 'LinkedIn',
+      color: 'hover:text-blue-600 hover:bg-blue-50',
+    },
+    {
+      icon: Youtube,
+      href: 'https://youtube.com/@smartlearning',
+      label: 'YouTube',
+      color: 'hover:text-red-500 hover:bg-red-50',
+    },
+    {
+      icon: Instagram,
+      href: 'https://instagram.com/smartlearning',
+      label: 'Instagram',
+      color: 'hover:text-pink-500 hover:bg-pink-50',
+    },
+    {
+      icon: Github,
+      href: 'https://github.com/smartlearning',
+      label: 'GitHub',
+      color: 'hover:text-gray-800 hover:bg-gray-50',
+    },
+  ];
+
+  // Footer sections
+  const footerSections = [
+    {
+      title: 'Product',
+      links: [
+        { label: 'Features', href: '#features' },
+        { label: 'Pricing', href: '#pricing' },
+        { label: 'Demo', href: '#demo' },
+        { label: 'API', href: '#api' },
+      ],
+    },
+    {
+      title: 'Resources',
+      links: [
+        { label: 'Documentation', href: '#docs' },
+        { label: 'Tutorials', href: '#tutorials' },
+        { label: 'Blog', href: '#blog' },
+        { label: 'Support', href: '#support' },
+      ],
+    },
+    {
+      title: 'Company',
+      links: [
+        { label: 'About', href: '#about' },
+        { label: 'Careers', href: '#careers' },
+        { label: 'Press', href: '#press' },
+        { label: 'Contact', href: '#contact' },
+      ],
+    },
+    {
+      title: 'Legal',
+      links: [
+        { label: 'Privacy Policy', href: '#privacy' },
+        { label: 'Terms of Service', href: '#terms' },
+        { label: 'Cookie Policy', href: '#cookies' },
+        { label: 'GDPR', href: '#gdpr' },
+      ],
+    },
+  ];
+
+  // Contact info
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: 'Email',
+      value: 'hello@smartlearning.com',
+      href: 'mailto:hello@smartlearning.com',
+    },
+    {
+      icon: Phone,
+      label: 'Phone',
+      value: '+1 (555) 123-4567',
+      href: 'tel:+15551234567',
+    },
+    {
+      icon: MapPin,
+      label: 'Address',
+      value: '123 Education St, Learning City, LC 12345',
+      href: '#',
+    },
+  ];
+
+  // Intersection Observer for animations
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    const footerElement = document.getElementById('footer');
+    if (footerElement) {
+      observer.observe(footerElement);
     }
-    try {
-      setSubmitting(true);
-      if (newsletter.onSubscribe) {
-        await newsletter.onSubscribe(value);
-      } else {
-        await new Promise(r => setTimeout(r, 700));
+
+    return () => {
+      if (footerElement) {
+        observer.unobserve(footerElement);
       }
-      setEmail('');
-      toast.success("You're subscribed. Welcome aboard!");
-    } catch {
-      toast.error('Subscription failed. Please try again later.');
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  const currentYear = new Date().getFullYear();
-  const startYear = legal.copyrightStartYear ?? currentYear;
-  const yearText =
-    startYear === currentYear
-      ? `${currentYear}`
-      : `${startYear}–${currentYear}`;
+    };
+  }, []);
 
   return (
     <footer
-      className={['w-full bg-foreground text-primary-foreground', className]
-        .filter(Boolean)
-        .join(' ')}
-      {...props}
+      id='footer'
+      className={cn(
+        'relative w-full bg-gradient-to-br from-background via-secondary/30 to-background border-t border-education-blue/20 transform-3d perspective-2000',
+        className,
+      )}
+      style={style}
     >
-      <div className='w-full max-w-full'>
-        <div className='px-6 py-14 sm:py-16 md:py-20'>
-          <div className='w-full max-w-full'>
-            <div className='grid gap-12 md:gap-14 lg:gap-16 sm:grid-cols-2 lg:grid-cols-12'>
-              <div className='lg:col-span-5'>
-                <div className='flex flex-col gap-4'>
-                  <div className='flex items-center gap-3'>
-                    <div className='h-9 w-9 rounded-lg bg-primary-foreground text-foreground flex items-center justify-center font-display text-lg font-extrabold'>
-                      SL
-                    </div>
-                    <span className='font-display text-xl sm:text-2xl font-extrabold tracking-tight'>
-                      {companyName}
+      {/* Background Pattern */}
+      <div className='absolute inset-0 bg-3d-gradient opacity-30' />
+
+      {/* Floating Elements */}
+      <div className='absolute inset-0 overflow-hidden pointer-events-none'>
+        <div className='absolute top-10 left-10 w-20 h-20 bg-gradient-to-br from-education-indigo/20 to-education-blue/20 rounded-full blur-xl animate-float-3d' />
+        <div
+          className='absolute top-20 right-20 w-16 h-16 bg-gradient-to-br from-education-purple/20 to-education-pink/20 rounded-full blur-lg animate-float-3d'
+          style={{ animationDelay: '1s' }}
+        />
+        <div
+          className='absolute bottom-20 left-1/4 w-12 h-12 bg-gradient-to-br from-education-green/20 to-education-orange/20 rounded-full blur-md animate-float-3d'
+          style={{ animationDelay: '2s' }}
+        />
+        <div
+          className='absolute bottom-10 right-1/3 w-14 h-14 bg-gradient-to-br from-education-cyan/20 to-education-blue/20 rounded-full blur-lg animate-float-3d'
+          style={{ animationDelay: '3s' }}
+        />
+      </div>
+
+      <div className='relative z-10'>
+        {/* Main Footer Content */}
+        <div className='container mx-auto px-4 py-12 sm:px-6 sm:py-16'>
+          <div className='grid grid-cols-1 gap-8 lg:grid-cols-12'>
+            {/* Brand Section */}
+            <div className='lg:col-span-4'>
+              <div
+                className={`transition-all duration-1000 ${
+                  isVisible
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-8 opacity-0'
+                }`}
+              >
+                {/* Logo */}
+                <Link
+                  href='/'
+                  className='group inline-flex items-center gap-3 mb-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring card-3d translate-z-10 hover:translate-z-20 transition-all duration-300'
+                  aria-label='Smart Learning - Home'
+                >
+                  <span className='relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-education-indigo via-education-blue to-education-purple text-white shadow-3d ring-2 ring-education-blue/30 transition-all duration-300 group-hover:scale-110 group-hover:shadow-3d-lg group-hover:rotate-3'>
+                    <LayoutPanelTop
+                      className='h-6 w-6 animate-pulse'
+                      aria-hidden='true'
+                    />
+                    <span className='pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20' />
+                    <div className='absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
+                  </span>
+                  <div className='flex flex-col'>
+                    <span className='font-display text-lg font-extrabold tracking-tight bg-gradient-to-r from-education-indigo via-education-blue to-education-purple bg-clip-text text-transparent group-hover:from-education-purple group-hover:to-education-pink transition-all duration-300'>
+                      Smart Learning
+                    </span>
+                    <span className='text-sm text-education-cyan font-medium group-hover:text-education-purple transition-colors duration-300'>
+                      Education reimagined
                     </span>
                   </div>
-                  <p className='text-sm sm:text-base leading-7 text-white/80'>
-                    {description}
-                  </p>
+                </Link>
 
-                  <div className='mt-4 flex flex-col gap-2 text-sm'>
-                    <div className='flex items-center gap-2 text-white/80'>
-                      <Contact
-                        className='h-4 w-4 text-white/70'
-                        aria-hidden='true'
-                      />
+                {/* Description */}
+                <p className='text-sm text-muted-foreground mb-6 max-w-sm leading-relaxed'>
+                  Transform education with AI-powered digital learning.
+                  Eliminate physical labor and embrace intelligent workflows
+                  that make teaching and learning frictionless.
+                </p>
+
+                {/* Contact Info */}
+                <div className='space-y-3'>
+                  {contactInfo.map((contact, index) => {
+                    const Icon = contact.icon;
+                    return (
                       <a
-                        href={`mailto:${contactEmail}`}
-                        className='hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 rounded'
+                        key={contact.label}
+                        href={contact.href}
+                        className={`group flex items-center gap-3 text-sm text-muted-foreground hover:text-education-purple transition-all duration-300 card-3d translate-z-5 hover:translate-z-15 hover:shadow-3d`}
+                        style={{ animationDelay: `${index * 100}ms` }}
                       >
-                        {contactEmail}
+                        <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-education-indigo/10 to-education-purple/10 text-education-indigo group-hover:from-education-purple/20 group-hover:to-education-pink/20 group-hover:text-education-purple transition-all duration-300'>
+                          <Icon className='h-4 w-4' />
+                        </div>
+                        <div>
+                          <div className='font-medium'>{contact.label}</div>
+                          <div className='text-xs text-muted-foreground group-hover:text-education-purple/80'>
+                            {contact.value}
+                          </div>
+                        </div>
                       </a>
-                    </div>
-                    <div className='flex items-center gap-3 pt-2'>
-                      <span className='text-xs uppercase tracking-wider text-white/60'>
-                        Follow
-                      </span>
-                      <div className='flex items-center gap-2'>
-                        <SocialIcon
-                          ariaLabel='LinkedIn'
-                          icon={
-                            <Linkedin className='h-4 w-4' aria-hidden='true' />
-                          }
-                          href={social.linkedin}
-                        />
-                        <SocialIcon
-                          ariaLabel='Mobile App'
-                          icon={
-                            <MonitorSmartphone
-                              className='h-4 w-4'
-                              aria-hidden='true'
-                            />
-                          }
-                          href={social.appStore}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
-
-                {newsletter.enabled ? (
-                  <div className='mt-8'>
-                    <Separator className='bg-white/10' />
-                    <form
-                      onSubmit={handleSubscribe}
-                      className='mt-6 flex w-full max-w-md gap-2'
-                    >
-                      <label htmlFor='newsletter' className='sr-only'>
-                        {newsletter.label || 'Email address'}
-                      </label>
-                      <Input
-                        id='newsletter'
-                        type='email'
-                        inputMode='email'
-                        autoComplete='email'
-                        placeholder={
-                          newsletter.placeholder || 'Enter your email'
-                        }
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        className='bg-white text-foreground placeholder:text-foreground/50 border-white/20 focus-visible:ring-primary-foreground'
-                        aria-describedby='newsletter-desc'
-                      />
-                      <Button
-                        type='submit'
-                        disabled={submitting}
-                        className='bg-primary-foreground text-foreground hover:bg-primary-foreground/90'
-                        aria-label={newsletter.cta || 'Subscribe'}
-                      >
-                        {submitting
-                          ? 'Submitting...'
-                          : newsletter.cta || 'Subscribe'}
-                      </Button>
-                    </form>
-                    <p
-                      id='newsletter-desc'
-                      className='mt-2 text-xs text-white/60'
-                    >
-                      Get product updates, tips, and insights. No spam,
-                      unsubscribe anytime.
-                    </p>
-                  </div>
-                ) : null}
               </div>
+            </div>
 
-              <div className='lg:col-span-7'>
-                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-10'>
-                  {columns.map((col, idx) => (
-                    <nav key={idx} aria-label={col.heading} className='min-w-0'>
-                      <h3 className='font-display text-sm sm:text-base font-semibold tracking-wide text-primary-foreground'>
-                        {col.heading}
-                      </h3>
-                      <ul className='mt-4 space-y-3'>
-                        {col.links.map((link, i) => (
-                          <li key={`${idx}-${i}`} className='min-w-0'>
-                            {link.href ? (
-                              <a
-                                href={link.href}
-                                aria-label={link.ariaLabel || link.label}
-                                className='text-sm text-white/80 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 rounded'
-                              >
-                                <span className='truncate'>{link.label}</span>
-                              </a>
-                            ) : (
-                              <span
-                                role='link'
-                                aria-label={link.ariaLabel || link.label}
-                                tabIndex={0}
-                                className='text-sm text-white/70 hover:text-white/90 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 rounded cursor-default'
-                              >
-                                <span className='truncate'>{link.label}</span>
-                              </span>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </nav>
-                  ))}
-                </div>
+            {/* Links Sections */}
+            <div className='lg:col-span-8'>
+              <div
+                className={`grid grid-cols-2 gap-8 sm:grid-cols-4 transition-all duration-1000 delay-200 ${
+                  isVisible
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-8 opacity-0'
+                }`}
+              >
+                {footerSections.map((section, sectionIndex) => (
+                  <div key={section.title} className='space-y-4'>
+                    <h3 className='text-sm font-semibold bg-gradient-to-r from-education-indigo to-education-purple bg-clip-text text-transparent'>
+                      {section.title}
+                    </h3>
+                    <ul className='space-y-3'>
+                      {section.links.map((link, linkIndex) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            className={`group text-sm text-muted-foreground hover:text-education-purple transition-all duration-300 card-3d translate-z-5 hover:translate-z-15 hover:shadow-3d flex items-center gap-2`}
+                            onMouseEnter={() => setHoveredLink(link.href)}
+                            onMouseLeave={() => setHoveredLink(null)}
+                            style={{
+                              animationDelay: `${sectionIndex * 100 + linkIndex * 50}ms`,
+                            }}
+                          >
+                            <span className='relative'>
+                              {link.label}
+                              <span className='pointer-events-none absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-education-purple to-education-pink transition-all duration-300 group-hover:w-full' />
+                            </span>
+                            <ArrowRight className='h-3 w-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300' />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
-          <div className='mt-12 sm:mt-14'>
-            <Separator className='bg-white/10' />
-            <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6 pt-6'>
-              <div className='flex items-center gap-2 text-white/70 text-sm'>
-                <Copyright className='h-4 w-4' aria-hidden='true' />
-                <span>
-                  {yearText} {companyName}. All rights reserved.
-                </span>
+          {/* Social Links & Newsletter */}
+          <div
+            className={`mt-12 pt-8 border-t border-education-blue/20 transition-all duration-1000 delay-400 ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-8 opacity-0'
+            }`}
+          >
+            <div className='flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between'>
+              {/* Social Links */}
+              <div className='space-y-4'>
+                <h3 className='text-sm font-semibold bg-gradient-to-r from-education-indigo to-education-purple bg-clip-text text-transparent'>
+                  Follow Us
+                </h3>
+                <div className='flex items-center gap-2'>
+                  {socialLinks.map((social, index) => {
+                    const Icon = social.icon;
+                    return (
+                      <a
+                        key={social.label}
+                        href={social.href}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        aria-label={social.label}
+                        className={`group p-3 rounded-xl text-muted-foreground transition-all duration-300 hover:scale-110 hover:shadow-3d card-3d translate-z-5 hover:translate-z-15 ${social.color}`}
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        <Icon className='h-5 w-5 group-hover:animate-bounce' />
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
-              <div className='flex items-center gap-4 text-sm'>
-                {legal.privacyHref ? (
-                  <a
-                    href={legal.privacyHref}
-                    className='text-white/80 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 rounded'
-                  >
-                    Privacy Policy
-                  </a>
-                ) : (
-                  <span className='text-white/70'>Privacy Policy</span>
-                )}
-                <span className='h-3 w-px bg-white/15' aria-hidden='true' />
-                {legal.termsHref ? (
-                  <a
-                    href={legal.termsHref}
-                    className='text-white/80 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 rounded'
-                  >
-                    Terms of Service
-                  </a>
-                ) : (
-                  <span className='text-white/70'>Terms of Service</span>
-                )}
+
+              {/* Newsletter Signup */}
+              <div className='space-y-4'>
+                <h3 className='text-sm font-semibold bg-gradient-to-r from-education-indigo to-education-purple bg-clip-text text-transparent'>
+                  Stay Updated
+                </h3>
+                <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
+                  <div className='relative'>
+                    <input
+                      type='email'
+                      placeholder='Enter your email'
+                      className='w-full sm:w-80 px-4 py-3 rounded-xl border border-education-blue/30 bg-gradient-to-r from-background/50 to-background/30 backdrop-blur-sm text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-education-purple/50 focus:border-education-purple/50 transition-all duration-300 card-3d translate-z-5'
+                    />
+                    <Mail className='absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
+                  </div>
+                  <button className='inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-education-indigo via-education-blue to-education-purple hover:from-education-purple hover:to-education-pink text-white text-sm font-semibold shadow-3d hover:shadow-3d-lg transition-all duration-300 hover:scale-105 card-3d translate-z-10 hover:translate-z-20 animate-glow-3d'>
+                    Subscribe
+                    <ArrowRight className='h-4 w-4' />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div
+          className={`border-t border-education-blue/20 bg-gradient-to-r from-education-indigo/5 via-education-blue/5 to-education-purple/5 transition-all duration-1000 delay-600 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          }`}
+        >
+          <div className='container mx-auto px-4 py-6 sm:px-6'>
+            <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+              {/* Copyright */}
+              <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+                <span>© 2024 Smart Learning. All rights reserved.</span>
+                <div className='hidden sm:flex items-center gap-1'>
+                  <div className='w-1 h-1 bg-education-purple rounded-full animate-pulse' />
+                  <div
+                    className='w-1 h-1 bg-education-blue rounded-full animate-pulse'
+                    style={{ animationDelay: '0.5s' }}
+                  />
+                  <div
+                    className='w-1 h-1 bg-education-pink rounded-full animate-pulse'
+                    style={{ animationDelay: '1s' }}
+                  />
+                </div>
+              </div>
+
+              {/* Additional Links */}
+              <div className='flex items-center gap-6 text-sm'>
+                <Link
+                  href='#privacy'
+                  className='text-muted-foreground hover:text-education-purple transition-colors duration-300'
+                >
+                  Privacy
+                </Link>
+                <Link
+                  href='#terms'
+                  className='text-muted-foreground hover:text-education-purple transition-colors duration-300'
+                >
+                  Terms
+                </Link>
+                <Link
+                  href='#cookies'
+                  className='text-muted-foreground hover:text-education-purple transition-colors duration-300'
+                >
+                  Cookies
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
     </footer>
-  );
-}
-
-function SocialIcon({
-  href,
-  ariaLabel,
-  icon,
-}: {
-  href?: string;
-  ariaLabel: string;
-  icon: React.ReactNode;
-}) {
-  const content = (
-    <span className='inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-white/90 hover:bg-white/10 transition-colors'>
-      {icon}
-      <span className='sr-only'>{ariaLabel}</span>
-    </span>
-  );
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        aria-label={ariaLabel}
-        className='focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 rounded-full'
-        target='_blank'
-        rel='noreferrer'
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <span
-      role='link'
-      aria-label={ariaLabel}
-      tabIndex={0}
-      aria-disabled='true'
-      className='opacity-80'
-    >
-      {content}
-    </span>
   );
 }

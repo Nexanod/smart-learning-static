@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+import { toast } from 'sonner';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import FeaturesSection from '@/components/FeaturesSection';
@@ -6,12 +10,59 @@ import SocialProofSection from '@/components/ui/SocialProofSection';
 import Footer from '@/components/Footer';
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Working button handlers
+  const handleStartTrial = async () => {
+    setIsLoading(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.success('Free trial started! Check your email for next steps.');
+    } catch (error) {
+      toast.error('Failed to start trial. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleWatchDemo = () => {
+    toast.info('Demo video will open in a new tab');
+    // In a real app, this would open a video modal or redirect to demo page
+    window.open('https://youtube.com/@smartlearning', '_blank');
+  };
+
+  const handleLogin = () => {
+    toast.info('Redirecting to login page...');
+    // In a real app, this would redirect to login page
+    window.location.href = '/login';
+  };
+
+  const handleGetStarted = () => {
+    toast.info('Redirecting to signup page...');
+    // In a real app, this would redirect to signup page
+    window.location.href = '/signup';
+  };
+
+  const handleEmailContact = () => {
+    window.location.href =
+      'mailto:hello@smartlearning.com?subject=Interested in Smart Learning&body=Hi, I would like to learn more about Smart Learning platform.';
+  };
+
+  const handleExploreFeatures = () => {
+    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <main className='min-h-dvh bg-background text-foreground'>
-      <Header />
+      <Header onLoginClick={handleLogin} onGetStartedClick={handleGetStarted} />
 
       <div className='container mx-auto px-6 sm:px-8'>
-        <HeroSection className='mt-8 sm:mt-10 md:mt-12' />
+        <HeroSection
+          className='mt-8 sm:mt-10 md:mt-12'
+          onStartTrial={handleStartTrial}
+          onWatchDemo={handleWatchDemo}
+        />
       </div>
 
       <div id='features' className='scroll-mt-20'>
@@ -60,18 +111,18 @@ export default function Page() {
               </div>
               <div className='flex items-start md:items-center'>
                 <div className='flex flex-col gap-3 md:ms-auto'>
-                  <a
-                    href='mailto:hello@smartlearning.com'
-                    className='inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                  <button
+                    onClick={handleEmailContact}
+                    className='inline-flex items-center justify-center rounded-md bg-gradient-to-r from-education-indigo via-education-blue to-education-purple hover:from-education-purple hover:to-education-pink px-4 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
                   >
                     Email Us
-                  </a>
-                  <a
-                    href='#features'
-                    className='inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                  </button>
+                  <button
+                    onClick={handleExploreFeatures}
+                    className='inline-flex items-center justify-center rounded-md border border-education-orange bg-gradient-to-r from-education-orange/10 to-education-pink/10 hover:from-education-orange/20 hover:to-education-pink/20 px-4 py-2 text-sm font-semibold text-education-orange hover:border-education-pink transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
                   >
                     Explore Features
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
