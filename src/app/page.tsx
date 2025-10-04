@@ -8,6 +8,7 @@ import FeaturesSection from '@/components/FeaturesSection';
 import BenefitsSection from '@/components/BenefitsSection';
 import SocialProofSection from '@/components/ui/SocialProofSection';
 import Footer from '@/components/Footer';
+import './globals.css';
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
