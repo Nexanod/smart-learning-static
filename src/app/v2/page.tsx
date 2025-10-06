@@ -5,8 +5,6 @@ import { Button } from '@/components/ui/button';
 import FloatingShapes from '@/components/v2/FloatingShapes';
 import GraphNodeVisualization from '@/components/v2/GraphNodeVisualization';
 import FeatureCard from '@/components/v2/FeatureCard';
-import './globals.css';
-
 import {
   ArrowRight,
   Sparkles,
@@ -17,6 +15,7 @@ import {
   Calendar,
   Zap,
 } from 'lucide-react';
+import './globals.css';
 
 export default function Home() {
   return (
@@ -160,14 +159,14 @@ export default function Home() {
       </section>
 
       {/* Graph Node Section */}
-      <section className='relative py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background'>
-        <div className='max-w-7xl mx-auto'>
+      <section className='relative bg-gradient-to-b from-muted/30 to-background'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className='text-center mb-16'
+            className='text-center py-16'
           >
             <h2 className='text-4xl sm:text-5xl font-bold mb-4'>
               <span className='gradient-text'>Connected Ecosystem</span>
@@ -176,9 +175,9 @@ export default function Home() {
               Discover how our modules work together seamlessly
             </p>
           </motion.div>
-
-          <GraphNodeVisualization />
         </div>
+
+        <GraphNodeVisualization />
       </section>
 
       {/* B2B Section */}
@@ -204,9 +203,6 @@ export default function Home() {
                 <p className='text-3xl font-bold gradient-text'>
                   Custom Domains
                 </p>
-              </div>
-              <div className='bg-card/50 backdrop-blur-sm border border-border rounded-2xl px-6 py-4'>
-                <p className='text-3xl font-bold gradient-text'>White Label</p>
               </div>
               <div className='bg-card/50 backdrop-blur-sm border border-border rounded-2xl px-6 py-4'>
                 <p className='text-3xl font-bold gradient-text'>Scalable</p>
