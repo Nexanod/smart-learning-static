@@ -128,7 +128,7 @@ export default function Home() {
               <Button
                 asChild
                 size='lg'
-                className='bg-gradient-to-r from-blue-600 to-blue-800 hover:opacity-90 text-lg px-8 py-6 rounded-full shadow-2xl shadow-blue-500/20 transition-all duration-300 hover:scale-105'
+                className='bg-gradient-to-r from-blue-600 to-blue-800 hover:opacity-90 text-white text-lg px-8 py-6 rounded-full shadow-2xl shadow-blue-500/20 transition-all duration-300 hover:scale-105'
               >
                 <Link href='/contact'>
                   Get Started Free <ArrowRight className='ml-2' />
@@ -137,8 +137,7 @@ export default function Home() {
               <Button
                 asChild
                 size='lg'
-                variant='outline'
-                className='text-lg px-8 py-6 rounded-full border-2 hover:bg-accent transition-all duration-300'
+                className='bg-gradient-to-r from-sky-500 to-blue-700 hover:opacity-90 text-white text-lg px-8 py-6 rounded-full shadow-xl shadow-sky-500/20 transition-all duration-300 hover:scale-105'
               >
                 <Link href='/pricing'>View Pricing</Link>
               </Button>
@@ -299,8 +298,7 @@ export default function Home() {
               <Button
                 asChild
                 size='lg'
-                variant='outline'
-                className='text-lg px-8 py-6 rounded-full border-2 border-white text-white hover:bg-white/10 transition-all duration-300'
+                className='bg-gradient-to-r from-blue-500 to-sky-600 text-white text-lg px-8 py-6 rounded-full shadow-xl shadow-blue-500/20 hover:opacity-90 transition-all duration-300 hover:scale-105'
               >
                 <Link href='/team'>Meet Our Team</Link>
               </Button>
