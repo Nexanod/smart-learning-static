@@ -68,13 +68,10 @@ export default function Header() {
             ))}
 
             {/* Products Dropdown - Fixed to be clickable */}
-            <div
-              className='relative'
-              onMouseEnter={() => setIsProductsOpen(true)}
-              onMouseLeave={() => setIsProductsOpen(false)}
-            >
+            <div className='relative'>
               <button
                 onClick={() => setIsProductsOpen(!isProductsOpen)}
+                onMouseEnter={() => setIsProductsOpen(true)}
                 className='px-4 py-2 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-300 flex items-center gap-1'
               >
                 Products
@@ -85,20 +82,21 @@ export default function Header() {
 
               {isProductsOpen && (
                 <div
-                  className='absolute top-full left-0 mt-2 w-56 bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200'
-                  onMouseEnter={() => setIsProductsOpen(true)}
+                  className='absolute top-full left-0 pt-2 w-56'
                   onMouseLeave={() => setIsProductsOpen(false)}
                 >
-                  {productItems.map(item => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className='block px-4 py-3 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-200'
-                      onClick={() => setIsProductsOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  <div className='bg-background/95 backdrop-blur-xl border border-border rounded-xl shadow-2xl overflow-hidden'>
+                    {productItems.map(item => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className='block px-4 py-3 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-blue-500/10 hover:border-l-2 hover:border-blue-500 transition-all duration-200'
+                        onClick={() => setIsProductsOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -107,8 +105,7 @@ export default function Header() {
           <div className='hidden lg:flex items-center space-x-4'>
             <Button
               asChild
-              variant='outline'
-              className='rounded-full transition-all duration-300 hover:scale-105'
+              className='bg-gradient-to-r from-blue-600 to-blue-800 hover:opacity-90 text-white rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-blue-500/20'
             >
               <Link href='/contact'>Get Started</Link>
             </Button>
@@ -156,7 +153,7 @@ export default function Header() {
 
             <Button
               asChild
-              className='w-full rounded-full mt-4'
+              className='w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:opacity-90 text-white rounded-full mt-4 shadow-lg shadow-blue-500/20'
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <Link href='/contact'>Get Started</Link>
