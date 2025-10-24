@@ -1,42 +1,53 @@
-import type { Metadata } from 'next';
-
-import { Geist, Geist_Mono } from 'next/font/google';
-import { Toaster } from 'sonner';
-
-import Script from 'next/script';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+import type { Metadata } from "next";
+import "./globals.css";
+import Script from "next/script";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import StructuredData from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title:
-    'Smart Learning - Transform Education with AI-Powered Digital Learning',
-  description:
-    'Eliminate physical labor and embrace AI-powered workflows that make teaching and learning frictionless. Smart Learning brings modern, trusted digital systems to every classroom.',
-  keywords:
-    'education technology, AI learning, digital classroom, smart education, online learning, educational software',
-  authors: [{ name: 'Smart Learning Team' }],
+  title: "Smart Learning - Modern Education Management System | AI-Powered Paper Generation",
+  description: "Smart Learning modernizes education with AI-powered paper generation, student management, and attendance tracking. Complete B2B education platform with customizable subdomains for schools.",
+  keywords: [
+    "education management system",
+    "AI paper generation",
+    "student management software",
+    "attendance management",
+    "online exam system",
+    "school management software",
+    "B2B education platform",
+    "digital learning",
+    "automated paper generation",
+    "education technology",
+    "smart learning platform",
+    "result management system"
+  ],
+  authors: [{ name: "Smart Learning Team" }],
   openGraph: {
-    title:
-      'Smart Learning - Transform Education with AI-Powered Digital Learning',
-    description:
-      'Eliminate physical labor and embrace AI-powered workflows that make teaching and learning frictionless.',
-    type: 'website',
-    locale: 'en_US',
+    title: "Smart Learning - Modern Education Management System",
+    description: "Modernize your institution with AI-powered paper generation, student management, and intelligent automation.",
+    type: "website",
+    images: [
+      {
+        url: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/logo-1761231526372.png",
+        width: 1200,
+        height: 630,
+        alt: "Smart Learning Logo",
+      },
+    ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title:
-      'Smart Learning - Transform Education with AI-Powered Digital Learning',
-    description:
-      'Eliminate physical labor and embrace AI-powered workflows that make teaching and learning frictionless.',
+    card: "summary_large_image",
+    title: "Smart Learning - Modern Education Management System",
+    description: "AI-powered education platform for modern institutions",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 };
 
@@ -46,22 +57,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en">
+      <head>
+        <StructuredData />
+      </head>
+      <body className="antialiased">
         <Script
-          src='https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js'
-          strategy='afterInteractive'
-          data-target-origin='*'
-          data-message-type='ROUTE_CHANGE'
-          data-include-search-params='true'
-          data-only-in-iframe='true'
-          data-debug='true'
+          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"
+          strategy="afterInteractive"
+          data-target-origin="*"
+          data-message-type="ROUTE_CHANGE"
+          data-include-search-params="true"
+          data-only-in-iframe="true"
+          data-debug="true"
           data-custom-data='{"appName": "YourApp", "version": "1.0.0", "greeting": "hi"}'
         />
+        <Header />
         {children}
-        <Toaster position='top-right' expand={true} richColors closeButton />
+        <Footer />
       </body>
     </html>
   );
