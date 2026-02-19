@@ -9,15 +9,7 @@ import GrainOverlay from '@/components/GrainOverlay';
 import PricingSection from '@/components/PricingSection';
 import RevealObserver from '@/components/RevealObserver';
 import DemoModal from '@/components/DemoModal';
-import { 
-  Zap, 
-  Lock, 
-  Hexagon, 
-  Activity, 
-  Users, 
-  Globe, 
-  Plus 
-} from 'lucide-react';
+import { Zap, Lock, Hexagon, Activity, Users, Globe, Plus } from 'lucide-react';
 
 function TextScramble({ phrases }: { phrases: string[] }) {
   const ref = useRef<HTMLSpanElement>(null);

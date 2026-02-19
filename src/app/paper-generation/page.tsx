@@ -6,13 +6,13 @@ import SiteFooter from '@/components/SiteFooter';
 import CustomCursor from '@/components/CustomCursor';
 import GrainOverlay from '@/components/GrainOverlay';
 import RevealObserver from '@/components/RevealObserver';
-import { 
-  LayoutGrid, 
-  Activity, 
-  FileText, 
-  CheckCircle2, 
-  Settings, 
-  Book 
+import {
+  LayoutGrid,
+  Activity,
+  FileText,
+  CheckCircle2,
+  Settings,
+  Book,
 } from 'lucide-react';
 
 const steps = [

@@ -97,13 +97,17 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
                     <div className='font-mono text-[10px] text-stone-400'>
                       USERNAME
                     </div>
-                    <div className='text-sm font-mono'>{CONTACT_INFO.demoUser}</div>
+                    <div className='text-sm font-mono'>
+                      {CONTACT_INFO.demoUser}
+                    </div>
                   </div>
                   <div>
                     <div className='font-mono text-[10px] text-stone-400'>
                       PASSWORD
                     </div>
-                    <div className='text-sm font-mono'>{CONTACT_INFO.demoPass}</div>
+                    <div className='text-sm font-mono'>
+                      {CONTACT_INFO.demoPass}
+                    </div>
                   </div>
                 </div>
               </div>

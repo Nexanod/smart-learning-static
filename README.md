@@ -34,7 +34,7 @@ system.
 - **UI Components**: Custom components with shadcn/ui
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
-- **Package Manager**: pnpm
+- **Package Manager**: npm
 - **Linting**: ESLint with TypeScript rules
 
 ## 📁 Project Structure
@@ -84,7 +84,7 @@ The project includes comprehensive icon support:
 ### Prerequisites
 
 - Node.js 18+
-- pnpm (recommended) or npm
+- npm (recommended)
 
 ### Installation
 
@@ -98,16 +98,12 @@ The project includes comprehensive icon support:
 2. **Install dependencies**
 
    ```bash
-   pnpm install
-   # or
    npm install
    ```
 
 3. **Run the development server**
 
    ```bash
-   pnpm dev
-   # or
    npm run dev
    ```
 
@@ -117,14 +113,14 @@ The project includes comprehensive icon support:
 
 ```bash
 # Development
-pnpm dev          # Start development server
-pnpm build        # Build for production
-pnpm start        # Start production server
-pnpm lint         # Run ESLint
-pnpm lint:fix     # Fix ESLint issues
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint issues
 
 # Type checking
-pnpm type-check   # Run TypeScript compiler
+npm run typecheck    # Run TypeScript compiler
 ```
 
 ## 📱 PWA Features
@@ -158,7 +154,7 @@ The application is configured as a Progressive Web App with:
 ### Production Build
 
 ```bash
-pnpm build
+npm run build
 ```
 
 ### Build Output

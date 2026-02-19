@@ -28,23 +28,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+          cache: "npm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: ESLint
-        run: pnpm run lint
+        run: npm run lint
 
   # ----- 2) Format check (Prettier) -----
   format:
@@ -53,23 +47,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+          cache: "npm"
 
       - name: Install deps
-        run: pnpm install
+        run: npm install
 
       - name: Prettier check
-        run: pnpm run prettier:check
+        run: npm run prettier:check
 
   # ----- 5) Build Next.js -----
   build:
@@ -78,20 +66,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+          cache: "npm"
 
       - name: Install deps
-        run: pnpm install
+        run: npm install
 
       - name: Next.js build
-        run: pnpm run build
+        run: npm run build

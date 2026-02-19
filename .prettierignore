@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-.pnpm
 
 # Build outputs
 .next/
@@ -49,7 +48,6 @@ __snapshots__/
 # Package manager files
 package-lock.json
 yarn.lock
-pnpm-lock.yaml
 
 # Generated files
 next-env.d.ts
