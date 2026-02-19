@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
+import { CONTACT_INFO } from '@/constants/site';
+import { X } from 'lucide-react';
 
 interface DemoModalProps {
   isOpen: boolean;
@@ -36,17 +38,7 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
           onClick={onClose}
           className='absolute top-4 right-4 z-10 w-10 h-10 bg-stone-900 text-white flex items-center justify-center hover:bg-[#cc5500] transition-colors hover-target'
         >
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-          >
-            <line x1='18' y1='6' x2='6' y2='18' />
-            <line x1='6' y1='6' x2='18' y2='18' />
-          </svg>
+          <X size={24} />
         </button>
 
         {/* Video Side */}
@@ -93,11 +85,11 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
                     URL
                   </div>
                   <a
-                    href='https://demo.smartlearning.pk'
+                    href={CONTACT_INFO.demoUrl}
                     target='_blank'
                     className='text-[#cc5500] text-sm break-all hover:underline'
                   >
-                    https://demo.smartlearning.pk
+                    {CONTACT_INFO.demoUrl}
                   </a>
                 </div>
                 <div className='grid grid-cols-2 gap-4'>
@@ -105,13 +97,13 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
                     <div className='font-mono text-[10px] text-stone-400'>
                       USERNAME
                     </div>
-                    <div className='text-sm font-mono'>admin_demo</div>
+                    <div className='text-sm font-mono'>{CONTACT_INFO.demoUser}</div>
                   </div>
                   <div>
                     <div className='font-mono text-[10px] text-stone-400'>
                       PASSWORD
                     </div>
-                    <div className='text-sm font-mono'>test_pass123</div>
+                    <div className='text-sm font-mono'>{CONTACT_INFO.demoPass}</div>
                   </div>
                 </div>
               </div>
@@ -119,7 +111,7 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
 
             <div className='pt-4'>
               <a
-                href='https://demo.smartlearning.pk'
+                href={CONTACT_INFO.demoUrl}
                 target='_blank'
                 className='block w-full text-center brutal-border px-6 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover:bg-[#cc5500] transition-colors no-underline'
               >

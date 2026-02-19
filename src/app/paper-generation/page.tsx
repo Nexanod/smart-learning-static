@@ -6,6 +6,14 @@ import SiteFooter from '@/components/SiteFooter';
 import CustomCursor from '@/components/CustomCursor';
 import GrainOverlay from '@/components/GrainOverlay';
 import RevealObserver from '@/components/RevealObserver';
+import { 
+  LayoutGrid, 
+  Activity, 
+  FileText, 
+  CheckCircle2, 
+  Settings, 
+  Book 
+} from 'lucide-react';
 
 const steps = [
   {
@@ -30,63 +38,32 @@ const capabilities = [
   {
     title: 'Question Bank Management',
     desc: "Organize thousands of questions by subject, topic, difficulty, and Bloom's taxonomy level.",
-    icon: (
-      <>
-        <rect x='3' y='3' width='7' height='7' />
-        <rect x='14' y='3' width='7' height='7' />
-        <rect x='3' y='14' width='7' height='7' />
-        <rect x='14' y='14' width='7' height='7' />
-      </>
-    ),
+    icon: <LayoutGrid size={24} />,
   },
   {
     title: 'Difficulty Balancing',
     desc: 'AI ensures proper distribution across easy, medium, and hard questions based on your specifications.',
-    icon: (
-      <>
-        <polyline points='22 12 18 12 15 21 9 3 6 12 2 12' />
-      </>
-    ),
+    icon: <Activity size={24} />,
   },
   {
     title: 'Multiple Formats',
     desc: 'MCQs, short answer, long answer, true/false, matching, fill-in-the-blanks — all in one paper.',
-    icon: (
-      <>
-        <path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z' />
-        <polyline points='14 2 14 8 20 8' />
-      </>
-    ),
+    icon: <FileText size={24} />,
   },
   {
     title: 'Auto Answer Keys',
     desc: 'Marking schemes and answer keys generated automatically with configurable partial marking rules.',
-    icon: (
-      <>
-        <path d='M22 11.08V12a10 10 0 1 1-5.93-9.14' />
-        <polyline points='22 4 12 14.01 9 11.01' />
-      </>
-    ),
+    icon: <CheckCircle2 size={24} />,
   },
   {
     title: 'Variant Generation',
     desc: 'Generate multiple variants of the same paper with shuffled questions to prevent cheating.',
-    icon: (
-      <>
-        <circle cx='12' cy='12' r='3' />
-        <path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z' />
-      </>
-    ),
+    icon: <Settings size={24} />,
   },
   {
     title: 'Template Library',
     desc: 'Pre-built templates for board exams, unit tests, quizzes, and practice worksheets.',
-    icon: (
-      <>
-        <path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20' />
-        <path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z' />
-      </>
-    ),
+    icon: <Book size={24} />,
   },
 ];
 
@@ -245,18 +222,8 @@ export default function PaperGenerationPage() {
                 className='border-2 border-stone-900 p-8 hover:bg-stone-100 transition-colors reveal-up hover-target'
                 style={{ transitionDelay: `${(i % 3) * 0.1}s` }}
               >
-                <div className='w-12 h-12 border border-stone-300 flex items-center justify-center mb-6'>
-                  <svg
-                    width='24'
-                    height='24'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.5'
-                    className='text-[#cc5500]'
-                  >
-                    {c.icon}
-                  </svg>
+                <div className='w-12 h-12 border border-stone-300 flex items-center justify-center mb-6 text-[#cc5500]'>
+                  {c.icon}
                 </div>
                 <h3 className='font-display text-xl font-bold mb-3'>
                   {c.title}

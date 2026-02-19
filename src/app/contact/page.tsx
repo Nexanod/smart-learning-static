@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { SOCIAL_LINKS, CONTACT_INFO } from '@/constants/site';
 import Navbar from '@/components/Navbar';
 import SiteFooter from '@/components/SiteFooter';
 import CustomCursor from '@/components/CustomCursor';
 import GrainOverlay from '@/components/GrainOverlay';
 import RevealObserver from '@/components/RevealObserver';
+import { Check, AlertCircle } from 'lucide-react';
 
 export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
@@ -156,8 +158,16 @@ export default function ContactPage() {
                   className='brutal-border px-8 py-4 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target w-full md:w-auto disabled:opacity-60'
                 >
                   {status === 'sending' && 'Sending...'}
-                  {status === 'sent' && '✓ Message Sent!'}
-                  {status === 'error' && '✕ Failed — Try Again'}
+                  {status === 'sent' && (
+                    <span className='flex items-center justify-center gap-2'>
+                      <Check size={16} /> Message Sent!
+                    </span>
+                  )}
+                  {status === 'error' && (
+                    <span className='flex items-center justify-center gap-2'>
+                      <AlertCircle size={16} /> Failed — Try Again
+                    </span>
+                  )}
                   {status === 'idle' && 'Send Message'}
                 </button>
               </form>
@@ -178,10 +188,10 @@ export default function ContactPage() {
                       EMAIL
                     </div>
                     <a
-                      href='mailto:sales@smartlearning.pk'
+                      href={`mailto:${CONTACT_INFO.email}`}
                       className='text-stone-900 hover:text-[#cc5500] transition-colors no-underline hover-target'
                     >
-                      sales@smartlearning.pk
+                      {CONTACT_INFO.email}
                     </a>
                   </div>
                   <div>
@@ -189,17 +199,19 @@ export default function ContactPage() {
                       PHONE
                     </div>
                     <a
-                      href='tel:+923366663633'
+                      href={`tel:${CONTACT_INFO.phone.replace(/-/g, '')}`}
                       className='text-stone-900 hover:text-[#cc5500] transition-colors no-underline hover-target'
                     >
-                      +92-336-6663633
+                      {CONTACT_INFO.phoneLabel}
                     </a>
                   </div>
                   <div>
                     <div className='font-mono text-xs tracking-widest text-[#cc5500] mb-1'>
                       OFFICE
                     </div>
-                    <p className='text-stone-600 text-sm'>Lahore, Pakistan</p>
+                    <p className='text-stone-600 text-sm'>
+                      {CONTACT_INFO.address}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -226,19 +238,22 @@ export default function ContactPage() {
                 </h3>
                 <div className='flex flex-wrap gap-3'>
                   {[
-                    'YouTube',
-                    'Instagram',
-                    'Facebook',
-                    'Twitter',
-                    'TikTok',
-                    'LinkedIn',
+                    { name: 'YouTube', href: SOCIAL_LINKS.youtube },
+                    { name: 'Instagram', href: SOCIAL_LINKS.instagram },
+                    { name: 'Facebook', href: SOCIAL_LINKS.facebook },
+                    { name: 'Twitter', href: SOCIAL_LINKS.twitter },
+                    { name: 'TikTok', href: SOCIAL_LINKS.tiktok },
+                    { name: 'LinkedIn', href: SOCIAL_LINKS.linkedin },
+                    { name: 'Reddit', href: SOCIAL_LINKS.reddit },
                   ].map(s => (
                     <a
-                      key={s}
-                      href='#'
+                      key={s.name}
+                      href={s.href}
+                      target='_blank'
+                      rel='noopener noreferrer'
                       className='px-4 py-2 border border-stone-300 font-mono text-xs hover:border-[#cc5500] hover:text-[#cc5500] transition-colors hover-target no-underline'
                     >
-                      {s}
+                      {s.name}
                     </a>
                   ))}
                 </div>

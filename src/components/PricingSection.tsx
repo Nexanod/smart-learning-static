@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Check } from 'lucide-react';
 
 const plans = [
   {
@@ -204,7 +205,7 @@ export default function PricingSection() {
               <ul className='space-y-3 mb-8 flex-1'>
                 {plan.features.map(f => (
                   <li key={f} className='flex items-start gap-3 text-sm'>
-                    <span className='text-[#cc5500] mt-0.5'>✓</span>
+                    <Check size={16} className='text-[#cc5500] mt-0.5 shrink-0' />
                     {f}
                   </li>
                 ))}

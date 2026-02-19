@@ -9,6 +9,15 @@ import GrainOverlay from '@/components/GrainOverlay';
 import PricingSection from '@/components/PricingSection';
 import RevealObserver from '@/components/RevealObserver';
 import DemoModal from '@/components/DemoModal';
+import { 
+  Zap, 
+  Lock, 
+  Hexagon, 
+  Activity, 
+  Users, 
+  Globe, 
+  Plus 
+} from 'lucide-react';
 
 function TextScramble({ phrases }: { phrases: string[] }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -146,17 +155,7 @@ function Accordion() {
                 transform: open === i ? 'rotate(45deg)' : 'rotate(0deg)',
               }}
             >
-              <svg
-                width='24'
-                height='24'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2'
-              >
-                <line x1='12' y1='5' x2='12' y2='19' />
-                <line x1='5' y1='12' x2='19' y2='12' />
-              </svg>
+              <Plus size={24} />
             </div>
           </div>
           <div
@@ -184,52 +183,32 @@ function Accordion() {
 
 const features = [
   {
-    icon: <path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z' />,
+    icon: <Zap size={24} />,
     title: 'Instant Generation',
     desc: 'Generate examination papers in under 30 seconds with AI-optimized question distribution and difficulty balancing.',
   },
   {
-    icon: (
-      <>
-        <rect x='3' y='11' width='18' height='11' rx='2' ry='2' />
-        <path d='M7 11V7a5 5 0 0 1 10 0v4' />
-      </>
-    ),
+    icon: <Lock size={24} />,
     title: 'Bank-Grade Security',
     desc: 'End-to-end encryption, role-based access control, and comprehensive audit trails for all sensitive data.',
   },
   {
-    icon: (
-      <path d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z' />
-    ),
+    icon: <Hexagon size={24} />,
     title: 'Modular Architecture',
     desc: 'Deploy only what you need. Each module functions independently with clean API integration points.',
   },
   {
-    icon: <polyline points='22 12 18 12 15 21 9 3 6 12 2 12' />,
+    icon: <Activity size={24} />,
     title: 'Predictive Analytics',
     desc: 'Identify at-risk students, predict attendance patterns, and optimize resource allocation with machine learning.',
   },
   {
-    icon: (
-      <>
-        <path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' />
-        <circle cx='9' cy='7' r='4' />
-        <path d='M23 21v-2a4 4 0 0 0-3-3.87' />
-        <path d='M16 3.13a4 4 0 0 1 0 7.75' />
-      </>
-    ),
+    icon: <Users size={24} />,
     title: 'Multi-Tenant',
     desc: 'Manage multiple campuses, departments, or institutions from a single dashboard with complete data isolation.',
   },
   {
-    icon: (
-      <>
-        <circle cx='12' cy='12' r='10' />
-        <line x1='2' y1='12' x2='22' y2='12' />
-        <path d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z' />
-      </>
-    ),
+    icon: <Globe size={24} />,
     title: 'Global Access',
     desc: 'Cloud-native infrastructure with 99.99% uptime SLA. Access from anywhere, on any device, in any timezone.',
   },
@@ -398,18 +377,8 @@ export default function HomePage() {
                 className='bg-stone-900 p-8 group hover:bg-stone-800 transition-colors reveal-up hover-target'
                 style={{ transitionDelay: `${(i % 3) * 0.1}s` }}
               >
-                <div className='w-12 h-12 border border-stone-700 flex items-center justify-center mb-6 group-hover:border-[#cc5500] transition-colors'>
-                  <svg
-                    width='24'
-                    height='24'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.5'
-                    className='text-[#cc5500]'
-                  >
-                    {f.icon}
-                  </svg>
+                <div className='w-12 h-12 border border-stone-700 flex items-center justify-center mb-6 group-hover:border-[#cc5500] transition-colors text-[#cc5500]'>
+                  {f.icon}
                 </div>
                 <h3 className='font-display text-xl font-bold mb-3 text-stone-50'>
                   {f.title}
