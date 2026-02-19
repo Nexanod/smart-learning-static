@@ -1,393 +1,299 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import {
-  Sparkles,
-  Users,
-  Layout,
-  CheckCircle2,
-  ArrowRight,
-  Wand2,
-  FileEdit,
-  Layers,
-  Download,
-} from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import SiteFooter from '@/components/SiteFooter';
+import CustomCursor from '@/components/CustomCursor';
+import GrainOverlay from '@/components/GrainOverlay';
+import RevealObserver from '@/components/RevealObserver';
+
+const steps = [
+  {
+    title: 'Define Parameters',
+    desc: 'Set subject, grade level, difficulty distribution, question types, and total marks. The system adapts to your curriculum standards.',
+  },
+  {
+    title: 'AI Generates Questions',
+    desc: 'Our AI engine analyzes your question bank and curriculum to generate balanced, non-repetitive questions with proper difficulty spread.',
+  },
+  {
+    title: 'Review & Customize',
+    desc: 'Review the generated paper in a live editor. Swap questions, adjust marks, reorder sections — full control at every step.',
+  },
+  {
+    title: 'Export & Distribute',
+    desc: 'Export as PDF, Word, or directly print. Auto-generate answer keys and marking schemes alongside the paper.',
+  },
+];
+
+const capabilities = [
+  {
+    title: 'Question Bank Management',
+    desc: "Organize thousands of questions by subject, topic, difficulty, and Bloom's taxonomy level.",
+    icon: (
+      <>
+        <rect x='3' y='3' width='7' height='7' />
+        <rect x='14' y='3' width='7' height='7' />
+        <rect x='3' y='14' width='7' height='7' />
+        <rect x='14' y='14' width='7' height='7' />
+      </>
+    ),
+  },
+  {
+    title: 'Difficulty Balancing',
+    desc: 'AI ensures proper distribution across easy, medium, and hard questions based on your specifications.',
+    icon: (
+      <>
+        <polyline points='22 12 18 12 15 21 9 3 6 12 2 12' />
+      </>
+    ),
+  },
+  {
+    title: 'Multiple Formats',
+    desc: 'MCQs, short answer, long answer, true/false, matching, fill-in-the-blanks — all in one paper.',
+    icon: (
+      <>
+        <path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z' />
+        <polyline points='14 2 14 8 20 8' />
+      </>
+    ),
+  },
+  {
+    title: 'Auto Answer Keys',
+    desc: 'Marking schemes and answer keys generated automatically with configurable partial marking rules.',
+    icon: (
+      <>
+        <path d='M22 11.08V12a10 10 0 1 1-5.93-9.14' />
+        <polyline points='22 4 12 14.01 9 11.01' />
+      </>
+    ),
+  },
+  {
+    title: 'Variant Generation',
+    desc: 'Generate multiple variants of the same paper with shuffled questions to prevent cheating.',
+    icon: (
+      <>
+        <circle cx='12' cy='12' r='3' />
+        <path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z' />
+      </>
+    ),
+  },
+  {
+    title: 'Template Library',
+    desc: 'Pre-built templates for board exams, unit tests, quizzes, and practice worksheets.',
+    icon: (
+      <>
+        <path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20' />
+        <path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z' />
+      </>
+    ),
+  },
+];
 
 export default function PaperGenerationPage() {
-  const features = [
-    {
-      icon: Wand2,
-      title: 'One-Click Generation',
-      description:
-        'Generate complete exam papers instantly with AI-powered question selection and distribution. Save hours of manual work with intelligent automation that understands your curriculum requirements.',
-      image:
-        'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop',
-    },
-    {
-      icon: Users,
-      title: 'User Management',
-      description:
-        'Create roles, assign permissions, and manage multiple educators with collaborative workflows. Control who can create, edit, and approve papers with granular permission settings.',
-      image:
-        'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop',
-    },
-    {
-      icon: FileEdit,
-      title: 'Modern Editor',
-      description:
-        'Edit and create papers on the go with our intuitive, feature-rich editor interface. Real-time preview, drag-and-drop functionality, and collaborative editing make paper creation effortless.',
-      image:
-        'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
-    },
-    {
-      icon: Layout,
-      title: 'Smart Templates',
-      description:
-        "Use pre-built templates or create custom layouts matching your institution's standards. Maintain consistency across all papers with professional formatting and branding.",
-      image:
-        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-    },
-    {
-      icon: Layers,
-      title: 'Question Bank',
-      description:
-        'Organize and manage thousands of questions with tagging, categories, and difficulty levels. Smart search and filtering help you find the perfect questions instantly.',
-      image:
-        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
-    },
-    {
-      icon: Download,
-      title: 'Multiple Formats',
-      description:
-        'Export papers in PDF, Word, or print-ready formats with customizable styling. One-click export with automatic formatting ensures perfect papers every time.',
-      image:
-        'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=600&fit=crop',
-    },
-  ];
-
-  const benefits = [
-    'Save 90% time on paper creation',
-    'AI-powered question suggestions',
-    'Maintain question difficulty balance',
-    'Prevent question repetition',
-    'Auto-generate marking schemes',
-    'Version control and history',
-  ];
-
-  const plans = [
-    {
-      name: 'Starter',
-      price: '$29',
-      students: 'Up to 100 students',
-      papers: '50 papers/month',
-    },
-    {
-      name: 'Professional',
-      price: '$79',
-      students: 'Up to 500 students',
-      papers: 'Unlimited papers',
-    },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      students: 'Unlimited students',
-      papers: 'Unlimited papers',
-    },
-  ];
-
   return (
-    <main className='min-h-screen pt-20'>
-      {/* Hero Section */}
-      <section className='relative py-24 bg-gradient-to-br from-background via-background to-muted overflow-hidden'>
-        <div className='absolute inset-0 opacity-5'>
-          <div className='absolute top-20 left-20 w-72 h-72 bg-blue-600 rounded-full blur-3xl' />
-          <div className='absolute bottom-20 right-20 w-72 h-72 bg-sky-500 rounded-full blur-3xl' />
-        </div>
+    <main className='min-h-screen'>
+      <CustomCursor />
+      <GrainOverlay />
+      <Navbar />
+      <RevealObserver />
 
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
-          <div className='grid lg:grid-cols-2 gap-12 items-center'>
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <Badge className='mb-4 bg-blue-500/10 text-blue-600 border-blue-500/20'>
-                <Sparkles className='w-3 h-3 mr-1' />
-                AI-Powered Module
-              </Badge>
-              <h1 className='text-5xl sm:text-6xl font-bold mb-6 leading-tight'>
-                One-Click{' '}
-                <span className='bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent'>
-                  Paper Generation
-                </span>
-              </h1>
-              <p className='text-xl text-muted-foreground mb-8 leading-relaxed'>
-                Transform exam paper creation from hours to seconds. Our
-                AI-powered system generates, organizes, and formats papers while
-                maintaining academic standards.
-              </p>
-              <div className='flex flex-wrap gap-4'>
-                <Button
-                  asChild
-                  size='lg'
-                  className='bg-gradient-to-r from-blue-600 to-blue-800 rounded-full px-8'
-                >
-                  <Link href='/contact'>
-                    Start Free Trial <ArrowRight className='ml-2' />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size='lg'
-                  variant='outline'
-                  className='rounded-full px-8'
-                >
-                  <Link href='#features'>Explore Features</Link>
-                </Button>
+      {/* Hero */}
+      <section className='relative pt-40 pb-24 overflow-hidden'>
+        <div
+          className='blob bg-[#cc5500] w-96 h-96 top-10 -left-32'
+          style={{ opacity: 0.3 }}
+        />
+        <div
+          className='blob bg-orange-200 w-72 h-72 bottom-0 right-0'
+          style={{ animationDelay: '-7s' }}
+        />
+        <div className='max-w-7xl mx-auto px-6 relative z-10'>
+          <div className='grid lg:grid-cols-2 gap-16 items-center'>
+            <div>
+              <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4 reveal-up'>
+                PAPER GENERATION
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className='relative'
-            >
-              <motion.div
-                className='relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-border bg-card'
-                whileHover={{ scale: 1.02, y: -8 }}
-                transition={{ duration: 0.4 }}
+              <h1
+                className='font-display text-6xl md:text-7xl font-bold leading-[0.9] tracking-tight reveal-up'
+                style={{ transitionDelay: '0.1s' }}
               >
-                <Image
-                  src='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop'
-                  alt='Paper Generation Dashboard'
-                  fill
-                  className='object-cover'
-                />
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6'>
-                  <p className='text-white font-medium'>
-                    Intuitive Dashboard Interface
-                  </p>
+                Exams created in
+                <br />
+                <span className='text-outline italic'>seconds</span>, not hours
+              </h1>
+              <p
+                className='text-xl text-stone-600 mt-8 leading-relaxed font-light reveal-up'
+                style={{ transitionDelay: '0.2s' }}
+              >
+                AI-powered paper generation that analyzes your curriculum,
+                balances difficulty, and produces standards-compliant papers
+                instantly.
+              </p>
+              <div
+                className='flex gap-4 mt-8 reveal-up'
+                style={{ transitionDelay: '0.3s' }}
+              >
+                <Link
+                  href='/contact'
+                  className='brutal-border px-8 py-4 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target no-underline'
+                >
+                  Try Paper Gen
+                </Link>
+                <Link
+                  href='/about'
+                  className='px-8 py-4 border-b-2 border-stone-900 font-mono text-sm tracking-wider hover:text-[#cc5500] transition-colors hover-target no-underline'
+                >
+                  Learn More →
+                </Link>
+              </div>
+            </div>
+            <div className='reveal-up' style={{ transitionDelay: '0.4s' }}>
+              <div className='relative'>
+                <div className='absolute -inset-4 bg-[#cc5500] rounded-sm -rotate-2' />
+                <div className='relative brutal-border bg-stone-100 p-8 space-y-4'>
+                  <div className='flex justify-between items-center font-mono text-xs'>
+                    <span>PAPER GENERATOR</span>
+                    <span className='text-[#cc5500]'>● LIVE</span>
+                  </div>
+                  <div className='h-px bg-stone-300' />
+                  <div className='space-y-3'>
+                    <div className='flex justify-between font-mono text-sm'>
+                      <span className='text-stone-500'>Subject</span>
+                      <span>Mathematics</span>
+                    </div>
+                    <div className='flex justify-between font-mono text-sm'>
+                      <span className='text-stone-500'>Grade</span>
+                      <span>10th</span>
+                    </div>
+                    <div className='flex justify-between font-mono text-sm'>
+                      <span className='text-stone-500'>Total Marks</span>
+                      <span>100</span>
+                    </div>
+                    <div className='flex justify-between font-mono text-sm'>
+                      <span className='text-stone-500'>Sections</span>
+                      <span>4</span>
+                    </div>
+                  </div>
+                  <div className='h-px bg-stone-300' />
+                  <div className='flex justify-between items-center'>
+                    <span className='font-mono text-xs text-stone-500'>
+                      Generation time
+                    </span>
+                    <span className='font-display text-2xl font-bold text-[#cc5500]'>
+                      12s
+                    </span>
+                  </div>
+                  <div className='h-2 bg-stone-200'>
+                    <div className='h-full bg-[#cc5500] w-[85%] transition-all duration-1000' />
+                  </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features - One by One with Alternating Layout */}
-      <section id='features' className='py-24 bg-background'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className='text-center mb-20'
-          >
-            <h2 className='text-4xl sm:text-5xl font-bold mb-4'>
-              Powerful <span className='text-blue-600'>Features</span>
+      {/* Workflow Steps */}
+      <section className='py-32 bg-stone-900 text-stone-50'>
+        <div className='max-w-7xl mx-auto px-6'>
+          <div className='text-center mb-20 reveal-up'>
+            <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4'>
+              WORKFLOW
+            </div>
+            <h2 className='font-display text-5xl font-bold text-stone-50'>
+              From parameters to paper in four steps
             </h2>
-            <p className='text-xl text-muted-foreground max-w-2xl mx-auto'>
-              Everything you need for efficient paper generation and management
-            </p>
-          </motion.div>
-
-          <div className='space-y-32'>
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true, margin: '-100px' }}
+          </div>
+          <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-6'>
+            {steps.map((s, i) => (
+              <div
+                key={i}
+                className='border border-stone-700 p-8 hover:border-[#cc5500] transition-colors reveal-up hover-target'
+                style={{ transitionDelay: `${i * 0.1}s` }}
               >
-                <div
-                  className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}
-                >
-                  {/* Content */}
-                  <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                    <motion.div
-                      className='w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center mb-6 shadow-lg'
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <feature.icon className='w-8 h-8 text-white' />
-                    </motion.div>
-                    <h3 className='text-3xl sm:text-4xl font-bold mb-4'>
-                      {feature.title}
-                    </h3>
-                    <p className='text-lg text-muted-foreground leading-relaxed'>
-                      {feature.description}
-                    </p>
-                  </div>
-
-                  {/* Image */}
-                  <div
-                    className={
-                      index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''
-                    }
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.02, y: -8 }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
-                      className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-2 border-border hover:shadow-blue-500/20'
-                    >
-                      <Image
-                        src={feature.image}
-                        alt={feature.title}
-                        fill
-                        className='object-cover'
-                      />
-                      <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent' />
-                    </motion.div>
-                  </div>
+                <div className='font-mono text-3xl font-bold text-stone-700 mb-4'>
+                  {String(i + 1).padStart(2, '0')}
                 </div>
-              </motion.div>
+                <h3 className='font-display text-xl font-bold mb-3 text-stone-50'>
+                  {s.title}
+                </h3>
+                <p className='text-stone-400 text-sm leading-relaxed'>
+                  {s.desc}
+                </p>
+              </div>
             ))}
           </div>
-
-          {/* Benefits List */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className='bg-gradient-to-br from-blue-500/5 to-sky-500/5 rounded-3xl p-8 md:p-12 mt-32'
-          >
-            <h3 className='text-3xl font-bold mb-8 text-center'>
-              Why Choose Our Paper Generation?
-            </h3>
-            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
-              {benefits.map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  className='flex items-center gap-3'
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <CheckCircle2 className='w-5 h-5 text-blue-600 flex-shrink-0' />
-                  <span className='text-foreground'>{benefit}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </section>
 
-      {/* Subscription Plans */}
-      <section className='py-24 bg-muted/30'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className='text-center mb-16'
-          >
-            <h2 className='text-4xl sm:text-5xl font-bold mb-4'>
-              Subscription <span className='text-blue-600'>Plans</span>
+      {/* Capabilities Grid */}
+      <section className='py-32'>
+        <div className='max-w-7xl mx-auto px-6'>
+          <div className='mb-20 reveal-up'>
+            <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4'>
+              CAPABILITIES
+            </div>
+            <h2 className='font-display text-5xl font-bold max-w-2xl'>
+              Everything you need for exam creation
             </h2>
-            <p className='text-xl text-muted-foreground'>
-              Choose the perfect plan for your institution
-            </p>
-          </motion.div>
-
-          <div className='grid md:grid-cols-3 gap-6 max-w-5xl mx-auto'>
-            {plans.map((plan, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+          </div>
+          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {capabilities.map((c, i) => (
+              <div
+                key={i}
+                className='border-2 border-stone-900 p-8 hover:bg-stone-100 transition-colors reveal-up hover-target'
+                style={{ transitionDelay: `${(i % 3) * 0.1}s` }}
               >
-                <Card
-                  className={`text-center p-8 h-full transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${index === 1 ? 'border-blue-600 border-2 shadow-xl scale-105' : 'hover:border-blue-500/30'}`}
-                >
-                  <CardContent className='p-0'>
-                    {index === 1 && (
-                      <Badge className='mb-4 bg-blue-600 text-white'>
-                        Most Popular
-                      </Badge>
-                    )}
-                    <h3 className='text-2xl font-bold mb-2'>{plan.name}</h3>
-                    <div className='text-4xl font-bold text-blue-600 mb-6'>
-                      {plan.price}
-                      {plan.price !== 'Custom' && (
-                        <span className='text-lg text-muted-foreground'>
-                          /month
-                        </span>
-                      )}
-                    </div>
-                    <ul className='space-y-3 mb-8 text-left'>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-blue-600' />
-                        <span>{plan.students}</span>
-                      </li>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-blue-600' />
-                        <span>{plan.papers}</span>
-                      </li>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-blue-600' />
-                        <span>AI question suggestions</span>
-                      </li>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-blue-600' />
-                        <span>Template library</span>
-                      </li>
-                    </ul>
-                    <Button
-                      asChild
-                      className={`w-full rounded-full ${index === 1 ? 'bg-blue-600' : ''}`}
-                      variant={index === 1 ? 'default' : 'outline'}
-                    >
-                      <Link href='/contact'>Get Started</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                <div className='w-12 h-12 border border-stone-300 flex items-center justify-center mb-6'>
+                  <svg
+                    width='24'
+                    height='24'
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeWidth='1.5'
+                    className='text-[#cc5500]'
+                  >
+                    {c.icon}
+                  </svg>
+                </div>
+                <h3 className='font-display text-xl font-bold mb-3'>
+                  {c.title}
+                </h3>
+                <p className='text-stone-600 text-sm leading-relaxed'>
+                  {c.desc}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className='py-24 bg-gradient-to-r from-blue-600 to-blue-800 text-white'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8 text-center'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+      <section className='py-32 relative overflow-hidden'>
+        <div className='absolute inset-0 bg-[#cc5500] -skew-y-3 origin-top-left' />
+        <div className='max-w-4xl mx-auto px-6 relative z-10 text-center text-white'>
+          <h2 className='font-display text-5xl md:text-6xl font-bold mb-6 reveal-up text-white'>
+            Ready to generate your first paper?
+          </h2>
+          <p
+            className='text-xl mb-12 opacity-90 font-light reveal-up'
+            style={{ transitionDelay: '0.1s' }}
           >
-            <h2 className='text-4xl sm:text-5xl font-bold mb-6'>
-              Ready to Revolutionize Paper Generation?
-            </h2>
-            <p className='text-xl mb-8 opacity-90 max-w-2xl mx-auto'>
-              Join hundreds of institutions saving time and improving their
-              examination process
-            </p>
-            <Button
-              asChild
-              size='lg'
-              className='bg-white text-blue-600 hover:bg-white/90 rounded-full px-8'
-            >
-              <Link href='/contact'>
-                Start Your Free Trial <ArrowRight className='ml-2' />
-              </Link>
-            </Button>
-          </motion.div>
+            Set up your question bank and generate exam papers in minutes.
+          </p>
+          <Link
+            href='/contact'
+            className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'
+            style={{ transitionDelay: '0.2s' }}
+          >
+            Schedule a Demo
+          </Link>
         </div>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }

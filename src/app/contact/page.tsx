@@ -1,310 +1,254 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  CheckCircle2,
-  MessageSquare,
-  Clock,
-} from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import SiteFooter from '@/components/SiteFooter';
+import CustomCursor from '@/components/CustomCursor';
+import GrainOverlay from '@/components/GrainOverlay';
+import RevealObserver from '@/components/RevealObserver';
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    institution: '',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(
+    'idle',
+  );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        institution: '',
-        message: '',
+    setStatus('sending');
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      institution: formData.get('institution') as string,
+      subject: formData.get('subject') as string,
+      message: formData.get('message') as string,
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
-    }, 3000);
+
+      if (res.ok) {
+        setStatus('sent');
+        form.reset();
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 4000);
+      }
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
+    }
   };
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: 'Email Us',
-      value: 'info@smartlearning.com',
-      description: 'Get response within 24 hours',
-      gradient: 'from-blue-600 to-blue-800',
-    },
-    {
-      icon: Phone,
-      title: 'Call Us',
-      value: '+1 (555) 123-4567',
-      description: 'Mon-Fri, 9AM-6PM EST',
-      gradient: 'from-sky-500 to-blue-700',
-    },
-    {
-      icon: MapPin,
-      title: 'Visit Us',
-      value: '123 Education Street',
-      description: 'Tech City, TC 12345, USA',
-      gradient: 'from-blue-500 to-indigo-600',
-    },
-  ];
-
   return (
-    <main className='min-h-screen pt-20'>
-      {/* Hero Section */}
-      <section className='relative py-24 bg-gradient-to-br from-background via-background to-muted overflow-hidden'>
-        <div className='absolute inset-0 opacity-5'>
-          <div className='absolute top-20 left-20 w-72 h-72 bg-blue-600 rounded-full blur-3xl' />
-          <div className='absolute bottom-20 right-20 w-72 h-72 bg-sky-500 rounded-full blur-3xl' />
+    <main className='min-h-screen'>
+      <CustomCursor />
+      <GrainOverlay />
+      <Navbar />
+      <RevealObserver />
+
+      {/* Hero */}
+      <section className='relative pt-40 pb-24 overflow-hidden'>
+        <div className='blob bg-orange-300 w-80 h-80 top-10 -left-20' />
+        <div className='max-w-7xl mx-auto px-6 relative z-10'>
+          <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4 reveal-up'>
+            CONTACT US
+          </div>
+          <h1
+            className='font-display text-6xl md:text-8xl font-bold leading-[0.9] tracking-tight max-w-3xl reveal-up'
+            style={{ transitionDelay: '0.1s' }}
+          >
+            Let&apos;s build
+            <br />
+            <span className='text-outline italic'>together</span>
+          </h1>
+          <p
+            className='text-xl text-stone-600 max-w-xl mt-8 leading-relaxed font-light reveal-up'
+            style={{ transitionDelay: '0.2s' }}
+          >
+            Ready to transform your institution? Get in touch and we&apos;ll
+            walk you through everything.
+          </p>
         </div>
+      </section>
 
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className='text-center max-w-3xl mx-auto mb-16'
-          >
-            <Badge className='mb-4 bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20 transition-colors'>
-              <MessageSquare className='w-3 h-3 mr-1' />
-              Get in Touch
-            </Badge>
-            <h1 className='text-5xl sm:text-6xl font-bold mb-6 leading-tight'>
-              Let&apos;s{' '}
-              <span className='bg-gradient-to-r from-blue-600 via-sky-500 to-blue-700 bg-clip-text text-transparent'>
-                Connect
-              </span>
-            </h1>
-            <p className='text-xl text-muted-foreground leading-relaxed'>
-              Have questions about Smart Learning? Our team is here to help you
-              transform your institution.
-            </p>
-          </motion.div>
-
-          {/* Contact Form - Full Width */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className='max-w-3xl mx-auto mb-16'
-          >
-            <Card className='border-2 hover:border-blue-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10'>
-              <CardContent className='p-8'>
-                {submitted ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className='text-center py-12'
-                  >
-                    <div className='w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-4'>
-                      <CheckCircle2 className='w-8 h-8 text-white' />
-                    </div>
-                    <h3 className='text-2xl font-bold mb-2'>
-                      Message Sent Successfully!
-                    </h3>
-                    <p className='text-muted-foreground'>
-                      Thank you for contacting us. We&apos;ll get back to you
-                      within 24 hours.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubmit} className='space-y-6'>
-                    <div className='grid sm:grid-cols-2 gap-6'>
-                      <div className='space-y-2'>
-                        <Label htmlFor='name'>Full Name *</Label>
-                        <Input
-                          id='name'
-                          placeholder='John Doe'
-                          value={formData.name}
-                          onChange={e =>
-                            setFormData({ ...formData, name: e.target.value })
-                          }
-                          required
-                          className='h-12 focus:ring-blue-500 focus:border-blue-500'
-                        />
-                      </div>
-                      <div className='space-y-2'>
-                        <Label htmlFor='email'>Email Address *</Label>
-                        <Input
-                          id='email'
-                          type='email'
-                          placeholder='john@example.com'
-                          value={formData.email}
-                          onChange={e =>
-                            setFormData({ ...formData, email: e.target.value })
-                          }
-                          required
-                          className='h-12 focus:ring-blue-500 focus:border-blue-500'
-                        />
-                      </div>
-                    </div>
-
-                    <div className='grid sm:grid-cols-2 gap-6'>
-                      <div className='space-y-2'>
-                        <Label htmlFor='phone'>Phone Number</Label>
-                        <Input
-                          id='phone'
-                          type='tel'
-                          placeholder='+1 (555) 123-4567'
-                          value={formData.phone}
-                          onChange={e =>
-                            setFormData({ ...formData, phone: e.target.value })
-                          }
-                          className='h-12 focus:ring-blue-500 focus:border-blue-500'
-                        />
-                      </div>
-                      <div className='space-y-2'>
-                        <Label htmlFor='institution'>Institution Name *</Label>
-                        <Input
-                          id='institution'
-                          placeholder='Your School/College'
-                          value={formData.institution}
-                          onChange={e =>
-                            setFormData({
-                              ...formData,
-                              institution: e.target.value,
-                            })
-                          }
-                          required
-                          className='h-12 focus:ring-blue-500 focus:border-blue-500'
-                        />
-                      </div>
-                    </div>
-
-                    <div className='space-y-2'>
-                      <Label htmlFor='message'>Message *</Label>
-                      <Textarea
-                        id='message'
-                        placeholder='Tell us about your requirements...'
-                        value={formData.message}
-                        onChange={e =>
-                          setFormData({ ...formData, message: e.target.value })
-                        }
-                        required
-                        rows={6}
-                        className='resize-none focus:ring-blue-500 focus:border-blue-500'
-                      />
-                    </div>
-
-                    <Button
-                      type='submit'
-                      size='lg'
-                      className='w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:opacity-90 text-white rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-blue-500/20'
-                    >
-                      Send Message <Send className='ml-2 w-4 h-4' />
-                    </Button>
-                  </form>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Contact Info Cards - Below Form */}
-          <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto'>
-            {contactInfo.map((info, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-              >
-                <Card className='border-2 hover:border-blue-500/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 h-full'>
-                  <CardContent className='p-6'>
-                    <motion.div
-                      className={`w-12 h-12 rounded-xl bg-gradient-to-br ${info.gradient} flex items-center justify-center mb-4 shadow-lg`}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <info.icon className='w-6 h-6 text-white' />
-                    </motion.div>
-                    <h3 className='font-bold text-lg mb-1'>{info.title}</h3>
-                    <p className='text-foreground font-medium mb-1'>
-                      {info.value}
-                    </p>
-                    <p className='text-sm text-muted-foreground'>
-                      {info.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-            >
-              <Card className='bg-gradient-to-br from-blue-500/10 to-sky-500/10 border-2 border-blue-500/20 hover:border-blue-500/30 transition-all duration-500 h-full'>
-                <CardContent className='p-6'>
-                  <Clock className='w-8 h-8 text-blue-600 mb-3' />
-                  <h3 className='font-bold text-lg mb-2'>Business Hours</h3>
-                  <div className='space-y-1 text-sm'>
-                    <p className='flex justify-between'>
-                      <span className='text-muted-foreground'>Mon-Fri:</span>
-                      <span className='font-medium'>9AM-6PM</span>
-                    </p>
-                    <p className='flex justify-between'>
-                      <span className='text-muted-foreground'>Saturday:</span>
-                      <span className='font-medium'>10AM-4PM</span>
-                    </p>
-                    <p className='flex justify-between'>
-                      <span className='text-muted-foreground'>Sunday:</span>
-                      <span className='font-medium'>Closed</span>
-                    </p>
+      {/* Contact Content */}
+      <section className='pb-32'>
+        <div className='max-w-7xl mx-auto px-6'>
+          <div className='grid lg:grid-cols-12 gap-16'>
+            {/* Form */}
+            <div className='lg:col-span-7 reveal-up'>
+              <form onSubmit={handleSubmit} className='space-y-6'>
+                <div className='grid md:grid-cols-2 gap-6'>
+                  <div>
+                    <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>
+                      NAME
+                    </label>
+                    <input
+                      name='name'
+                      type='text'
+                      required
+                      className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'
+                      placeholder='Your name'
+                    />
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+                  <div>
+                    <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>
+                      EMAIL
+                    </label>
+                    <input
+                      name='email'
+                      type='email'
+                      required
+                      className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'
+                      placeholder='you@institution.edu'
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>
+                    INSTITUTION
+                  </label>
+                  <input
+                    name='institution'
+                    type='text'
+                    className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'
+                    placeholder='Your institution name'
+                  />
+                </div>
+                <div>
+                  <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>
+                    SUBJECT
+                  </label>
+                  <select
+                    name='subject'
+                    className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'
+                  >
+                    <option>General Inquiry</option>
+                    <option>Schedule a Demo</option>
+                    <option>Pricing Discussion</option>
+                    <option>Technical Support</option>
+                    <option>Partnership</option>
+                  </select>
+                </div>
+                <div>
+                  <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>
+                    MESSAGE
+                  </label>
+                  <textarea
+                    name='message'
+                    required
+                    rows={6}
+                    className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all resize-none hover-target'
+                    placeholder='Tell us about your needs...'
+                  />
+                </div>
+                <button
+                  type='submit'
+                  disabled={status === 'sending'}
+                  className='brutal-border px-8 py-4 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target w-full md:w-auto disabled:opacity-60'
+                >
+                  {status === 'sending' && 'Sending...'}
+                  {status === 'sent' && '✓ Message Sent!'}
+                  {status === 'error' && '✕ Failed — Try Again'}
+                  {status === 'idle' && 'Send Message'}
+                </button>
+              </form>
+            </div>
+
+            {/* Contact Info */}
+            <div
+              className='lg:col-span-5 space-y-8 reveal-up'
+              style={{ transitionDelay: '0.2s' }}
+            >
+              <div className='border-2 border-stone-900 p-8'>
+                <h3 className='font-display text-2xl font-bold mb-6'>
+                  Get in touch
+                </h3>
+                <div className='space-y-6'>
+                  <div>
+                    <div className='font-mono text-xs tracking-widest text-[#cc5500] mb-1'>
+                      EMAIL
+                    </div>
+                    <a
+                      href='mailto:sales@smartlearning.pk'
+                      className='text-stone-900 hover:text-[#cc5500] transition-colors no-underline hover-target'
+                    >
+                      sales@smartlearning.pk
+                    </a>
+                  </div>
+                  <div>
+                    <div className='font-mono text-xs tracking-widest text-[#cc5500] mb-1'>
+                      PHONE
+                    </div>
+                    <a
+                      href='tel:+923366663633'
+                      className='text-stone-900 hover:text-[#cc5500] transition-colors no-underline hover-target'
+                    >
+                      +92-336-6663633
+                    </a>
+                  </div>
+                  <div>
+                    <div className='font-mono text-xs tracking-widest text-[#cc5500] mb-1'>
+                      OFFICE
+                    </div>
+                    <p className='text-stone-600 text-sm'>Lahore, Pakistan</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className='border-2 border-stone-900 p-8 bg-stone-900 text-stone-50'>
+                <h3 className='font-display text-xl font-bold mb-4 text-stone-50'>
+                  Schedule a demo
+                </h3>
+                <p className='text-stone-400 text-sm leading-relaxed mb-6'>
+                  See Smart Learning in action. Book a 30-minute walkthrough
+                  with our team.
+                </p>
+                <a
+                  href='#'
+                  className='brutal-border inline-block px-6 py-3 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target no-underline'
+                >
+                  Book Demo Call
+                </a>
+              </div>
+
+              <div className='border-2 border-stone-900 p-8'>
+                <h3 className='font-display text-xl font-bold mb-4'>
+                  Follow us
+                </h3>
+                <div className='flex flex-wrap gap-3'>
+                  {[
+                    'YouTube',
+                    'Instagram',
+                    'Facebook',
+                    'Twitter',
+                    'TikTok',
+                    'LinkedIn',
+                  ].map(s => (
+                    <a
+                      key={s}
+                      href='#'
+                      className='px-4 py-2 border border-stone-300 font-mono text-xs hover:border-[#cc5500] hover:text-[#cc5500] transition-colors hover-target no-underline'
+                    >
+                      {s}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className='py-24 bg-background'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <Card className='overflow-hidden border-2 hover:border-blue-500/30 transition-all duration-500 shadow-xl'>
-              <CardContent className='p-0'>
-                <div className='aspect-video bg-muted relative'>
-                  <iframe
-                    src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215!2d-73.98659!3d40.74844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzU0LjQiTiA3M8KwNTknMTEuNyJX!5e0!3m2!1sen!2sus!4v1234567890'
-                    width='100%'
-                    height='100%'
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading='lazy'
-                    referrerPolicy='no-referrer-when-downgrade'
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
+      <SiteFooter />
     </main>
   );
 }

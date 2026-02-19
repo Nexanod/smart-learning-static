@@ -1,397 +1,203 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import {
-  Users,
-  Globe,
-  Shield,
-  CheckCircle2,
-  ArrowRight,
-  MessageSquare,
-  UserPlus,
-  Database,
-  BarChart3,
-} from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import SiteFooter from '@/components/SiteFooter';
+import CustomCursor from '@/components/CustomCursor';
+import GrainOverlay from '@/components/GrainOverlay';
+import RevealObserver from '@/components/RevealObserver';
+
+const modules = [
+  {
+    title: 'Enrollment & Admissions',
+    desc: 'Streamlined application processing with customizable admission forms, document uploads, and automated status tracking.',
+    tags: ['Online Applications', 'Document Vault', 'Auto-notifications'],
+  },
+  {
+    title: 'Communication Hub',
+    desc: 'Reach parents and students through SMS, email, WhatsApp, and in-app notifications — all from a single interface.',
+    tags: ['Bulk SMS', 'WhatsApp API', 'Email Templates'],
+  },
+  {
+    title: 'Fee Management',
+    desc: 'Track tuition, generate invoices, manage installments, and send automated payment reminders.',
+    tags: ['Online Payments', 'Installment Plans', 'Receipt Generation'],
+  },
+  {
+    title: 'Academic Records',
+    desc: 'Maintain complete academic histories, transcripts, report cards, and progress reports for every student.',
+    tags: ['Transcripts', 'Grade Books', 'Progress Reports'],
+  },
+  {
+    title: 'Parent Portal',
+    desc: 'Give parents real-time access to attendance, grades, fee status, and school announcements through a branded portal.',
+    tags: ['Real-time Updates', 'Custom Branding', 'Mobile Access'],
+  },
+  {
+    title: 'Document Management',
+    desc: 'Secure digital storage for student documents — certificates, ID cards, medical records, and transfer letters.',
+    tags: ['Cloud Storage', 'Access Control', 'Bulk Upload'],
+  },
+];
+
+const dashboardItems = [
+  { label: 'Total Students', value: '3,847', change: '+12%' },
+  { label: 'Attendance Today', value: '96.2%', change: '+1.3%' },
+  { label: 'Fee Collection', value: '₹24.5L', change: '+8%' },
+  { label: 'Pending Actions', value: '23', change: '-15%' },
+];
 
 export default function StudentManagementPage() {
-  const features = [
-    {
-      icon: UserPlus,
-      title: 'Easy Enrollment',
-      description:
-        'Streamlined student registration with bulk import and automated profile creation. Onboard hundreds of students in minutes with our intelligent import system that handles data validation and profile generation.',
-      image:
-        'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop',
-    },
-    {
-      icon: MessageSquare,
-      title: 'SMS & WhatsApp',
-      description:
-        'Send notifications, alerts, and updates directly to students and parents via SMS or WhatsApp. Track delivery status and engagement with real-time analytics.',
-      image:
-        'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop',
-    },
-    {
-      icon: Database,
-      title: 'Centralized Data',
-      description:
-        'Store and manage all student information in one secure, accessible location. Advanced search, filtering, and reporting make data management effortless.',
-      image:
-        'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&h=600&fit=crop',
-    },
-    {
-      icon: Globe,
-      title: 'Custom Portals',
-      description:
-        'Each institution gets a customized subdomain with branded student portals. Full white-label capabilities with your logo, colors, and domain name.',
-      image:
-        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
-    },
-    {
-      icon: BarChart3,
-      title: 'Analytics & Reports',
-      description:
-        'Generate comprehensive reports on student performance, attendance, and engagement. Visual dashboards and exportable reports help you make data-driven decisions.',
-      image:
-        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-    },
-    {
-      icon: Shield,
-      title: 'Security & Privacy',
-      description:
-        'Enterprise-grade security with role-based access and data encryption. GDPR compliant with automated data protection and audit logs.',
-      image:
-        'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=600&fit=crop',
-    },
-  ];
-
-  const benefits = [
-    'Automated student record management',
-    'Parent and guardian communication',
-    'Bulk SMS/WhatsApp notifications',
-    'Custom branded portals per school',
-    'Document management system',
-    'Fee and payment tracking',
-    'Class and section management',
-    'Student performance analytics',
-  ];
-
-  const plans = [
-    {
-      name: 'Basic',
-      price: '$39',
-      students: 'Up to 200 students',
-      messages: '500 messages/month',
-    },
-    {
-      name: 'Growth',
-      price: '$99',
-      students: 'Up to 1000 students',
-      messages: '2,500 messages/month',
-    },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      students: 'Unlimited students',
-      messages: 'Unlimited messages',
-    },
-  ];
-
   return (
-    <main className='min-h-screen pt-20'>
-      {/* Hero Section */}
-      <section className='relative py-24 bg-gradient-to-br from-background via-background to-muted overflow-hidden'>
-        <div className='absolute inset-0 opacity-5'>
-          <div className='absolute top-20 left-20 w-72 h-72 bg-sky-500 rounded-full blur-3xl' />
-          <div className='absolute bottom-20 right-20 w-72 h-72 bg-blue-600 rounded-full blur-3xl' />
-        </div>
+    <main className='min-h-screen'>
+      <CustomCursor />
+      <GrainOverlay />
+      <Navbar />
+      <RevealObserver />
 
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
-          <div className='grid lg:grid-cols-2 gap-12 items-center'>
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <Badge className='mb-4 bg-sky-500/10 text-sky-600 border-sky-500/20'>
-                <Users className='w-3 h-3 mr-1' />
-                Complete Lifecycle Management
-              </Badge>
-              <h1 className='text-5xl sm:text-6xl font-bold mb-6 leading-tight'>
-                Student{' '}
-                <span className='bg-gradient-to-r from-sky-500 to-blue-700 bg-clip-text text-transparent'>
-                  Management
-                </span>
-                <br />
-                System
-              </h1>
-              <p className='text-xl text-muted-foreground mb-8 leading-relaxed'>
-                Complete student lifecycle management with modern communication
-                features. Connect with students and parents through SMS,
-                WhatsApp, and custom portals.
-              </p>
-              <div className='flex flex-wrap gap-4'>
-                <Button
-                  asChild
-                  size='lg'
-                  className='bg-gradient-to-r from-sky-500 to-blue-700 rounded-full px-8'
-                >
-                  <Link href='/contact'>
-                    Start Free Trial <ArrowRight className='ml-2' />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size='lg'
-                  variant='outline'
-                  className='rounded-full px-8'
-                >
-                  <Link href='#features'>Explore Features</Link>
-                </Button>
+      {/* Hero */}
+      <section className='relative pt-40 pb-24 overflow-hidden'>
+        <div
+          className='blob bg-stone-300 w-96 h-96 top-20 -right-20'
+          style={{ animationDelay: '-3s' }}
+        />
+        <div
+          className='blob bg-[#cc5500] w-64 h-64 bottom-0 left-10'
+          style={{ animationDelay: '-8s', opacity: 0.2 }}
+        />
+        <div className='max-w-7xl mx-auto px-6 relative z-10'>
+          <div className='grid lg:grid-cols-2 gap-16 items-center'>
+            <div>
+              <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4 reveal-up'>
+                STUDENT MANAGEMENT
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className='relative'
-            >
-              <motion.div
-                className='relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-border bg-card'
-                whileHover={{ scale: 1.02, y: -8 }}
-                transition={{ duration: 0.4 }}
+              <h1
+                className='font-display text-6xl md:text-7xl font-bold leading-[0.9] tracking-tight reveal-up'
+                style={{ transitionDelay: '0.1s' }}
               >
-                <Image
-                  src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop'
-                  alt='Student Management Dashboard'
-                  fill
-                  className='object-cover'
-                />
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6'>
-                  <p className='text-white font-medium'>
-                    Comprehensive Student Portal
-                  </p>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features - One by One with Alternating Layout */}
-      <section id='features' className='py-24 bg-background'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className='text-center mb-20'
-          >
-            <h2 className='text-4xl sm:text-5xl font-bold mb-4'>
-              Modern <span className='text-sky-600'>Features</span>
-            </h2>
-            <p className='text-xl text-muted-foreground max-w-2xl mx-auto'>
-              Everything you need to manage students effectively
-            </p>
-          </motion.div>
-
-          <div className='space-y-32'>
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true, margin: '-100px' }}
+                The complete
+                <br />
+                <span className='text-outline italic'>student portal</span>
+              </h1>
+              <p
+                className='text-xl text-stone-600 mt-8 leading-relaxed font-light reveal-up'
+                style={{ transitionDelay: '0.2s' }}
               >
-                <div
-                  className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}
+                From enrollment to alumni, manage every aspect of the student
+                lifecycle with a single, powerful platform.
+              </p>
+              <div
+                className='flex gap-4 mt-8 reveal-up'
+                style={{ transitionDelay: '0.3s' }}
+              >
+                <Link
+                  href='/contact'
+                  className='brutal-border px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline'
                 >
-                  {/* Content */}
-                  <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                    <motion.div
-                      className='w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg'
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <feature.icon className='w-8 h-8 text-white' />
-                    </motion.div>
-                    <h3 className='text-3xl sm:text-4xl font-bold mb-4'>
-                      {feature.title}
-                    </h3>
-                    <p className='text-lg text-muted-foreground leading-relaxed'>
-                      {feature.description}
-                    </p>
-                  </div>
-
-                  {/* Image */}
-                  <div
-                    className={
-                      index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''
-                    }
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.02, y: -8 }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
-                      className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-2 border-border hover:shadow-sky-500/20'
-                    >
-                      <Image
-                        src={feature.image}
-                        alt={feature.title}
-                        fill
-                        className='object-cover'
-                      />
-                      <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent' />
-                    </motion.div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Benefits List */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className='bg-gradient-to-br from-sky-500/5 to-blue-600/5 rounded-3xl p-8 md:p-12 mt-32'
-          >
-            <h3 className='text-3xl font-bold mb-8 text-center'>
-              Key Capabilities
-            </h3>
-            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
-              {benefits.map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  className='flex items-center gap-3'
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <CheckCircle2 className='w-5 h-5 text-sky-600 flex-shrink-0' />
-                  <span className='text-foreground'>{benefit}</span>
-                </motion.div>
-              ))}
+                  Request Demo
+                </Link>
+              </div>
             </div>
-          </motion.div>
+            {/* Dashboard Preview */}
+            <div className='reveal-up' style={{ transitionDelay: '0.4s' }}>
+              <div className='brutal-border bg-stone-100 p-6'>
+                <div className='flex justify-between items-center mb-6'>
+                  <span className='font-mono text-xs tracking-widest'>
+                    DASHBOARD
+                  </span>
+                  <div className='w-2 h-2 bg-green-500 rounded-full animate-pulse' />
+                </div>
+                <div className='grid grid-cols-2 gap-4'>
+                  {dashboardItems.map((d, i) => (
+                    <div key={i} className='border border-stone-300 p-4'>
+                      <div className='font-mono text-xs text-stone-500 mb-1'>
+                        {d.label}
+                      </div>
+                      <div className='font-display text-2xl font-bold'>
+                        {d.value}
+                      </div>
+                      <div
+                        className={`font-mono text-xs mt-1 ${d.change.startsWith('+') ? 'text-green-600' : 'text-[#cc5500]'}`}
+                      >
+                        {d.change}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Subscription Plans */}
-      <section className='py-24 bg-muted/30'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className='text-center mb-16'
-          >
-            <h2 className='text-4xl sm:text-5xl font-bold mb-4'>
-              Flexible <span className='text-sky-600'>Pricing</span>
+      {/* Modules Grid */}
+      <section className='py-32'>
+        <div className='max-w-7xl mx-auto px-6'>
+          <div className='mb-20 reveal-up'>
+            <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4'>
+              MODULES
+            </div>
+            <h2 className='font-display text-5xl font-bold max-w-3xl'>
+              Everything under one roof
             </h2>
-            <p className='text-xl text-muted-foreground'>
-              Plans that grow with your institution
-            </p>
-          </motion.div>
-
-          <div className='grid md:grid-cols-3 gap-6 max-w-5xl mx-auto'>
-            {plans.map((plan, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+          </div>
+          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {modules.map((m, i) => (
+              <div
+                key={i}
+                className='border-2 border-stone-900 p-8 hover:bg-stone-100 transition-colors reveal-up hover-target'
+                style={{ transitionDelay: `${(i % 3) * 0.1}s` }}
               >
-                <Card
-                  className={`text-center p-8 h-full transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${index === 1 ? 'border-sky-600 border-2 shadow-xl scale-105' : 'hover:border-sky-500/30'}`}
-                >
-                  <CardContent className='p-0'>
-                    {index === 1 && (
-                      <Badge className='mb-4 bg-sky-600 text-white'>
-                        Best Value
-                      </Badge>
-                    )}
-                    <h3 className='text-2xl font-bold mb-2'>{plan.name}</h3>
-                    <div className='text-4xl font-bold text-sky-600 mb-6'>
-                      {plan.price}
-                      {plan.price !== 'Custom' && (
-                        <span className='text-lg text-muted-foreground'>
-                          /month
-                        </span>
-                      )}
-                    </div>
-                    <ul className='space-y-3 mb-8 text-left'>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-sky-600' />
-                        <span>{plan.students}</span>
-                      </li>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-sky-600' />
-                        <span>{plan.messages}</span>
-                      </li>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-sky-600' />
-                        <span>Custom subdomain</span>
-                      </li>
-                      <li className='flex items-center gap-2'>
-                        <CheckCircle2 className='w-5 h-5 text-sky-600' />
-                        <span>Analytics dashboard</span>
-                      </li>
-                    </ul>
-                    <Button
-                      asChild
-                      className={`w-full rounded-full ${index === 1 ? 'bg-sky-600' : ''}`}
-                      variant={index === 1 ? 'default' : 'outline'}
+                <div className='font-mono text-xs text-[#cc5500] tracking-widest mb-3'>
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+                <h3 className='font-display text-xl font-bold mb-3'>
+                  {m.title}
+                </h3>
+                <p className='text-stone-600 text-sm leading-relaxed mb-4'>
+                  {m.desc}
+                </p>
+                <div className='flex gap-2 flex-wrap'>
+                  {m.tags.map(t => (
+                    <span
+                      key={t}
+                      className='px-3 py-1 border border-stone-300 text-xs font-mono'
                     >
-                      <Link href='/contact'>Get Started</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className='py-24 bg-gradient-to-r from-sky-500 to-blue-700 text-white'>
-        <div className='container mx-auto px-4 sm:px-6 lg:px-8 text-center'>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+      <section className='py-32 relative overflow-hidden'>
+        <div className='absolute inset-0 bg-[#cc5500] -skew-y-3 origin-top-left' />
+        <div className='max-w-4xl mx-auto px-6 relative z-10 text-center text-white'>
+          <h2 className='font-display text-5xl md:text-6xl font-bold mb-6 reveal-up text-white'>
+            Simplify student management today
+          </h2>
+          <p
+            className='text-xl mb-12 opacity-90 font-light reveal-up'
+            style={{ transitionDelay: '0.1s' }}
           >
-            <h2 className='text-4xl sm:text-5xl font-bold mb-6'>
-              Transform Student Management Today
-            </h2>
-            <p className='text-xl mb-8 opacity-90 max-w-2xl mx-auto'>
-              Join modern institutions using our platform to streamline
-              operations and enhance communication
-            </p>
-            <Button
-              asChild
-              size='lg'
-              className='bg-white text-sky-600 hover:bg-white/90 rounded-full px-8'
-            >
-              <Link href='/contact'>
-                Start Your Free Trial <ArrowRight className='ml-2' />
-              </Link>
-            </Button>
-          </motion.div>
+            See how Smart Learning can transform your institution&apos;s
+            workflows.
+          </p>
+          <Link
+            href='/contact'
+            className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'
+            style={{ transitionDelay: '0.2s' }}
+          >
+            Get Started
+          </Link>
         </div>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }
