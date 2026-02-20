@@ -231,9 +231,6 @@ export default function HomePage() {
         <div className='max-w-7xl mx-auto px-6 relative z-10'>
           <div className='grid lg:grid-cols-12 gap-8 items-end'>
             <div className='lg:col-span-7 space-y-8'>
-              <div className='font-mono text-sm text-[#cc5500] tracking-widest uppercase reveal-up'>
-                Education Infrastructure // v2.4
-              </div>
               <h1
                 className='font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-[0.9] tracking-tight reveal-up'
                 style={{ transitionDelay: '0.1s' }}
@@ -241,7 +238,7 @@ export default function HomePage() {
                 Education
                 <br />
                 <TextScramble
-                  phrases={['Rebuilt', 'Reimagined', 'Redefined', 'Optimized']}
+                  phrases={['Elevated', 'Redefined', 'Empowered', 'Enhanced']}
                 />
               </h1>
               <p

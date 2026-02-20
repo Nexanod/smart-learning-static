@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     'AI-powered management systems for institutions. Paper generation, student lifecycle management, attendance tracking, and analytics.',
   keywords:
-    'education technology, AI learning, paper generation, student management, attendance tracking, analytics',
+    'education technology, AI learning, paper generation, student management, attendance tracking, Educational ERP, School Management System, AI in Education, Assessment Tools, Exam Maker, Learning Management System, LMS, Academic Analytics, Student Portal, Automated Grading, Institution Management, EdTech Solutions, Smart Education, Teacher Productivity Tools, Digital Learning Infrastructure',
   authors: [{ name: 'Smart Learning Team' }],
   openGraph: {
     title: 'Smart Learning — Education Infrastructure',

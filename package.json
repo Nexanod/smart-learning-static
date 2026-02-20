@@ -10,7 +10,8 @@
     "lint:fix": "npx eslint . --fix",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.7",
@@ -21,6 +22,7 @@
     "framer-motion": "^12.23.22",
     "lucide-react": "^0.544.0",
     "next": "15.5.9",
+    "next-sitemap": "^4.2.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "resend": "^6.9.2",

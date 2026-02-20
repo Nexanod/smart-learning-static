@@ -103,19 +103,14 @@
   }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
+/* Hide scrollbar for all browsers */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-::-webkit-scrollbar-track {
-  background: var(--color-stone-100);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-stone-400);
-  border: 3px solid var(--color-stone-100);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ochre);
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 /* Brutalist Border Utility */

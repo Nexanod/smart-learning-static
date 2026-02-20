@@ -1,8 +1,6 @@
-'use client';
-
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CONTACT_INFO } from '@/constants/site';
-import { X } from 'lucide-react';
+import { X, PlayCircle } from 'lucide-react';
 
 interface DemoModalProps {
   isOpen: boolean;
@@ -10,6 +8,8 @@ interface DemoModalProps {
 }
 
 export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
+  const [demoVideoUrl] = useState(process.env.NEXT_PUBLIC_DEMO_VIDEO_URL);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -41,16 +41,32 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
           <X size={24} />
         </button>
 
-        {/* Video Side */}
-        <div className='w-full md:w-3/5 bg-stone-200 aspect-video md:aspect-auto flex items-center justify-center border-b-4 md:border-b-0 md:border-r-4 border-stone-900'>
-          <iframe
-            className='w-full h-full'
-            src='https://www.youtube.com/embed/dQw4w9WgXcQ' // Placeholder, user can change
-            title='Smart Learning Demo'
-            frameBorder='0'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-            allowFullScreen
-          ></iframe>
+        {/* Video Side or Placeholder */}
+        <div className='w-full md:w-3/5 bg-stone-200 aspect-video md:aspect-auto flex items-center justify-center border-b-4 md:border-b-0 md:border-r-4 border-stone-900 relative group'>
+          {demoVideoUrl ? (
+            <iframe
+              className='w-full h-full'
+              src={demoVideoUrl}
+              title='Smart Learning Demo'
+              frameBorder='0'
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+              allowFullScreen
+            ></iframe>
+          ) : (
+            <div className='w-full h-full flex flex-col items-center justify-center p-12 text-center space-y-4'>
+              <div className='absolute inset-0 grid-lines opacity-10 pointer-events-none' />
+              <PlayCircle size={64} className='text-[#cc5500] animate-pulse' />
+              <div className='space-y-2'>
+                <h4 className='font-display text-2xl font-bold'>
+                  Demo Video Coming Soon
+                </h4>
+                <p className='font-mono text-xs text-stone-500 max-w-xs mx-auto'>
+                  We are currently finalizing our system walkthrough. In the
+                  meantime, you can launch the live console.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Info Side */}
