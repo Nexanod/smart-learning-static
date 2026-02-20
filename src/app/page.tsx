@@ -12,16 +12,41 @@ import DemoModal from '@/components/DemoModal';
 import { Zap, Lock, Hexagon, Activity, Users, Globe, Plus } from 'lucide-react';
 
 function TextScramble({ phrases }: { phrases: string[] }) {
+  const [containerWidth, setContainerWidth] = useState<number | 'auto'>('auto');
   const ref = useRef<HTMLSpanElement>(null);
+  const measurerRef = useRef<HTMLSpanElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout>(null);
+  const animIdRef = useRef<number>(null);
+  const counterRef = useRef(0);
+
   useEffect(() => {
     const chars = '!<>-_\\/[]{}—=+*^?#________';
-    let frame = 0;
-    let counter = 0;
-    let animId: number;
     const el = ref.current;
     if (!el) return;
 
+    const updateWidth = () => {
+      if (measurerRef.current) {
+        measurerRef.current.innerText = phrases[counterRef.current];
+        setContainerWidth(measurerRef.current.offsetWidth);
+      }
+    };
+
+    // Ensure font is loaded before measuring
+    if ('fonts' in document) {
+      document.fonts.ready.then(updateWidth);
+    } else {
+      updateWidth();
+    }
+
     const scramble = (newText: string) => {
+      if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+      if (measurerRef.current) {
+        measurerRef.current.innerText = newText;
+        setContainerWidth(measurerRef.current.offsetWidth);
+      }
+
       const oldText = el.innerText;
       const length = Math.max(oldText.length, newText.length);
       const queue: {
@@ -31,6 +56,7 @@ function TextScramble({ phrases }: { phrases: string[] }) {
         end: number;
         char?: string;
       }[] = [];
+
       for (let i = 0; i < length; i++) {
         queue.push({
           from: oldText[i] || '',
@@ -39,7 +65,8 @@ function TextScramble({ phrases }: { phrases: string[] }) {
           end: Math.floor(Math.random() * 40) + Math.floor(Math.random() * 40),
         });
       }
-      frame = 0;
+
+      let frame = 0;
       const update = () => {
         let output = '';
         let complete = 0;
@@ -57,27 +84,51 @@ function TextScramble({ phrases }: { phrases: string[] }) {
           }
         }
         el.innerHTML = output;
+
         if (complete < queue.length) {
-          animId = requestAnimationFrame(update);
+          animIdRef.current = requestAnimationFrame(update);
           frame++;
         } else {
-          setTimeout(() => {
-            counter = (counter + 1) % phrases.length;
-            scramble(phrases[counter]);
-          }, 3000);
+          timeoutRef.current = setTimeout(() => {
+            counterRef.current = (counterRef.current + 1) % phrases.length;
+            scramble(phrases[counterRef.current]);
+          }, 3500);
         }
       };
       update();
     };
-    const t = setTimeout(() => scramble(phrases[0]), 2000);
+
+    const initialTimeout = setTimeout(() => {
+      counterRef.current = (counterRef.current + 1) % phrases.length;
+      scramble(phrases[counterRef.current]);
+    }, 4000);
+
     return () => {
-      clearTimeout(t);
-      cancelAnimationFrame(animId);
+      clearTimeout(initialTimeout);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
     };
   }, [phrases]);
+
   return (
-    <span ref={ref} className='text-outline italic'>
-      Rebuilt
+    <span className='inline-block relative'>
+      <span
+        ref={ref}
+        className='text-outline italic inline-block transition-[width] duration-700 ease-in-out overflow-hidden whitespace-nowrap align-baseline px-8 -ml-8 pb-4'
+        style={{
+          width: containerWidth === 'auto' ? 'auto' : `${containerWidth}px`,
+        }}
+      >
+        {phrases[0]}
+      </span>
+      {/* Hidden measurer to calculate width of phrases */}
+      <span
+        ref={measurerRef}
+        className='text-outline italic absolute opacity-0 pointer-events-none whitespace-nowrap px-8 pb-4'
+        aria-hidden='true'
+      >
+        {phrases[0]}
+      </span>
     </span>
   );
 }
@@ -232,13 +283,19 @@ export default function HomePage() {
           <div className='grid lg:grid-cols-12 gap-8 items-end'>
             <div className='lg:col-span-7 space-y-8'>
               <h1
-                className='font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-[0.9] tracking-tight reveal-up'
+                className='font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-[0.9] tracking-tight reveal-up m-0'
                 style={{ transitionDelay: '0.1s' }}
               >
                 Education
                 <br />
                 <TextScramble
-                  phrases={['Elevated', 'Redefined', 'Empowered', 'Enhanced']}
+                  phrases={[
+                    'Elevated',
+                    'Redefined',
+                    'Empowered',
+                    'Enhanced',
+                    'Modernized',
+                  ]}
                 />
               </h1>
               <p
