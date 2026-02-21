@@ -1,7 +1,4 @@
-'use client';
-
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
@@ -15,14 +12,15 @@ const navLinks = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
 
   return (
     <>
       <nav className='fixed w-full top-0 z-50 bg-[#fafaf9]/90 backdrop-blur-md border-b-2 border-stone-900'>
         <div className='max-w-7xl mx-auto px-6 py-4 flex justify-between items-center'>
           <Link
-            href='/'
+            to='/'
             className='font-display text-2xl font-bold tracking-tight hover-target no-underline'
           >
             Smart<span className='text-[#cc5500]'>.</span>Learning
@@ -32,14 +30,14 @@ export default function Navbar() {
             {navLinks.map(link => (
               <Link
                 key={link.href}
-                href={link.href}
+                to={link.href}
                 className={`hover:text-[#cc5500] transition-colors hover-target no-underline ${pathname === link.href ? 'text-[#cc5500]' : ''}`}
               >
                 {link.label}
               </Link>
             ))}
             <Link
-              href='/contact'
+              to='/contact'
               className='brutal-border px-6 py-2 bg-[#cc5500] text-white font-semibold hover-target no-underline'
             >
               Get Access
@@ -62,7 +60,7 @@ export default function Navbar() {
         {navLinks.map(link => (
           <Link
             key={link.href}
-            href={link.href}
+            to={link.href}
             onClick={() => setMenuOpen(false)}
             className={`hover:text-[#cc5500] hover-target no-underline ${pathname === link.href ? 'text-[#cc5500]' : ''}`}
           >
@@ -70,7 +68,7 @@ export default function Navbar() {
           </Link>
         ))}
         <Link
-          href='/contact'
+          to='/contact'
           onClick={() => setMenuOpen(false)}
           className='brutal-border px-8 py-3 bg-[#cc5500] text-white text-xl hover-target no-underline'
         >

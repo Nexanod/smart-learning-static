@@ -1,7 +1,4 @@
-'use client';
-
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,6 +11,11 @@ import {
   Target,
   Heart,
 } from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import SiteFooter from '@/components/SiteFooter';
+import CustomCursor from '@/components/CustomCursor';
+import GrainOverlay from '@/components/GrainOverlay';
+import RevealObserver from '@/components/RevealObserver';
 
 export default function TeamPage() {
   const team = [
@@ -74,7 +76,7 @@ export default function TeamPage() {
       icon: Target,
       title: 'Mission-Driven',
       description:
-        'We&apos;re committed to making quality education accessible and efficient for all institutions.',
+        "We're committed to making quality education accessible and efficient for all institutions.",
     },
     {
       icon: Award,
@@ -98,6 +100,11 @@ export default function TeamPage() {
 
   return (
     <main className='min-h-screen pt-20'>
+      <CustomCursor />
+      <GrainOverlay />
+      <Navbar />
+      <RevealObserver />
+
       {/* Hero Section */}
       <section className='relative py-24 bg-gradient-to-br from-background via-background to-muted overflow-hidden'>
         <div className='absolute inset-0 opacity-5'>
@@ -146,11 +153,10 @@ export default function TeamPage() {
                 <Card className='group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 hover:border-blue-500/30 overflow-hidden'>
                   <CardContent className='p-0'>
                     <div className='relative aspect-square overflow-hidden bg-muted'>
-                      <Image
+                      <img
                         src={member.image}
                         alt={member.name}
-                        fill
-                        className='object-cover group-hover:scale-110 transition-transform duration-500'
+                        className='object-cover w-full h-full group-hover:scale-110 transition-transform duration-500'
                       />
                       <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
 
@@ -268,6 +274,7 @@ export default function TeamPage() {
               passion for transforming education.
             </p>
             <Button
+              asChild
               size='lg'
               className='bg-white text-blue-600 hover:bg-white/90 rounded-full px-8'
             >
@@ -276,6 +283,8 @@ export default function TeamPage() {
           </motion.div>
         </div>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }

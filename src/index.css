@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -109,6 +109,19 @@
   scrollbar-width: none; /* Firefox */
 }
 
+/* Custom Scrollbar Utility - show if needed */
+.show-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+}
+.show-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-stone-100);
+}
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-stone-300);
+  border-radius: 4px;
+}
+
 *::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
 }
@@ -204,13 +217,15 @@
 
 /* Text Outline */
 .text-outline {
-  -webkit-text-stroke: 1px var(--color-stone-900);
+  font-family: auto;
+  -webkit-text-stroke: 1.5px var(--color-stone-900);
   color: transparent;
-  transition: all 0.3s ease;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.4s ease;
 }
 .text-outline:hover {
   color: var(--color-stone-900);
-  -webkit-text-stroke: 0px;
+  -webkit-text-fill-color: var(--color-stone-900);
 }
 
 /* Marquee */

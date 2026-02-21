@@ -1,7 +1,5 @@
-'use client';
-
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import SiteFooter from '@/components/SiteFooter';
 import CustomCursor from '@/components/CustomCursor';
@@ -12,7 +10,7 @@ import DemoModal from '@/components/DemoModal';
 import { Zap, Lock, Hexagon, Activity, Users, Globe, Plus } from 'lucide-react';
 
 function TextScramble({ phrases }: { phrases: string[] }) {
-  const [containerWidth, setContainerWidth] = useState<number | 'auto'>('auto');
+  const [maxWidth, setMaxWidth] = useState<number>(0);
   const ref = useRef<HTMLSpanElement>(null);
   const measurerRef = useRef<HTMLSpanElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>(null);
@@ -24,28 +22,29 @@ function TextScramble({ phrases }: { phrases: string[] }) {
     const el = ref.current;
     if (!el) return;
 
-    const updateWidth = () => {
+    const calculateMaxWidth = () => {
       if (measurerRef.current) {
-        measurerRef.current.innerText = phrases[counterRef.current];
-        setContainerWidth(measurerRef.current.offsetWidth);
+        let max = 0;
+        phrases.forEach(p => {
+          if (measurerRef.current) {
+            measurerRef.current.innerText = p;
+            max = Math.max(max, measurerRef.current.offsetWidth);
+          }
+        });
+        setMaxWidth(max);
       }
     };
 
     // Ensure font is loaded before measuring
     if ('fonts' in document) {
-      document.fonts.ready.then(updateWidth);
+      document.fonts.ready.then(calculateMaxWidth);
     } else {
-      updateWidth();
+      calculateMaxWidth();
     }
 
     const scramble = (newText: string) => {
       if (animIdRef.current) cancelAnimationFrame(animIdRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-
-      if (measurerRef.current) {
-        measurerRef.current.innerText = newText;
-        setContainerWidth(measurerRef.current.offsetWidth);
-      }
 
       const oldText = el.innerText;
       const length = Math.max(oldText.length, newText.length);
@@ -111,20 +110,20 @@ function TextScramble({ phrases }: { phrases: string[] }) {
   }, [phrases]);
 
   return (
-    <span className='inline-block relative'>
+    <span
+      className='inline-block relative text-left align-baseline'
+      style={{ width: maxWidth ? `${maxWidth}px` : 'auto' }}
+    >
       <span
         ref={ref}
-        className='text-outline italic inline-block transition-[width] duration-700 ease-in-out overflow-hidden whitespace-nowrap align-baseline px-8 -ml-8 pb-4'
-        style={{
-          width: containerWidth === 'auto' ? 'auto' : `${containerWidth}px`,
-        }}
+        className='text-outline italic block overflow-hidden whitespace-nowrap pb-6 pl-4'
       >
         {phrases[0]}
       </span>
       {/* Hidden measurer to calculate width of phrases */}
       <span
         ref={measurerRef}
-        className='text-outline italic absolute opacity-0 pointer-events-none whitespace-nowrap px-8 pb-4'
+        className='text-outline italic absolute opacity-0 pointer-events-none whitespace-nowrap pb-6'
         aria-hidden='true'
       >
         {phrases[0]}
@@ -283,10 +282,10 @@ export default function HomePage() {
           <div className='grid lg:grid-cols-12 gap-8 items-end'>
             <div className='lg:col-span-7 space-y-8'>
               <h1
-                className='font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-[0.9] tracking-tight reveal-up m-0'
+                className='font-display text-6xl md:text-8xl lg:text-9xl font-extrabold leading-[0.9] tracking-tight reveal-up m-0'
                 style={{ transitionDelay: '0.1s' }}
               >
-                Education
+                <span className='pl-4'>Education</span>
                 <br />
                 <TextScramble
                   phrases={[
@@ -311,7 +310,7 @@ export default function HomePage() {
                 style={{ transitionDelay: '0.3s' }}
               >
                 <Link
-                  href='/contact'
+                  to='/contact'
                   className='brutal-border px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline'
                 >
                   Get Free Trial
@@ -490,7 +489,7 @@ export default function HomePage() {
             style={{ transitionDelay: '0.2s' }}
           >
             <Link
-              href='/contact'
+              to='/contact'
               className='brutal-border px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover:bg-white hover:text-stone-900 transition-colors hover-target no-underline'
             >
               Schedule Demo

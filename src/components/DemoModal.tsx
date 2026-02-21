@@ -8,7 +8,7 @@ interface DemoModalProps {
 }
 
 export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
-  const [demoVideoUrl] = useState(process.env.NEXT_PUBLIC_DEMO_VIDEO_URL);
+  const [demoVideoUrl] = useState(import.meta.env.VITE_DEMO_VIDEO_URL);
 
   useEffect(() => {
     if (isOpen) {

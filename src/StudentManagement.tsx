@@ -1,6 +1,4 @@
-'use client';
-
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import SiteFooter from '@/components/SiteFooter';
 import CustomCursor from '@/components/CustomCursor';
@@ -91,7 +89,7 @@ export default function StudentManagementPage() {
                 style={{ transitionDelay: '0.3s' }}
               >
                 <Link
-                  href='/contact'
+                  to='/contact'
                   className='brutal-border px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline'
                 >
                   Request Demo
@@ -188,7 +186,7 @@ export default function StudentManagementPage() {
             workflows.
           </p>
           <Link
-            href='/contact'
+            to='/contact'
             className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'
             style={{ transitionDelay: '0.2s' }}
           >

@@ -1,5 +1,4 @@
-'use client';
-
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import SiteFooter from '@/components/SiteFooter';
 import CustomCursor from '@/components/CustomCursor';
@@ -192,13 +191,13 @@ export default function AboutPage() {
           >
             Join 500+ institutions that trust Smart Learning.
           </p>
-          <a
-            href='/contact'
+          <Link
+            to='/contact'
             className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'
             style={{ transitionDelay: '0.2s' }}
           >
             Get in Touch
-          </a>
+          </Link>
         </div>
       </section>
 

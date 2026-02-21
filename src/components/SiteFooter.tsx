@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { SOCIAL_LINKS } from '@/constants/site';
-import { Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { Instagram, Facebook, Linkedin } from 'lucide-react';
 
 const socials = [
   {
@@ -100,7 +100,7 @@ export default function SiteFooter() {
             <ul className='space-y-2 text-sm'>
               <li>
                 <Link
-                  href='/paper-generation'
+                  to='/paper-generation'
                   className='hover:text-[#cc5500] transition-colors hover-target no-underline text-stone-50'
                 >
                   Paper Generation
@@ -108,7 +108,7 @@ export default function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href='/student-management'
+                  to='/student-management'
                   className='hover:text-[#cc5500] transition-colors hover-target no-underline text-stone-50'
                 >
                   Student Management
@@ -116,7 +116,7 @@ export default function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href='/about'
+                  to='/about'
                   className='hover:text-[#cc5500] transition-colors hover-target no-underline text-stone-50'
                 >
                   Attendance
@@ -124,7 +124,7 @@ export default function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href='/about'
+                  to='/about'
                   className='hover:text-[#cc5500] transition-colors hover-target no-underline text-stone-50'
                 >
                   Analytics
@@ -140,7 +140,7 @@ export default function SiteFooter() {
             <ul className='space-y-2 text-sm'>
               <li>
                 <Link
-                  href='/about'
+                  to='/about'
                   className='hover:text-[#cc5500] transition-colors hover-target no-underline text-stone-50'
                 >
                   About
@@ -148,7 +148,7 @@ export default function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href='/contact'
+                  to='/contact'
                   className='hover:text-[#cc5500] transition-colors hover-target no-underline text-stone-50'
                 >
                   Contact

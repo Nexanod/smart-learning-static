@@ -4,7 +4,7 @@ export const SOCIAL_LINKS = {
   facebook: 'https://www.facebook.com/people/Smart-Learning/61583344564169/',
   twitter: 'https://x.com/smartlearningpk',
   tiktok: 'https://www.tiktok.com/@smartlearning_pk',
-  linkedin: '#',
+  linkedin: 'https://www.linkedin.com/company/nexanod',
   reddit: 'https://www.reddit.com/user/No-Variety5113/',
 };
 

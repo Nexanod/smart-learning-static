@@ -1,7 +1,5 @@
-'use client';
-
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Check } from 'lucide-react';
 
 const plans = [
@@ -215,7 +213,7 @@ export default function PricingSection() {
               </ul>
 
               <Link
-                href='/contact'
+                to='/contact'
                 className={`brutal-border text-center px-6 py-3 font-mono text-sm tracking-wider hover-target no-underline ${
                   plan.popular
                     ? 'bg-[#cc5500] text-white'

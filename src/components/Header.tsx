@@ -1,7 +1,4 @@
-'use client';
-
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
@@ -44,13 +41,12 @@ export default function Header() {
     >
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-20'>
-          <Link href='/' className='flex items-center group'>
+          <Link to='/' className='flex items-center group'>
             <div className='relative w-12 h-12 transition-transform duration-300 group-hover:scale-110'>
-              <Image
+              <img
                 src='https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/logo-1761231526372.png?width=8000&height=8000&resize=contain'
                 alt='Smart Learning Logo'
-                fill
-                className='object-contain'
+                className='w-full h-full object-contain'
               />
             </div>
           </Link>
@@ -60,7 +56,7 @@ export default function Header() {
             {navItems.map(item => (
               <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className='px-4 py-2 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-300'
               >
                 {item.label}
@@ -89,7 +85,7 @@ export default function Header() {
                     {productItems.map(item => (
                       <Link
                         key={item.href}
-                        href={item.href}
+                        to={item.href}
                         className='block px-4 py-3 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-blue-500/10 hover:border-l-2 hover:border-blue-500 transition-all duration-200'
                         onClick={() => setIsProductsOpen(false)}
                       >
@@ -107,7 +103,7 @@ export default function Header() {
               asChild
               className='bg-gradient-to-r from-blue-600 to-blue-800 hover:opacity-90 text-white rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-blue-500/20'
             >
-              <Link href='/contact'>Get Started</Link>
+              <Link to='/contact'>Get Started</Link>
             </Button>
           </div>
 
@@ -128,7 +124,7 @@ export default function Header() {
             {navItems.map(item => (
               <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className='px-4 py-3 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-300'
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -143,7 +139,7 @@ export default function Header() {
             {productItems.map(item => (
               <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className='px-4 py-3 rounded-lg text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-all duration-300 pl-8'
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -156,7 +152,7 @@ export default function Header() {
               className='w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:opacity-90 text-white rounded-full mt-4 shadow-lg shadow-blue-500/20'
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <Link href='/contact'>Get Started</Link>
+              <Link to='/contact'>Get Started</Link>
             </Button>
           </nav>
         </div>

@@ -1,8 +1,5 @@
-'use client';
-
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -141,7 +138,7 @@ export default function AttendanceManagementPage() {
                   size='lg'
                   className='bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full px-8'
                 >
-                  <Link href='/contact'>
+                  <Link to='/contact'>
                     Start Free Trial <ArrowRight className='ml-2' />
                   </Link>
                 </Button>
@@ -151,7 +148,7 @@ export default function AttendanceManagementPage() {
                   variant='outline'
                   className='rounded-full px-8'
                 >
-                  <Link href='#features'>Explore Features</Link>
+                  <a href='#features'>Explore Features</a>
                 </Button>
               </div>
             </motion.div>
@@ -167,11 +164,10 @@ export default function AttendanceManagementPage() {
                 whileHover={{ scale: 1.02, y: -8 }}
                 transition={{ duration: 0.4 }}
               >
-                <Image
+                <img
                   src='https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop'
                   alt='Attendance Management Dashboard'
-                  fill
-                  className='object-cover'
+                  className='object-cover w-full h-full'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6'>
                   <p className='text-white font-medium'>
@@ -242,11 +238,10 @@ export default function AttendanceManagementPage() {
                       transition={{ duration: 0.4, ease: 'easeOut' }}
                       className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-2 border-border hover:shadow-blue-500/20'
                     >
-                      <Image
+                      <img
                         src={feature.image}
                         alt={feature.title}
-                        fill
-                        className='object-cover'
+                        className='object-cover w-full h-full'
                       />
                       <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent' />
                     </motion.div>
@@ -354,7 +349,7 @@ export default function AttendanceManagementPage() {
                       className={`w-full rounded-full ${index === 1 ? 'bg-blue-600' : ''}`}
                       variant={index === 1 ? 'default' : 'outline'}
                     >
-                      <Link href='/contact'>Get Started</Link>
+                      <Link to='/contact'>Get Started</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -385,7 +380,7 @@ export default function AttendanceManagementPage() {
               size='lg'
               className='bg-white text-blue-600 hover:bg-white/90 rounded-full px-8'
             >
-              <Link href='/contact'>
+              <Link to='/contact'>
                 Start Your Free Trial <ArrowRight className='ml-2' />
               </Link>
             </Button>

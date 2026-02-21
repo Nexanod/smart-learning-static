@@ -1,11 +1,9 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import {
   ChevronDown,
   HelpCircle,
@@ -14,6 +12,11 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import Navbar from '@/components/Navbar';
+import SiteFooter from '@/components/SiteFooter';
+import CustomCursor from '@/components/CustomCursor';
+import GrainOverlay from '@/components/GrainOverlay';
+import RevealObserver from '@/components/RevealObserver';
 
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -140,6 +143,11 @@ export default function FAQPage() {
 
   return (
     <main className='min-h-screen pt-20'>
+      <CustomCursor />
+      <GrainOverlay />
+      <Navbar />
+      <RevealObserver />
+
       {/* Hero Section */}
       <section className='relative py-24 bg-gradient-to-br from-background via-background to-muted overflow-hidden'>
         <div className='absolute inset-0 opacity-5'>
@@ -311,7 +319,7 @@ export default function FAQPage() {
                 size='lg'
                 className='bg-white text-blue-600 hover:bg-white/90 rounded-full px-8'
               >
-                <Link href='/contact'>
+                <Link to='/contact'>
                   Contact Support <ArrowRight className='ml-2' />
                 </Link>
               </Button>
@@ -321,12 +329,14 @@ export default function FAQPage() {
                 variant='outline'
                 className='rounded-full px-8 border-white text-white hover:bg-white/10'
               >
-                <Link href='/pricing'>View Pricing</Link>
+                <Link to='/pricing'>View Pricing</Link>
               </Button>
             </div>
           </motion.div>
         </div>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }

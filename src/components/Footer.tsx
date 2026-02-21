@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
@@ -11,13 +10,12 @@ export default function Footer() {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8'>
           {/* Brand */}
           <div className='space-y-4'>
-            <Link href='/' className='flex items-center space-x-3 group'>
+            <Link to='/' className='flex items-center space-x-3 group'>
               <div className='relative w-10 h-10'>
-                <Image
+                <img
                   src='https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/logo-1761231526372.png?width=8000&height=8000&resize=contain'
                   alt='Smart Learning Logo'
-                  fill
-                  className='object-contain'
+                  className='w-full h-full object-contain'
                 />
               </div>
               <span className='text-xl font-bold bg-gradient-to-r from-blue-600 via-sky-500 to-blue-700 bg-clip-text text-transparent'>
@@ -56,7 +54,7 @@ export default function Footer() {
             <ul className='space-y-2'>
               <li>
                 <Link
-                  href='/paper-generation'
+                  to='/paper-generation'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   Paper Generation
@@ -64,7 +62,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href='/student-management'
+                  to='/student-management'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   Student Management
@@ -72,7 +70,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href='/attendance-management'
+                  to='/attendance-management'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   Attendance Management
@@ -87,7 +85,7 @@ export default function Footer() {
             <ul className='space-y-2'>
               <li>
                 <Link
-                  href='/about'
+                  to='/about'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   About Us
@@ -95,7 +93,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href='/team'
+                  to='/team'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   Our Team
@@ -103,7 +101,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href='/pricing'
+                  to='/pricing'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   Pricing
@@ -111,7 +109,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href='/faq'
+                  to='/faq'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   FAQ
@@ -119,7 +117,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href='/contact'
+                  to='/contact'
                   className='text-sm text-muted-foreground hover:text-blue-600 transition-colors'
                 >
                   Contact Us

@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   MonitorPlay,
@@ -63,11 +62,14 @@ export default function HeroSection({
   ];
 
   useEffect(() => {
-    setIsVisible(true);
+    const frame = requestAnimationFrame(() => setIsVisible(true));
     const interval = setInterval(() => {
       setCurrentStat(prev => (prev + 1) % stats.length);
     }, 3000);
-    return () => clearInterval(interval);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearInterval(interval);
+    };
   }, [stats.length]);
 
   return (
@@ -386,13 +388,10 @@ export default function HeroSection({
               >
                 <div className='group relative isolate overflow-hidden rounded-2xl bg-card shadow-3d-xl ring-1 ring-border hover:shadow-3d-xl transition-all duration-500 card-3d translate-z-10 animate-tilt-3d max-w-md mx-auto'>
                   <div className='absolute inset-0'>
-                    <Image
+                    <img
                       src={imageSrc}
                       alt={imageAlt}
-                      fill
-                      sizes='(max-width: 768px) 100vw, 600px'
-                      className='object-cover transition-transform duration-700 group-hover:scale-105'
-                      priority
+                      className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-105'
                     />
                   </div>
 

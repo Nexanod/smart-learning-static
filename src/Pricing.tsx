@@ -1,7 +1,5 @@
-'use client';
-
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +11,11 @@ import {
   Zap,
   Crown,
 } from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import SiteFooter from '@/components/SiteFooter';
+import CustomCursor from '@/components/CustomCursor';
+import GrainOverlay from '@/components/GrainOverlay';
+import RevealObserver from '@/components/RevealObserver';
 
 export default function PricingPage() {
   const plans = [
@@ -105,6 +108,11 @@ export default function PricingPage() {
 
   return (
     <main className='min-h-screen pt-20'>
+      <CustomCursor />
+      <GrainOverlay />
+      <Navbar />
+      <RevealObserver />
+
       {/* Hero Section */}
       <section className='relative py-24 bg-gradient-to-br from-background via-background to-muted overflow-hidden'>
         <div className='absolute inset-0 opacity-5'>
@@ -192,7 +200,7 @@ export default function PricingPage() {
                       variant={plan.popular ? 'default' : 'outline'}
                       size='lg'
                     >
-                      <Link href='/contact'>
+                      <Link to='/contact'>
                         {plan.price === 'Custom'
                           ? 'Contact Sales'
                           : 'Start Free Trial'}
@@ -385,13 +393,15 @@ export default function PricingPage() {
               size='lg'
               className='bg-white text-blue-600 hover:bg-white/90 rounded-full px-8'
             >
-              <Link href='/contact'>
+              <Link to='/contact'>
                 Contact Sales <ArrowRight className='ml-2' />
               </Link>
             </Button>
           </motion.div>
         </div>
       </section>
+
+      <SiteFooter />
     </main>
   );
 }

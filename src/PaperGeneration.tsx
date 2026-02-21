@@ -1,6 +1,4 @@
-'use client';
-
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import SiteFooter from '@/components/SiteFooter';
 import CustomCursor from '@/components/CustomCursor';
@@ -112,13 +110,13 @@ export default function PaperGenerationPage() {
                 style={{ transitionDelay: '0.3s' }}
               >
                 <Link
-                  href='/contact'
+                  to='/contact'
                   className='brutal-border px-8 py-4 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target no-underline'
                 >
                   Try Paper Gen
                 </Link>
                 <Link
-                  href='/about'
+                  to='/about'
                   className='px-8 py-4 border-b-2 border-stone-900 font-mono text-sm tracking-wider hover:text-[#cc5500] transition-colors hover-target no-underline'
                 >
                   Learn More →
@@ -251,7 +249,7 @@ export default function PaperGenerationPage() {
             Set up your question bank and generate exam papers in minutes.
           </p>
           <Link
-            href='/contact'
+            to='/contact'
             className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'
             style={{ transitionDelay: '0.2s' }}
           >

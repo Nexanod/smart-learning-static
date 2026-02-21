@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { SOCIAL_LINKS, CONTACT_INFO } from '@/constants/site';
 import Navbar from '@/components/Navbar';
@@ -29,6 +27,8 @@ export default function ContactPage() {
     };
 
     try {
+      // NOTE: This API route won't work in a static build.
+      // You will need to replace this with a real backend or a form service like Formspree.
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
