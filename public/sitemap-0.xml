@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://www.smartlearning.pk</loc><lastmod>2026-02-20T21:08:37.654Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/pricing</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/attendance-management</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/team</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/student-management</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/paper-generation</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/about</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/contact</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.smartlearning.pk/faq</loc><lastmod>2026-02-20T21:08:37.655Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.smartlearning.pk/</loc><lastmod>2026-02-24</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+<url><loc>https://www.smartlearning.pk/about</loc><lastmod>2026-02-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.smartlearning.pk/paper-generation</loc><lastmod>2026-02-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.smartlearning.pk/student-management</loc><lastmod>2026-02-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.smartlearning.pk/attendance-management</loc><lastmod>2026-02-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.smartlearning.pk/faq</loc><lastmod>2026-02-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.smartlearning.pk/pricing</loc><lastmod>2026-02-24</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.smartlearning.pk/team</loc><lastmod>2026-02-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.smartlearning.pk/contact</loc><lastmod>2026-02-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.smartlearning.pk/privacy</loc><lastmod>2026-02-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+<url><loc>https://www.smartlearning.pk/refund</loc><lastmod>2026-02-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+<url><loc>https://www.smartlearning.pk/terms</loc><lastmod>2026-02-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+<url><loc>https://www.smartlearning.pk/sla</loc><lastmod>2026-02-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>
