@@ -8,6 +8,11 @@ import FAQ from './FAQ';
 import Pricing from './Pricing';
 import Team from './Team';
 import Contact from './Contact';
+import PrivacyPolicy from './PrivacyPolicy';
+import RefundPolicy from './RefundPolicy';
+import TermsAndConditions from './TermsAndConditions';
+import SLA from './SLA';
+import NotFound from './NotFound';
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/team' element={<Team />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/privacy' element={<PrivacyPolicy />} />
+        <Route path='/refund' element={<RefundPolicy />} />
+        <Route path='/terms' element={<TermsAndConditions />} />
+        <Route path='/sla' element={<SLA />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );

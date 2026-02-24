@@ -14,6 +14,6 @@ export const CONTACT_INFO = {
   phoneLabel: '+92-336-6663633',
   address: 'Lahore, Pakistan',
   demoUrl: 'https://demo.smartlearning.pk',
-  demoUser: 'demo',
-  demoPass: 'Test123@',
+  demoUser: 'admin_demo',
+  demoPass: 'Pakistan123@',
 };
