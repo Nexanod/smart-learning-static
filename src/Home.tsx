@@ -8,6 +8,7 @@ import PricingSection from '@/components/PricingSection';
 import RevealObserver from '@/components/RevealObserver';
 import DemoModal from '@/components/DemoModal';
 import { Zap, Lock, Hexagon, Activity, Users, Globe, Plus } from 'lucide-react';
+import { usePostHog } from '@posthog/react';
 
 function TextScramble({ phrases }: { phrases: string[] }) {
   const [maxWidth, setMaxWidth] = useState<number>(0);
@@ -259,6 +260,14 @@ const features = [
 export default function HomePage() {
   const [isDemoOpen, setIsDemoOpen] = useState(false);
 
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    posthog.capture('page_view', {
+      page: 'home',
+    });
+  }, [posthog]);
+
   return (
     <main className='min-h-screen'>
       <DemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
@@ -316,7 +325,13 @@ export default function HomePage() {
                   Get Free Trial
                 </Link>
                 <button
-                  onClick={() => setIsDemoOpen(true)}
+                  onClick={() =>  {
+                    setIsDemoOpen(true);
+                    posthog.capture('demo_requested', {
+                      buttonName: 'View Demo',
+                      page: 'home'
+                    });
+                  }}
                   className='px-8 py-4 border-b-2 border-stone-900 font-mono text-sm tracking-wider hover:text-[#cc5500] transition-colors hover-target no-underline'
                 >
                   View Demo →
