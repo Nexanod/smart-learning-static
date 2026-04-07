@@ -426,9 +426,12 @@ export default function HomePage() {
             <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4'>
               CAPABILITIES
             </div>
-            <h2 className='font-display text-5xl md:text-6xl font-bold max-w-3xl text-stone-50'>
-              Built for institutions that demand more
+            <h2 className='font-display text-5xl md:text-6xl font-bold max-w-4xl text-stone-50'>
+              What is the best school management software in Pakistan?
             </h2>
+            <p className='text-xl text-stone-400 mt-6 max-w-3xl leading-relaxed'>
+              Our software automates school administration by integrating attendance tracking, digital fee collection, and real-time result management in one secure platform. Build a smarter legacy for your institution.
+            </p>
           </div>
           <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-800'>
             {features.map((f, i) => (

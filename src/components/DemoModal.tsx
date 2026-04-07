@@ -103,6 +103,7 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
                   <a
                     href={CONTACT_INFO.demoUrl}
                     target='_blank'
+                    rel='noopener noreferrer'
                     className='text-[#cc5500] text-sm break-all hover:underline'
                   >
                     {CONTACT_INFO.demoUrl}
@@ -133,6 +134,7 @@ export default function DemoModal({ isOpen, onClose }: DemoModalProps) {
               <a
                 href={CONTACT_INFO.demoUrl}
                 target='_blank'
+                rel='noopener noreferrer'
                 className='block w-full text-center brutal-border px-6 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover:bg-[#cc5500] transition-colors no-underline'
               >
                 Launch Demo Console →
