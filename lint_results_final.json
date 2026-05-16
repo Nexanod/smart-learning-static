@@ -1,0 +1,671 @@
+[
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/actions/contact.ts",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-explicit-any",
+        "severity": 2,
+        "message": "Unexpected any. Specify a different type.",
+        "line": 63,
+        "column": 19,
+        "nodeType": "TSAnyKeyword",
+        "messageId": "unexpectedAny",
+        "endLine": 63,
+        "endColumn": 22,
+        "suggestions": [
+          {
+            "messageId": "suggestUnknown",
+            "fix": { "range": [1803, 1806], "text": "unknown" },
+            "desc": "Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct."
+          },
+          {
+            "messageId": "suggestNever",
+            "fix": { "range": [1803, 1806], "text": "never" },
+            "desc": "Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "'use server';\n\nimport { Resend } from 'resend';\n\nexport async function sendContactEmail(formData: FormData) {\n  const apiKey =\n    process.env.RESEND_API_KEY || process.env.NEXT_PUBLIC_RESEND_API_KEY;\n\n  if (!apiKey) {\n    console.error('RESEND_API_KEY is not defined in environment variables');\n    return {\n      error: 'Email service is currently unavailable. Please try again later.',\n    };\n  }\n\n  const resend = new Resend(apiKey);\n\n  try {\n    const name = formData.get('name') as string;\n    const phone = formData.get('phone') as string;\n    const email = (formData.get('email') as string) || 'Not provided';\n    const institution =\n      (formData.get('institution') as string) || 'Not provided';\n    const subject = formData.get('subject') as string;\n    const message = formData.get('message') as string;\n\n    if (!name || !phone || !message) {\n      return { error: 'Name, phone number, and message are required.' };\n    }\n\n    const fromEmail =\n      process.env.RESEND_FROM_EMAIL ||\n      process.env.NEXT_PUBLIC_RESEND_FROM_EMAIL ||\n      'contact@smartlearning.pk';\n    const contactEmail =\n      process.env.CONTACT_EMAIL ||\n      process.env.NEXT_PUBLIC_CONTACT_EMAIL ||\n      'sales@smartlearning.pk';\n\n    const { data, error } = await resend.emails.send({\n      from: `Smart Learning Contact <${fromEmail}>`,\n      to: [contactEmail],\n      subject: `[${subject}] New Contact Form Submission from ${name}`,\n      text: `\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nInstitution: ${institution}\nSubject: ${subject}\n\nMessage:\n${message}\n      `,\n      replyTo: email !== 'Not provided' ? email : undefined,\n    });\n\n    if (error) {\n      console.error('Resend API Error:', error);\n      return { error: error.message };\n    }\n\n    return { success: true, data };\n  } catch (error: any) {\n    console.error('Server Action Error:', error);\n    return { error: 'An unexpected error occurred. Please try again later.' };\n  }\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/about/page.tsx",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 2,
+        "message": "'stats' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 60,
+        "column": 7,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 60,
+        "endColumn": 12
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "'use client';\nimport Link from 'next/link';\n\nimport CustomCursor from '@/components/CustomCursor';\nimport GrainOverlay from '@/components/GrainOverlay';\nimport Navbar from '@/components/Navbar';\nimport RevealObserver from '@/components/RevealObserver';\nimport SiteFooter from '@/components/SiteFooter';\n\nconst values = [\n  {\n    title: 'Precision',\n    desc: 'Every feature is crafted with meticulous attention to detail. No bloat, no filler — only tools that matter.',\n  },\n  {\n    title: 'Transparency',\n    desc: 'Open pricing, clear documentation, and honest communication. We believe trust is earned through clarity.',\n  },\n  {\n    title: 'Innovation',\n    desc: 'We push the boundaries of what education technology can do using AI, machine learning, and modern architecture.',\n  },\n  {\n    title: 'Impact',\n    desc: 'We measure success by the measurable improvements our platform brings to institutions and their students.',\n  },\n];\n\nconst milestones = [\n  {\n    year: '2019',\n    event:\n      'Founded with a mission to rebuild education infrastructure from the ground up.',\n  },\n  {\n    year: '2020',\n    event: 'Launched Paper Generation module. First 50 institutions onboarded.',\n  },\n  {\n    year: '2021',\n    event: 'Student Management and Attendance Tracking modules released.',\n  },\n  {\n    year: '2022',\n    event:\n      'Crossed 200+ institutions. Introduced AI-powered question generation.',\n  },\n  {\n    year: '2023',\n    event:\n      'Predictive Analytics module launched. Multi-tenant architecture deployed.',\n  },\n  {\n    year: '2024',\n    event:\n      \"IT'S LIVE NOW. Smart Learning is redefining education across the region.\",\n  },\n];\n\nconst stats = [\n  { value: 'LIVE', label: 'NOW' },\n  { value: '2M+', label: 'Students Managed' },\n  { value: '10M+', label: 'Papers Generated' },\n  { value: '99.99%', label: 'Uptime SLA' },\n];\n\nexport default function AboutPage() {\n  return (\n    <main className='min-h-screen'>\n      <CustomCursor />\n      <GrainOverlay />\n      <Navbar />\n      <RevealObserver />\n\n      {/* Hero */}\n      <section className='relative pt-40 pb-24 overflow-hidden'>\n        <div className='blob bg-orange-300 w-80 h-80 top-20 -right-20' />\n        <div className='max-w-7xl mx-auto px-6 relative z-10'>\n          <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4 reveal-up'>\n            ABOUT US\n          </div>\n          <h1\n            className='font-display text-6xl md:text-8xl font-bold leading-[0.9] tracking-tight max-w-4xl reveal-up'\n            style={{ transitionDelay: '0.1s' }}\n          >\n            We build the infrastructure\n            <br />\n            <span className='text-outline italic'>education deserves</span>\n          </h1>\n          <p\n            className='text-xl text-stone-600 max-w-2xl mt-8 leading-relaxed font-light reveal-up'\n            style={{ transitionDelay: '0.2s' }}\n          >\n            Smart Learning was born out of frustration with outdated systems\n            that hold institutions back. We believe technology should empower\n            educators, not burden them.\n          </p>\n        </div>\n      </section>\n\n      {/* Stats */}\n      {/* <div className='border-y-2 border-stone-900'>\n        <div className='max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4'>\n          {stats.map((s, i) => (\n            <div\n              key={i}\n              className={`p-8 text-center ${i < 3 ? 'border-r-2 border-stone-900' : ''}`}\n            >\n              <div className='font-display text-4xl md:text-5xl font-bold'>\n                {s.value}\n              </div>\n              <div className='font-mono text-xs tracking-widest text-stone-500 mt-2'>\n                {s.label.toUpperCase()}\n              </div>\n            </div>\n          ))}\n        </div>\n      </div> */}\n\n      {/* Values */}\n      <section className='py-32'>\n        <div className='max-w-7xl mx-auto px-6'>\n          <div className='grid lg:grid-cols-12 gap-16'>\n            <div className='lg:col-span-4 reveal-up'>\n              <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4'>\n                OUR VALUES\n              </div>\n              <h2 className='font-display text-5xl font-bold leading-tight'>\n                What drives us forward\n              </h2>\n            </div>\n            <div className='lg:col-span-8 grid md:grid-cols-2 gap-6'>\n              {values.map((v, i) => (\n                <div\n                  key={i}\n                  className='border-2 border-stone-900 p-8 hover:bg-stone-100 transition-colors reveal-up hover-target'\n                  style={{ transitionDelay: `${i * 0.1}s` }}\n                >\n                  <div className='font-mono text-xs text-[#cc5500] tracking-widest mb-3'>\n                    {String(i + 1).padStart(2, '0')}\n                  </div>\n                  <h3 className='font-display text-2xl font-bold mb-3'>\n                    {v.title}\n                  </h3>\n                  <p className='text-stone-600 text-sm leading-relaxed'>\n                    {v.desc}\n                  </p>\n                </div>\n              ))}\n            </div>\n          </div>\n        </div>\n      </section>\n\n      {/* Timeline */}\n      <section className='py-32 bg-stone-900 text-stone-50'>\n        <div className='max-w-4xl mx-auto px-6'>\n          <div className='text-center mb-20 reveal-up'>\n            <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4'>\n              TIMELINE\n            </div>\n            <h2 className='font-display text-5xl font-bold text-stone-50'>\n              Our journey so far\n            </h2>\n          </div>\n          <div className='space-y-12'>\n            {milestones.map((m, i) => (\n              <div\n                key={i}\n                className='flex gap-8 items-start reveal-up'\n                style={{ transitionDelay: `${i * 0.1}s` }}\n              >\n                <div className='font-mono text-[#cc5500] text-sm font-bold w-16 shrink-0 pt-1'>\n                  {m.year}\n                </div>\n                <div className='w-3 h-3 border-2 border-[#cc5500] bg-stone-900 rounded-full mt-1.5 shrink-0' />\n                <p className='text-stone-300 leading-relaxed'>{m.event}</p>\n              </div>\n            ))}\n          </div>\n        </div>\n      </section>\n\n      {/* CTA */}\n      <section className='py-32 relative overflow-hidden'>\n        <div className='absolute inset-0 bg-[#cc5500] -skew-y-3 origin-top-left' />\n        <div className='max-w-4xl mx-auto px-6 relative z-10 text-center text-white'>\n          <h2 className='font-display text-5xl md:text-6xl font-bold mb-6 reveal-up text-white'>\n            Want to be part of the story?\n          </h2>\n          <p\n            className='text-xl mb-12 opacity-90 font-light reveal-up'\n            style={{ transitionDelay: '0.1s' }}\n          >\n            Experience the future of education with Smart Learning.\n          </p>\n          <Link\n            href='/contact'\n            className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'\n            style={{ transitionDelay: '0.2s' }}\n          >\n            Get in Touch\n          </Link>\n        </div>\n      </section>\n\n      <SiteFooter />\n    </main>\n  );\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/attendance-management/page.tsx",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 2,
+        "message": "'ArrowRight' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 8,
+        "column": 3,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 8,
+        "endColumn": 13,
+        "suggestions": [{ "messageId": "removeUnusedVar", "data": { "varName": "ArrowRight" }, "fix": { "range": [107, 121], "text": "" }, "desc": "Remove unused variable \"ArrowRight\"." }]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 2,
+        "message": "'SiteFooter' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 19,
+        "column": 8,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 19,
+        "endColumn": 18,
+        "suggestions": [{ "messageId": "removeUnusedImportDeclaration", "data": { "varName": "SiteFooter" }, "fix": { "range": [410, 460], "text": "" }, "desc": "Remove unused import declaration." }]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 2,
+        "message": "'Button' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 21,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 21,
+        "endColumn": 16,
+        "suggestions": [{ "messageId": "removeUnusedImportDeclaration", "data": { "varName": "Button" }, "fix": { "range": [507, 556], "text": "" }, "desc": "Remove unused import declaration." }]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 3,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "'use client';\nimport { motion } from 'framer-motion';\nimport {\n  Clock,\n  BarChart3,\n  Bell,\n  CheckCircle2,\n  ArrowRight,\n  Smartphone,\n  Fingerprint,\n  FileText,\n  TrendingUp,\n} from 'lucide-react';\n\nimport CustomCursor from '@/components/CustomCursor';\nimport GrainOverlay from '@/components/GrainOverlay';\nimport Navbar from '@/components/Navbar';\nimport RevealObserver from '@/components/RevealObserver';\nimport SiteFooter from '@/components/SiteFooter';\nimport { Badge } from '@/components/ui/badge';\nimport { Button } from '@/components/ui/button';\nimport { Card, CardContent } from '@/components/ui/card';\n\nexport default function AttendanceManagementPage() {\n  const features = [\n    {\n      icon: Smartphone,\n      title: 'Mobile Attendance',\n      description:\n        'Mark attendance on-the-go with mobile apps for teachers and administrators. Real-time syncing ensures data is always up-to-date across all devices.',\n      image:\n        'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop',\n    },\n    {\n      icon: Fingerprint,\n      title: 'Biometric Integration',\n      description:\n        'Support for fingerprint scanners, face recognition, and RFID systems. Seamless integration with hardware devices for touchless attendance marking.',\n      image:\n        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',\n    },\n    {\n      icon: BarChart3,\n      title: 'Real-Time Analytics',\n      description:\n        'Track attendance patterns, trends, and generate insights instantly. Visual dashboards show class-wise, student-wise, and time-based attendance metrics.',\n      image:\n        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',\n    },\n    {\n      icon: Bell,\n      title: 'Automated Alerts',\n      description:\n        'Notify parents and administrators about absences via SMS or WhatsApp. Configurable alert rules and escalation workflows ensure no absence goes unnoticed.',\n      image:\n        'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop',\n    },\n    {\n      icon: FileText,\n      title: 'Comprehensive Reports',\n      description:\n        'Generate detailed attendance reports by class, student, or time period. Export to Excel, PDF, or integrate with your existing systems via API.',\n      image:\n        'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=600&fit=crop',\n    },\n    {\n      icon: TrendingUp,\n      title: 'Trend Analysis',\n      description:\n        'Identify attendance patterns and take proactive measures. Predictive analytics help spot students at risk of chronic absenteeism early.',\n      image:\n        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',\n    },\n  ];\n\n  const benefits = [\n    'Real-time attendance tracking',\n    'Multiple marking methods',\n    'Automated absence notifications',\n    'Parent portal access',\n    'Customizable attendance rules',\n    'Leave management system',\n    'Integration with result system',\n    'Export to Excel/PDF',\n  ];\n\n  const plans = [\n    {\n      name: 'Starter',\n      price: '$25',\n      students: 'Up to 150 students',\n      classes: '10 classes',\n    },\n    {\n      name: 'Professional',\n      price: '$69',\n      students: 'Up to 750 students',\n      classes: '50 classes',\n    },\n    {\n      name: 'Enterprise',\n      price: 'Custom',\n      students: 'Unlimited students',\n      classes: 'Unlimited classes',\n    },\n  ];\n\n  return (\n    <main className='min-h-screen pt-32'>\n      <CustomCursor />\n      <GrainOverlay />\n      <Navbar />\n      <RevealObserver />\n      {/* Hero Section */}\n      <section className='relative py-24 bg-gradient-to-br from-background via-background to-muted overflow-hidden'>\n        <div className='absolute inset-0 opacity-5'>\n          <div className='absolute top-20 left-20 w-72 h-72 bg-blue-500 rounded-full blur-3xl' />\n          <div className='absolute bottom-20 right-20 w-72 h-72 bg-indigo-600 rounded-full blur-3xl' />\n        </div>\n\n        <div className='container mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>\n          <div className='grid lg:grid-cols-2 gap-12 items-center'>\n            <motion.div\n              initial={{ opacity: 0, x: -40 }}\n              animate={{ opacity: 1, x: 0 }}\n              transition={{ duration: 0.8 }}\n            >\n              <Badge className='mb-4 bg-blue-500/10 text-blue-600 border-blue-500/20'>\n                <Clock className='w-3 h-3 mr-1' />\n                Real-Time Tracking\n              </Badge>\n              <h1 className='text-5xl sm:text-6xl font-bold mb-6 leading-tight'>\n                Attendance{' '}\n                <span className='bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent'>\n                  Management\n                </span>\n                <br />\n                System\n              </h1>\n              <p className='text-xl text-muted-foreground mb-8 leading-relaxed'>\n                Modern attendance tracking with real-time updates, automated\n                reporting, and intelligent analytics. Never miss a beat with our\n                comprehensive system.\n              </p>\n              <div className='flex flex-wrap gap-4'>\n                <button\n                  disabled\n                  className='bg-stone-300 text-stone-500 rounded-full px-8 py-3 font-medium cursor-not-allowed'\n                >\n                  Coming Soon\n                </button>\n                <button\n                  disabled\n                  className='bg-stone-100 text-stone-400 border border-stone-200 rounded-full px-8 py-3 font-medium cursor-not-allowed'\n                >\n                  Explore Features\n                </button>\n              </div>\n            </motion.div>\n\n            <motion.div\n              initial={{ opacity: 0, x: 40 }}\n              animate={{ opacity: 1, x: 0 }}\n              transition={{ duration: 0.8, delay: 0.2 }}\n              className='relative'\n            >\n              <motion.div\n                className='relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-border bg-card'\n                whileHover={{ scale: 1.02, y: -8 }}\n                transition={{ duration: 0.4 }}\n              >\n                <img\n                  src='https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop'\n                  alt='Attendance Management Dashboard'\n                  className='object-cover w-full h-full'\n                />\n                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6'>\n                  <p className='text-white font-medium'>\n                    Real-Time Attendance Dashboard\n                  </p>\n                </div>\n              </motion.div>\n            </motion.div>\n          </div>\n        </div>\n      </section>\n\n      {/* Features - One by One with Alternating Layout */}\n      <section id='features' className='py-24 bg-background'>\n        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>\n          <motion.div\n            initial={{ opacity: 0, y: 40 }}\n            whileInView={{ opacity: 1, y: 0 }}\n            transition={{ duration: 0.8 }}\n            viewport={{ once: true }}\n            className='text-center mb-20'\n          >\n            <h2 className='text-4xl sm:text-5xl font-bold mb-4'>\n              Smart <span className='text-blue-600'>Features</span>\n            </h2>\n            <p className='text-xl text-muted-foreground max-w-2xl mx-auto'>\n              Advanced tools for efficient attendance management\n            </p>\n          </motion.div>\n\n          <div className='space-y-32'>\n            {features.map((feature, index) => (\n              <motion.div\n                key={index}\n                initial={{ opacity: 0, y: 60 }}\n                whileInView={{ opacity: 1, y: 0 }}\n                transition={{ duration: 0.8, delay: 0.2 }}\n                viewport={{ once: true, margin: '-100px' }}\n              >\n                <div\n                  className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}\n                >\n                  {/* Content */}\n                  <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>\n                    <motion.div\n                      className='w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-6 shadow-lg'\n                      whileHover={{ scale: 1.1, rotate: 5 }}\n                      transition={{ duration: 0.3 }}\n                    >\n                      <feature.icon className='w-8 h-8 text-white' />\n                    </motion.div>\n                    <h3 className='text-3xl sm:text-4xl font-bold mb-4'>\n                      {feature.title}\n                    </h3>\n                    <p className='text-lg text-muted-foreground leading-relaxed'>\n                      {feature.description}\n                    </p>\n                  </div>\n\n                  {/* Image */}\n                  <div\n                    className={\n                      index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''\n                    }\n                  >\n                    <motion.div\n                      whileHover={{ scale: 1.02, y: -8 }}\n                      transition={{ duration: 0.4, ease: 'easeOut' }}\n                      className='relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-2 border-border hover:shadow-blue-500/20'\n                    >\n                      <img\n                        src={feature.image}\n                        alt={feature.title}\n                        className='object-cover w-full h-full'\n                      />\n                      <div className='absolute inset-0 bg-gradient-to-t from-black/40 to-transparent' />\n                    </motion.div>\n                  </div>\n                </div>\n              </motion.div>\n            ))}\n          </div>\n\n          {/* Benefits List */}\n          <motion.div\n            initial={{ opacity: 0, y: 40 }}\n            whileInView={{ opacity: 1, y: 0 }}\n            transition={{ duration: 0.8 }}\n            viewport={{ once: true }}\n            className='bg-gradient-to-br from-blue-500/5 to-indigo-600/5 rounded-3xl p-8 md:p-12 mt-32'\n          >\n            <h3 className='text-3xl font-bold mb-8 text-center'>\n              Complete Feature Set\n            </h3>\n            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>\n              {benefits.map((benefit, index) => (\n                <motion.div\n                  key={index}\n                  className='flex items-center gap-3'\n                  initial={{ opacity: 0, x: -20 }}\n                  whileInView={{ opacity: 1, x: 0 }}\n                  transition={{ duration: 0.5, delay: index * 0.1 }}\n                  viewport={{ once: true }}\n                >\n                  <CheckCircle2 className='w-5 h-5 text-blue-600 flex-shrink-0' />\n                  <span className='text-foreground'>{benefit}</span>\n                </motion.div>\n              ))}\n            </div>\n          </motion.div>\n        </div>\n      </section>\n\n      {/* Subscription Plans */}\n      <section className='py-24 bg-muted/30'>\n        <div className='container mx-auto px-4 sm:px-6 lg:px-8'>\n          <motion.div\n            initial={{ opacity: 0, y: 40 }}\n            whileInView={{ opacity: 1, y: 0 }}\n            transition={{ duration: 0.8 }}\n            viewport={{ once: true }}\n            className='text-center mb-16'\n          >\n            <h2 className='text-4xl sm:text-5xl font-bold mb-4'>\n              Affordable <span className='text-blue-600'>Plans</span>\n            </h2>\n            <p className='text-xl text-muted-foreground'>\n              Choose the plan that fits your needs\n            </p>\n          </motion.div>\n\n          <div className='grid md:grid-cols-3 gap-6 max-w-5xl mx-auto'>\n            {plans.map((plan, index) => (\n              <motion.div\n                key={index}\n                initial={{ opacity: 0, y: 40 }}\n                whileInView={{ opacity: 1, y: 0 }}\n                transition={{ duration: 0.6, delay: index * 0.1 }}\n                viewport={{ once: true }}\n              >\n                <Card\n                  className={`text-center p-8 h-full transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${index === 1 ? 'border-blue-600 border-2 shadow-xl scale-105' : 'hover:border-blue-500/30'}`}\n                >\n                  <CardContent className='p-0'>\n                    {index === 1 && (\n                      <Badge className='mb-4 bg-blue-600 text-white'>\n                        Recommended\n                      </Badge>\n                    )}\n                    <h3 className='text-2xl font-bold mb-2'>{plan.name}</h3>\n                    <div className='text-4xl font-bold text-blue-600 mb-6'>\n                      {plan.price}\n                      {plan.price !== 'Custom' && (\n                        <span className='text-lg text-muted-foreground'>\n                          /month\n                        </span>\n                      )}\n                    </div>\n                    <ul className='space-y-3 mb-8 text-left'>\n                      <li className='flex items-center gap-2'>\n                        <CheckCircle2 className='w-5 h-5 text-blue-600' />\n                        <span>{plan.students}</span>\n                      </li>\n                      <li className='flex items-center gap-2'>\n                        <CheckCircle2 className='w-5 h-5 text-blue-600' />\n                        <span>{plan.classes}</span>\n                      </li>\n                      <li className='flex items-center gap-2'>\n                        <CheckCircle2 className='w-5 h-5 text-blue-600' />\n                        <span>Mobile app access</span>\n                      </li>\n                      <li className='flex items-center gap-2'>\n                        <CheckCircle2 className='w-5 h-5 text-blue-600' />\n                        <span>Automated reports</span>\n                      </li>\n                    </ul>\n                    <button\n                      disabled\n                      className='w-full rounded-full bg-stone-200 text-stone-500 py-2 font-medium cursor-not-allowed'\n                    >\n                      Coming Soon\n                    </button>\n                  </CardContent>\n                </Card>\n              </motion.div>\n            ))}\n          </div>\n        </div>\n      </section>\n\n      {/* CTA */}\n      <section className='py-24 bg-gradient-to-r from-blue-500 to-indigo-600 text-white'>\n        <div className='container mx-auto px-4 sm:px-6 lg:px-8 text-center'>\n          <motion.div\n            initial={{ opacity: 0, y: 40 }}\n            whileInView={{ opacity: 1, y: 0 }}\n            transition={{ duration: 0.8 }}\n            viewport={{ once: true }}\n          >\n            <h2 className='text-4xl sm:text-5xl font-bold mb-6'>\n              Modernize Attendance Tracking Today\n            </h2>\n            <p className='text-xl mb-8 opacity-90 max-w-2xl mx-auto'>\n              Join institutions saving time and improving accuracy with our\n              smart attendance system\n            </p>\n            <button\n              disabled\n              className='bg-white/20 text-white border border-white/30 rounded-full px-8 py-4 font-medium cursor-not-allowed'\n            >\n              Coming Soon\n            </button>\n          </motion.div>\n        </div>\n      </section>\n    </main>\n  );\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/contact/page.tsx",
+    "messages": [
+      {
+        "ruleId": "jsx-a11y/label-has-associated-control",
+        "severity": 2,
+        "message": "A form label must be associated with a control.",
+        "line": 99,
+        "column": 21,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 99,
+        "endColumn": 100
+      },
+      {
+        "ruleId": "jsx-a11y/label-has-associated-control",
+        "severity": 2,
+        "message": "A form label must be associated with a control.",
+        "line": 111,
+        "column": 21,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 111,
+        "endColumn": 100
+      },
+      {
+        "ruleId": "jsx-a11y/label-has-associated-control",
+        "severity": 2,
+        "message": "A form label must be associated with a control.",
+        "line": 131,
+        "column": 19,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 131,
+        "endColumn": 98
+      },
+      {
+        "ruleId": "jsx-a11y/label-has-associated-control",
+        "severity": 2,
+        "message": "A form label must be associated with a control.",
+        "line": 142,
+        "column": 19,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 142,
+        "endColumn": 98
+      },
+      {
+        "ruleId": "jsx-a11y/label-has-associated-control",
+        "severity": 2,
+        "message": "A form label must be associated with a control.",
+        "line": 153,
+        "column": 19,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 153,
+        "endColumn": 98
+      },
+      {
+        "ruleId": "jsx-a11y/label-has-associated-control",
+        "severity": 2,
+        "message": "A form label must be associated with a control.",
+        "line": 169,
+        "column": 19,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 169,
+        "endColumn": 98
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 6,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "'use client';\nimport { usePostHog } from '@posthog/react';\nimport { Check, AlertCircle } from 'lucide-react';\nimport { useState } from 'react';\n\nimport { sendContactEmail } from '@/actions/contact';\nimport CustomCursor from '@/components/CustomCursor';\nimport GrainOverlay from '@/components/GrainOverlay';\nimport Navbar from '@/components/Navbar';\nimport RevealObserver from '@/components/RevealObserver';\nimport SiteFooter from '@/components/SiteFooter';\nimport { SOCIAL_LINKS, CONTACT_INFO } from '@/constants/site';\n\nexport default function ContactPage() {\n  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>(\n    'idle',\n  );\n  const posthog = usePostHog();\n\n  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {\n    e.preventDefault();\n    setStatus('sending');\n\n    const form = e.currentTarget;\n    const formData = new FormData(form);\n\n    try {\n      const result = await sendContactEmail(formData);\n\n      if (result.success) {\n        setStatus('sent');\n        form.reset();\n        posthog.capture('contact_form_submitted', {\n          subject: formData.get('subject') as string,\n          has_institution: Boolean(formData.get('institution')),\n        });\n        setTimeout(() => setStatus('idle'), 5000);\n      } else {\n        console.error('Email error:', result.error);\n        setStatus('error');\n        posthog.capture('contact_form_failed', {\n          subject: formData.get('subject') as string,\n          error: result.error,\n        });\n        setTimeout(() => setStatus('idle'), 4000);\n      }\n    } catch (error) {\n      console.error('Submit error:', error);\n      setStatus('error');\n      posthog.capture('contact_form_failed', {\n        subject: formData.get('subject') as string,\n        error: error instanceof Error ? error.message : 'unknown',\n      });\n      setTimeout(() => setStatus('idle'), 4000);\n    }\n  };\n\n  return (\n    <main className='min-h-screen'>\n      <CustomCursor />\n      <GrainOverlay />\n      <Navbar />\n      <RevealObserver />\n\n      {/* Hero */}\n      <section className='relative pt-40 pb-24 overflow-hidden'>\n        <div className='blob bg-orange-300 w-80 h-80 top-10 -left-20' />\n        <div className='max-w-7xl mx-auto px-6 relative z-10'>\n          <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4 reveal-up'>\n            CONTACT US\n          </div>\n          <h1\n            className='font-display text-6xl md:text-8xl font-bold leading-[0.9] tracking-tight max-w-3xl reveal-up'\n            style={{ transitionDelay: '0.1s' }}\n          >\n            Let&apos;s build\n            <br />\n            <span className='text-outline italic'>together</span>\n          </h1>\n          <p\n            className='text-xl text-stone-600 max-w-xl mt-8 leading-relaxed font-light reveal-up'\n            style={{ transitionDelay: '0.2s' }}\n          >\n            Ready to transform your institution? Get in touch and we&apos;ll\n            walk you through everything.\n          </p>\n        </div>\n      </section>\n\n      {/* Contact Content */}\n      <section className='pb-32'>\n        <div className='max-w-7xl mx-auto px-6'>\n          <div className='grid lg:grid-cols-12 gap-16'>\n            {/* Form */}\n            <div className='lg:col-span-7 reveal-up'>\n              <form onSubmit={handleSubmit} className='space-y-6'>\n                <div className='grid md:grid-cols-2 gap-6'>\n                  <div>\n                    <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>\n                      NAME\n                    </label>\n                    <input\n                      name='name'\n                      type='text'\n                      required\n                      className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'\n                      placeholder='Your name'\n                    />\n                  </div>\n                  <div>\n                    <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>\n                      PHONE NUMBER *\n                    </label>\n                    <input\n                      name='phone'\n                      type='text'\n                      required\n                      inputMode='numeric'\n                      pattern='[0-9]*'\n                      className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'\n                      placeholder='03001234567'\n                      onKeyPress={e => {\n                        if (!/[0-9]/.test(e.key)) {\n                          e.preventDefault();\n                        }\n                      }}\n                    />\n                  </div>\n                </div>\n                <div>\n                  <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>\n                    EMAIL (OPTIONAL)\n                  </label>\n                  <input\n                    name='email'\n                    type='email'\n                    className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'\n                    placeholder='you@institution.edu'\n                  />\n                </div>\n                <div>\n                  <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>\n                    INSTITUTION\n                  </label>\n                  <input\n                    name='institution'\n                    type='text'\n                    className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'\n                    placeholder='Your institution name'\n                  />\n                </div>\n                <div>\n                  <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>\n                    SUBJECT\n                  </label>\n                  <select\n                    name='subject'\n                    className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all hover-target'\n                  >\n                    <option>General Inquiry</option>\n                    <option>Schedule a Demo</option>\n                    <option>Pricing Discussion</option>\n                    <option>Technical Support</option>\n                    <option>Partnership</option>\n                    <option>Others</option>\n                  </select>\n                </div>\n                <div>\n                  <label className='font-mono text-xs tracking-widest text-stone-500 mb-2 block'>\n                    MESSAGE\n                  </label>\n                  <textarea\n                    name='message'\n                    required\n                    rows={6}\n                    className='w-full p-4 border-2 border-stone-900 bg-stone-50 font-mono text-sm focus:outline-none focus:border-[#cc5500] focus:shadow-[4px_4px_0_0_#cc5500] transition-all resize-none hover-target'\n                    placeholder='Tell us about your needs...'\n                  />\n                </div>\n                <button\n                  type='submit'\n                  disabled={status === 'sending'}\n                  className='brutal-border px-8 py-4 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target w-full md:w-auto disabled:opacity-60'\n                >\n                  {status === 'sending' && 'Sending...'}\n                  {status === 'sent' && (\n                    <span className='flex items-center justify-center gap-2'>\n                      <Check size={16} /> Message Sent!\n                    </span>\n                  )}\n                  {status === 'error' && (\n                    <span className='flex items-center justify-center gap-2'>\n                      <AlertCircle size={16} /> Failed — Try Again\n                    </span>\n                  )}\n                  {status === 'idle' && 'Send Message'}\n                </button>\n              </form>\n            </div>\n\n            {/* Contact Info */}\n            <div\n              className='lg:col-span-5 space-y-8 reveal-up'\n              style={{ transitionDelay: '0.2s' }}\n            >\n              <div className='border-2 border-stone-900 p-8'>\n                <h3 className='font-display text-2xl font-bold mb-6'>\n                  Get in touch\n                </h3>\n                <div className='space-y-6'>\n                  <div>\n                    <div className='font-mono text-xs tracking-widest text-[#cc5500] mb-1'>\n                      EMAIL\n                    </div>\n                    <a\n                      href={`mailto:${CONTACT_INFO.email}`}\n                      className='text-stone-900 hover:text-[#cc5500] transition-colors no-underline hover-target'\n                    >\n                      {CONTACT_INFO.email}\n                    </a>\n                  </div>\n                  <div>\n                    <div className='font-mono text-xs tracking-widest text-[#cc5500] mb-1'>\n                      PHONE\n                    </div>\n                    <a\n                      href={`tel:${CONTACT_INFO.phone.replace(/-/g, '')}`}\n                      className='text-stone-900 hover:text-[#cc5500] transition-colors no-underline hover-target'\n                    >\n                      {CONTACT_INFO.phoneLabel}\n                    </a>\n                  </div>\n                  <div>\n                    <div className='font-mono text-xs tracking-widest text-[#cc5500] mb-1'>\n                      OFFICE\n                    </div>\n                    <p className='text-stone-600 text-sm'>\n                      {CONTACT_INFO.address}\n                    </p>\n                  </div>\n                </div>\n              </div>\n\n              <div className='border-2 border-stone-900 p-8 bg-stone-900 text-stone-50'>\n                <h3 className='font-display text-xl font-bold mb-4 text-stone-50'>\n                  Schedule a demo\n                </h3>\n                <p className='text-stone-400 text-sm leading-relaxed mb-6'>\n                  See Smart Learning in action. Book a 30-minute walkthrough\n                  with our team.\n                </p>\n                <a\n                  href='#'\n                  className='brutal-border inline-block px-6 py-3 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target no-underline'\n                  onClick={() =>\n                    posthog.capture('schedule_demo_clicked', {\n                      location: 'contact_page',\n                    })\n                  }\n                >\n                  Book Demo Call\n                </a>\n              </div>\n\n              <div className='border-2 border-stone-900 p-8'>\n                <h3 className='font-display text-xl font-bold mb-4'>\n                  Follow us\n                </h3>\n                <div className='flex flex-wrap gap-3'>\n                  {[\n                    { name: 'YouTube', href: SOCIAL_LINKS.youtube },\n                    { name: 'Instagram', href: SOCIAL_LINKS.instagram },\n                    { name: 'Facebook', href: SOCIAL_LINKS.facebook },\n                    { name: 'Twitter', href: SOCIAL_LINKS.twitter },\n                    { name: 'TikTok', href: SOCIAL_LINKS.tiktok },\n                    { name: 'LinkedIn', href: SOCIAL_LINKS.linkedin },\n                    { name: 'Reddit', href: SOCIAL_LINKS.reddit },\n                  ].map(s => (\n                    <a\n                      key={s.name}\n                      href={s.href}\n                      target='_blank'\n                      rel='noopener noreferrer'\n                      className='px-4 py-2 border border-stone-300 font-mono text-xs hover:border-[#cc5500] hover:text-[#cc5500] transition-colors hover-target no-underline'\n                    >\n                      {s.name}\n                    </a>\n                  ))}\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </section>\n\n      <SiteFooter />\n    </main>\n  );\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/faq/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/layout.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/not-found.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/page.tsx",
+    "messages": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 2,
+        "message": "'PricingSection' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 11,
+        "column": 8,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 11,
+        "endColumn": 22,
+        "suggestions": [
+          { "messageId": "removeUnusedImportDeclaration", "data": { "varName": "PricingSection" }, "fix": { "range": [431, 489], "text": "" }, "desc": "Remove unused import declaration." }
+        ]
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 2,
+        "message": "'maxWidth' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 16,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 16,
+        "endColumn": 18
+      },
+      {
+        "ruleId": "jsx-a11y/click-events-have-key-events",
+        "severity": 2,
+        "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+        "line": 186,
+        "column": 9,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 190,
+        "endColumn": 10
+      },
+      {
+        "ruleId": "jsx-a11y/no-static-element-interactions",
+        "severity": 2,
+        "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+        "line": 186,
+        "column": 9,
+        "nodeType": "JSXOpeningElement",
+        "endLine": 190,
+        "endColumn": 10
+      },
+      {
+        "ruleId": "react-hooks/purity",
+        "severity": 2,
+        "message": "Error: Cannot call impure function during render\n\n`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).\n\n/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/page.tsx:282:48\n  280 |   const posthog = usePostHog();\n  281 |   const qrPattern = useMemo(\n> 282 |     () => Array.from({ length: 16 }).map(() => Math.random() > 0.5),\n      |                                                ^^^^^^^^^^^^^ Cannot call impure function\n  283 |     [],\n  284 |   );\n  285 |",
+        "line": 282,
+        "column": 48,
+        "nodeType": null,
+        "endLine": 282,
+        "endColumn": 61
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 5,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "'use client';\nimport { usePostHog } from '@posthog/react';\nimport { Zap, Lock, Hexagon, Activity, Users, Globe, Plus } from 'lucide-react';\nimport Link from 'next/link';\nimport { useEffect, useRef, useState, useMemo } from 'react';\n\nimport CustomCursor from '@/components/CustomCursor';\nimport DemoModal from '@/components/DemoModal';\nimport GrainOverlay from '@/components/GrainOverlay';\nimport Navbar from '@/components/Navbar';\nimport PricingSection from '@/components/PricingSection';\nimport RevealObserver from '@/components/RevealObserver';\nimport SiteFooter from '@/components/SiteFooter';\n\nfunction TextScramble({ phrases }: { phrases: string[] }) {\n  const [maxWidth, setMaxWidth] = useState<number>(0);\n  const ref = useRef<HTMLSpanElement>(null);\n  const measurerRef = useRef<HTMLSpanElement>(null);\n  const timeoutRef = useRef<NodeJS.Timeout>(null);\n  const animIdRef = useRef<number>(null);\n  const counterRef = useRef(0);\n\n  useEffect(() => {\n    const chars = '!<>-_\\\\/[]{}—=+*^?#________';\n    const el = ref.current;\n    if (!el) return;\n\n    const calculateMaxWidth = () => {\n      if (measurerRef.current) {\n        let max = 0;\n        phrases.forEach(p => {\n          if (measurerRef.current) {\n            measurerRef.current.innerText = p;\n            max = Math.max(max, measurerRef.current.offsetWidth);\n          }\n        });\n        setMaxWidth(max);\n      }\n    };\n\n    // Ensure font is loaded before measuring\n    if ('fonts' in document) {\n      document.fonts.ready.then(calculateMaxWidth);\n    } else {\n      calculateMaxWidth();\n    }\n\n    const scramble = (newText: string) => {\n      if (animIdRef.current) cancelAnimationFrame(animIdRef.current);\n      if (timeoutRef.current) clearTimeout(timeoutRef.current);\n\n      const oldText = el.innerText;\n      const length = Math.max(oldText.length, newText.length);\n      const queue: {\n        from: string;\n        to: string;\n        start: number;\n        end: number;\n        char?: string;\n      }[] = [];\n\n      for (let i = 0; i < length; i++) {\n        queue.push({\n          from: oldText[i] || '',\n          to: newText[i] || '',\n          start: Math.floor(Math.random() * 40),\n          end: Math.floor(Math.random() * 40) + Math.floor(Math.random() * 40),\n        });\n      }\n\n      let frame = 0;\n      const update = () => {\n        let output = '';\n        let complete = 0;\n        for (let i = 0; i < queue.length; i++) {\n          const q = queue[i];\n          if (frame >= q.end) {\n            complete++;\n            output += q.to;\n          } else if (frame >= q.start) {\n            if (!q.char || Math.random() < 0.28)\n              q.char = chars[Math.floor(Math.random() * chars.length)];\n            output += `<span class=\"text-[#cc5500]\">${q.char}</span>`;\n          } else {\n            output += q.from;\n          }\n        }\n        el.innerHTML = output;\n\n        if (complete < queue.length) {\n          animIdRef.current = requestAnimationFrame(update);\n          frame++;\n        } else {\n          timeoutRef.current = setTimeout(() => {\n            counterRef.current = (counterRef.current + 1) % phrases.length;\n            scramble(phrases[counterRef.current]);\n          }, 3500);\n        }\n      };\n      update();\n    };\n\n    const initialTimeout = setTimeout(() => {\n      counterRef.current = (counterRef.current + 1) % phrases.length;\n      scramble(phrases[counterRef.current]);\n    }, 4000);\n\n    return () => {\n      clearTimeout(initialTimeout);\n      if (timeoutRef.current) clearTimeout(timeoutRef.current);\n      if (animIdRef.current) cancelAnimationFrame(animIdRef.current);\n    };\n  }, [phrases]);\n\n  return (\n    <span className='inline-block relative text-left align-baseline w-fit z-0'>\n      <span\n        ref={ref}\n        className='text-outline italic block overflow-hidden whitespace-nowrap pb-6 px-4'\n      >\n        {phrases[0]}\n      </span>\n      {/* Hidden measurer to calculate width of phrases */}\n      <span\n        ref={measurerRef}\n        className='text-outline italic absolute opacity-0 pointer-events-none whitespace-nowrap pb-6'\n        aria-hidden='true'\n      >\n        {phrases[0]}\n      </span>\n    </span>\n  );\n}\n\nfunction Accordion() {\n  const [open, setOpen] = useState<number | null>(null);\n  const posthog = usePostHog();\n  const toggle = (i: number) => {\n    const isOpening = open !== i;\n    setOpen(open === i ? null : i);\n    if (isOpening) {\n      posthog.capture('home_module_expanded', { module: modules[i].title });\n    }\n  };\n  const modules = [\n    {\n      num: '01',\n      title: 'Paper Generation',\n      sub: 'AI-POWERED • TEMPLATE BASED',\n      desc: 'Transform exam creation from hours to seconds. Our AI analyzes curriculum patterns, difficulty distributions, and learning objectives to generate balanced, standards-compliant examination papers.',\n      tags: ['Auto-grading ready', 'Multiple formats', 'Question banks'],\n      bg: 'bg-[#cc5500]',\n      comingSoon: false,\n    },\n    {\n      num: '02',\n      title: 'Student Management',\n      sub: 'LIFECYCLE • COMMUNICATION • PORTALS',\n      desc: 'Complete student lifecycle management from admission to alumni. Integrated SMS/WhatsApp notifications, customizable parent portals, and document management.',\n      tags: ['Bulk messaging', 'Document vault', 'Fee tracking'],\n      bg: 'bg-stone-800',\n      comingSoon: true,\n    },\n    {\n      num: '03',\n      title: 'Attendance Tracking',\n      sub: 'REAL-TIME • BIOMETRIC • ANALYTICS',\n      desc: 'Modern attendance infrastructure with biometric integration, geofencing capabilities, and predictive absence analytics.',\n      tags: ['Fingerprint', 'RFID cards', 'Mobile check-in'],\n      bg: 'bg-stone-600',\n      comingSoon: true,\n    },\n    {\n      num: '04',\n      title: 'Result Management',\n      sub: 'PROCESSING • ANALYTICS • REPORTING',\n      desc: 'Comprehensive result processing with automated report card generation, parent notifications, and deep performance analytics.',\n      tags: ['Auto-calculation', 'Grade books', 'Transcripts'],\n      bg: 'bg-stone-400',\n      comingSoon: true,\n    },\n  ];\n  return (\n    <div className='lg:col-span-8 space-y-4'>\n      {modules.map((m, i) => (\n        <div\n          key={i}\n          className='group border-2 border-stone-900 bg-stone-50 hover:bg-stone-100 transition-colors cursor-pointer hover-target'\n          onClick={() => toggle(i)}\n        >\n          <div className='p-6 flex justify-between items-center'>\n            <div className='flex items-center space-x-4'>\n              <div\n                className={`w-12 h-12 ${m.bg} text-white flex items-center justify-center font-mono font-bold text-xl`}\n              >\n                {m.num}\n              </div>\n              <div>\n                <div className='flex items-center gap-3'>\n                  <h3 className='font-display text-2xl font-bold group-hover:translate-x-2 transition-transform'>\n                    {m.title}\n                  </h3>\n                  {m.comingSoon && (\n                    <span className='px-2 py-0.5 bg-stone-900 text-white font-mono text-[10px] tracking-widest uppercase'>\n                      Coming Soon\n                    </span>\n                  )}\n                </div>\n                <p className='font-mono text-xs text-stone-500 mt-1'>{m.sub}</p>\n              </div>\n            </div>\n            <div\n              className='transition-transform duration-300'\n              style={{\n                transform: open === i ? 'rotate(45deg)' : 'rotate(0deg)',\n              }}\n            >\n              <Plus size={24} />\n            </div>\n          </div>\n          <div\n            className={`accordion-content px-6 pb-6 ${open === i ? 'open' : ''}`}\n          >\n            <div className='pl-16 space-y-4'>\n              <p className='text-stone-600'>{m.desc}</p>\n              <div className='flex gap-2 flex-wrap'>\n                {m.tags.map(t => (\n                  <span\n                    key={t}\n                    className='px-3 py-1 border border-stone-300 text-xs font-mono'\n                  >\n                    {t}\n                  </span>\n                ))}\n              </div>\n            </div>\n          </div>\n        </div>\n      ))}\n    </div>\n  );\n}\n\nconst features = [\n  {\n    icon: <Zap size={24} />,\n    title: 'Instant Generation',\n    desc: 'Generate examination papers in under 30 seconds with AI-optimized question distribution and difficulty balancing.',\n  },\n  {\n    icon: <Lock size={24} />,\n    title: 'Bank-Grade Security',\n    desc: 'End-to-end encryption, role-based access control, and comprehensive audit trails for all sensitive data.',\n  },\n  {\n    icon: <Hexagon size={24} />,\n    title: 'Modular Architecture',\n    desc: 'Deploy only what you need. Each module functions independently with clean API integration points.',\n  },\n  {\n    icon: <Activity size={24} />,\n    title: 'Predictive Analytics',\n    desc: 'Identify at-risk students, predict attendance patterns, and optimize resource allocation with machine learning.',\n  },\n  {\n    icon: <Users size={24} />,\n    title: 'Multi-Tenant',\n    desc: 'Manage multiple campuses, departments, or institutions from a single dashboard with complete data isolation.',\n  },\n  {\n    icon: <Globe size={24} />,\n    title: 'Global Access',\n    desc: 'Cloud-native infrastructure with 99.99% uptime SLA. Access from anywhere, on any device, in any timezone.',\n  },\n];\n\nexport default function HomePage() {\n  const [isDemoOpen, setIsDemoOpen] = useState(false);\n\n  const posthog = usePostHog();\n  const qrPattern = useMemo(\n    () => Array.from({ length: 16 }).map(() => Math.random() > 0.5),\n    [],\n  );\n\n  useEffect(() => {\n    posthog.capture('page_view', {\n      page: 'home',\n    });\n  }, [posthog]);\n\n  return (\n    <main className='min-h-screen'>\n      <DemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />\n      <CustomCursor />\n      <GrainOverlay />\n      <Navbar />\n      <RevealObserver />\n\n      {/* Hero */}\n      <section className='relative min-h-screen flex items-center justify-center overflow-hidden pt-32'>\n        <div className='blob bg-orange-300 w-96 h-96 top-20 -left-20' />\n        <div\n          className='blob bg-stone-300 w-80 h-80 bottom-20 right-10'\n          style={{ animationDelay: '-5s' }}\n        />\n        <div\n          className='blob bg-[#cc5500] w-64 h-64 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'\n          style={{ animationDelay: '-10s', opacity: 0.2 }}\n        />\n        <div className='max-w-7xl mx-auto px-6 relative z-10'>\n          <div className='grid lg:grid-cols-12 gap-8 items-end'>\n            <div className='lg:col-span-7 space-y-8'>\n              <h1\n                className='font-display text-6xl md:text-8xl lg:text-9xl font-extrabold leading-[0.9] tracking-tight reveal-up m-0'\n                style={{ transitionDelay: '0.1s' }}\n              >\n                <span className='pl-4'>Education</span>\n                <br />\n                <TextScramble\n                  phrases={[\n                    'Elevated',\n                    'Redefined',\n                    'Empowered',\n                    'Enhanced',\n                    'Modernized',\n                  ]}\n                />\n              </h1>\n              <p\n                className='text-xl md:text-2xl text-stone-600 max-w-2xl leading-relaxed reveal-up font-light'\n                style={{ transitionDelay: '0.2s' }}\n              >\n                AI-powered management systems for institutions that refuse to\n                accept the status quo. Paper generation. Student lifecycle.\n                Analytics.\n              </p>\n              <div\n                className='flex flex-wrap gap-4 pt-4 reveal-up'\n                style={{ transitionDelay: '0.3s' }}\n              >\n                <a\n                  href='https://signup.smartlearning.pk'\n                  className='brutal-border px-8 py-4 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target no-underline'\n                  onClick={() =>\n                    posthog.capture('register_clicked', {\n                      location: 'home_hero',\n                    })\n                  }\n                >\n                  Register\n                </a>\n                <button\n                  onClick={() => {\n                    setIsDemoOpen(true);\n                    posthog.capture('demo_requested', {\n                      buttonName: 'View Demo',\n                      page: 'home',\n                    });\n                  }}\n                  className='px-8 py-4 border-b-2 border-stone-900 font-mono text-sm tracking-wider hover:text-[#cc5500] transition-colors hover-target no-underline'\n                >\n                  View Demo →\n                </button>\n              </div>\n            </div>\n            <div\n              className='lg:col-span-5 relative reveal-up'\n              style={{ transitionDelay: '0.4s' }}\n            >\n              <div className='relative group'>\n                <div className='absolute -inset-4 bg-[#cc5500] rounded-sm rotate-3 group-hover:rotate-1 transition-transform duration-500' />\n                <div className='relative brutal-border bg-white p-8 aspect-[4/5] overflow-hidden flex flex-col shadow-[12px_12px_0_0_#000]'>\n                  {/* Paper Texture Overlay */}\n                  <div className='absolute inset-0 opacity-[0.03] pointer-events-none bg-[url(\"https://www.transparenttextures.com/patterns/paper-fibers.png\")]' />\n\n                  {/* Header Area */}\n                  <div className='text-center border-b-2 border-stone-900 pb-4 mb-6 relative z-10'>\n                    <div className='font-display font-black text-lg tracking-tighter uppercase mb-1'>\n                      Smart Learning Academy\n                    </div>\n                    <div className='font-mono text-[10px] tracking-[0.2em] text-stone-500 uppercase'>\n                      Annual Examination 2024-25\n                    </div>\n                  </div>\n\n                  {/* Exam Info */}\n                  <div className='grid grid-cols-2 gap-4 mb-8 relative z-10 font-mono text-[9px] uppercase tracking-wider'>\n                    <div className='space-y-1'>\n                      <div className='flex justify-between border-b border-stone-200 pb-1'>\n                        <span className='text-stone-400'>Subject</span>\n                        <span className='font-bold text-stone-900'>\n                          Mathematics\n                        </span>\n                      </div>\n                      <div className='flex justify-between border-b border-stone-200 pb-1'>\n                        <span className='text-stone-400'>Time</span>\n                        <span className='font-bold text-stone-900'>\n                          03 Hours\n                        </span>\n                      </div>\n                    </div>\n                    <div className='space-y-1'>\n                      <div className='flex justify-between border-b border-stone-200 pb-1'>\n                        <span className='text-stone-400'>Grade</span>\n                        <span className='font-bold text-stone-900'>XII-C</span>\n                      </div>\n                      <div className='flex justify-between border-b border-stone-200 pb-1'>\n                        <span className='text-stone-400'>Marks</span>\n                        <span className='font-bold text-stone-900'>100</span>\n                      </div>\n                    </div>\n                  </div>\n\n                  {/* Question Content */}\n                  <div className='flex-1 space-y-6 relative z-10'>\n                    {/* Section A */}\n                    <div className='space-y-3'>\n                      <div className='bg-stone-900 text-white px-2 py-0.5 inline-block font-mono text-[8px] uppercase tracking-widest'>\n                        Section A: Objective\n                      </div>\n                      <div className='space-y-4'>\n                        <div className='space-y-2'>\n                          <div className='font-serif text-[11px] leading-tight text-stone-800'>\n                            <span className='font-bold mr-2'>Q1.</span>\n                            Which of the following represents the derivative of\n                            f(x) = sin(x²)?\n                          </div>\n                          <div className='grid grid-cols-2 gap-2 pl-6 font-serif text-[10px] text-stone-600'>\n                            <div className='flex items-center gap-2'>\n                              <div className='w-2 h-2 border border-stone-400' />{' '}\n                              a) 2x cos(x²)\n                            </div>\n                            <div className='flex items-center gap-2'>\n                              <div className='w-2 h-2 border border-stone-400' />{' '}\n                              b) cos(2x)\n                            </div>\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n\n                    {/* Section B */}\n                    <div className='space-y-3 pt-2 border-t border-dashed border-stone-300'>\n                      <div className='bg-[#cc5500] text-white px-2 py-0.5 inline-block font-mono text-[8px] uppercase tracking-widest'>\n                        Section B: Subjective\n                      </div>\n                      <div className='space-y-4'>\n                        <div className='space-y-3'>\n                          <div className='font-serif text-[11px] leading-tight text-stone-800'>\n                            <span className='font-bold mr-2'>Q7.</span>\n                            Prove that the sum of the squares of the first n\n                            natural numbers is n(n+1)(2n+1)/6.\n                          </div>\n                          <div className='space-y-2 pl-6'>\n                            <div className='w-full h-[1px] bg-stone-200' />\n                            <div className='w-full h-[1px] bg-stone-200' />\n                            <div className='w-3/4 h-[1px] bg-stone-200' />\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n\n                  {/* Approved Stamp */}\n                  <div className='absolute bottom-24 right-4 rotate-[-15deg] border-4 border-[#cc5500]/20 text-[#cc5500]/20 px-4 py-1 font-display font-black text-2xl uppercase tracking-tighter select-none pointer-events-none opacity-40 z-20'>\n                    Verified\n                  </div>\n\n                    {/* QR Code Placeholder */}\n                    <div className='absolute bottom-6 left-8 w-12 h-12 brutal-border p-1 bg-white opacity-40'>\n                      <div className='w-full h-full bg-stone-900 flex flex-wrap gap-[1px] p-[1px]'>\n                        {qrPattern.map((isWhite, i) => (\n                          <div\n                            key={i}\n                            className={`w-[20%] h-[20%] ${isWhite ? 'bg-white' : 'bg-stone-900'}`}\n                          />\n                        ))}\n                      </div>\n                    </div>\n\n                  <div className='mt-auto pt-4 flex justify-end items-center border-t border-stone-200 font-mono text-[9px] text-stone-400 uppercase tracking-widest'>\n                    Page 01 of 04\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div className='absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs tracking-widest animate-bounce'>\n          SCROLL\n        </div>\n      </section>\n\n      {/* Marquee */}\n      <div className='border-y-2 border-stone-900 bg-stone-900 text-stone-50 py-4 overflow-hidden'>\n        <div className='marquee-container'>\n          <div className='marquee-content font-mono text-sm tracking-widest'>\n            AI-POWERED PAPER GENERATION • REAL-TIME ANALYTICS • STUDENT\n            LIFECYCLE MANAGEMENT • BIOMETRIC ATTENDANCE • AUTOMATED REPORTING •\n            AI-POWERED PAPER GENERATION • REAL-TIME ANALYTICS • STUDENT\n            LIFECYCLE MANAGEMENT • BIOMETRIC ATTENDANCE • AUTOMATED REPORTING •\n          </div>\n        </div>\n      </div>\n\n      {/* Modules */}\n      <section className='py-32 relative'>\n        <div className='max-w-7xl mx-auto px-6'>\n          <div className='grid lg:grid-cols-12 gap-16'>\n            <div className='lg:col-span-4 space-y-6 reveal-up'>\n              <div className='font-mono text-sm text-[#cc5500] tracking-widest'>\n                CORE MODULES\n              </div>\n              <h2 className='font-display text-5xl font-bold leading-tight'>\n                Four pillars of modern education\n              </h2>\n              <p className='text-stone-600 leading-relaxed'>\n                Each module functions independently or as part of the integrated\n                ecosystem. Built for scale, designed for clarity.\n              </p>\n            </div>\n            <Accordion />\n          </div>\n        </div>\n      </section>\n\n      {/* Features */}\n      <section className='py-32 bg-stone-900 text-stone-50 relative overflow-hidden'>\n        <div className='absolute top-0 right-0 w-1/2 h-full bg-[#cc5500] opacity-5 skew-x-12' />\n        <div className='max-w-7xl mx-auto px-6 relative z-10'>\n          <div className='mb-20 reveal-up'>\n            <div className='font-mono text-sm text-[#cc5500] tracking-widest mb-4'>\n              CAPABILITIES\n            </div>\n            <h2 className='font-display text-5xl md:text-6xl font-bold max-w-4xl text-stone-50'>\n              What is the best school management software in Pakistan?\n            </h2>\n            <p className='text-xl text-stone-400 mt-6 max-w-3xl leading-relaxed'>\n              Our software automates school administration by integrating\n              attendance tracking, digital fee collection, and real-time result\n              management in one secure platform. Build a smarter legacy for your\n              institution.\n            </p>\n          </div>\n          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-800'>\n            {features.map((f, i) => (\n              <div\n                key={i}\n                className='bg-stone-900 p-8 group hover:bg-stone-800 transition-colors reveal-up hover-target'\n                style={{ transitionDelay: `${(i % 3) * 0.1}s` }}\n              >\n                <div className='w-12 h-12 border border-stone-700 flex items-center justify-center mb-6 group-hover:border-[#cc5500] transition-colors text-[#cc5500]'>\n                  {f.icon}\n                </div>\n                <h3 className='font-display text-xl font-bold mb-3 text-stone-50'>\n                  {f.title}\n                </h3>\n                <p className='text-stone-400 text-sm leading-relaxed'>\n                  {f.desc}\n                </p>\n              </div>\n            ))}\n          </div>\n        </div>\n      </section>\n\n      {/* Image Break */}\n      <section className='py-0'>\n        <div className='grid md:grid-cols-2'>\n          <div className='relative h-96 md:h-[600px] overflow-hidden group'>\n            <img\n              src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80'\n              alt='Classroom'\n              className='w-full h-full object-cover duotone'\n            />\n            <div className='absolute inset-0 bg-[#cc5500] mix-blend-multiply opacity-0 group-hover:opacity-40 transition-opacity duration-500' />\n            <div className='absolute bottom-6 left-6 bg-stone-50 p-4 brutal-border max-w-xs'>\n              <p className='font-mono text-xs text-stone-500 mb-1'>LOCATION</p>\n              <p className='font-display text-lg font-bold'>\n                Modern Learning Environments\n              </p>\n            </div>\n          </div>\n          <div className='relative h-96 md:h-[600px] overflow-hidden bg-stone-200 flex items-center justify-center p-12'>\n            <div className='absolute inset-0 grid-lines opacity-50' />\n            <div className='relative z-10 text-center'>\n              <div className='font-display text-7xl font-bold text-outline mb-4 leading-tight'>\n                IT'S LIVE NOW\n              </div>\n              <p className='font-mono text-sm tracking-widest text-stone-600'>\n                THE FUTURE OF EDUCATION IS HERE\n              </p>\n            </div>\n          </div>\n        </div>\n      </section>\n\n      {/* CTA */}\n      <section className='py-32 relative overflow-hidden'>\n        <div className='absolute inset-0 bg-[#cc5500] -skew-y-3 origin-top-left' />\n        <div className='max-w-4xl mx-auto px-6 relative z-10 text-center text-white'>\n          <h2 className='font-display text-5xl md:text-7xl font-bold mb-6 reveal-up text-white'>\n            Ready to dismantle\n            <br />\n            the old system?\n          </h2>\n          <p\n            className='text-xl mb-12 opacity-90 font-light reveal-up'\n            style={{ transitionDelay: '0.1s' }}\n          >\n            Join the institutions that have already upgraded their\n            infrastructure.\n          </p>\n          <div\n            className='flex flex-col sm:flex-row gap-4 justify-center reveal-up'\n            style={{ transitionDelay: '0.2s' }}\n          >\n            <Link\n              href='/contact'\n              className='brutal-border px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover:bg-white hover:text-stone-900 transition-colors hover-target no-underline'\n              onClick={() =>\n                posthog.capture('schedule_demo_clicked', {\n                  location: 'home_cta',\n                })\n              }\n            >\n              Schedule Demo\n            </Link>\n            {/* <button\n              onClick={() =>\n                document\n                  .getElementById('pricing')\n                  ?.scrollIntoView({ behavior: 'smooth' })\n              }\n              className='px-8 py-4 border-2 border-white font-mono text-sm tracking-wider hover:bg-white hover:text-[#cc5500] transition-colors hover-target'\n            >\n              View Pricing\n            </button> */}\n          </div>\n        </div>\n      </section>\n\n      {/* <div id='pricing'>\n        <PricingSection />\n      </div> */}\n\n      <SiteFooter />\n    </main>\n  );\n}\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/paper-generation/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/privacy/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/refund/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/robots.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/sitemap.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/sla/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/student-management/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/team/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/app/terms/page.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/CustomCursor.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/DemoModal.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/Floating3D.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/GrainOverlay.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/HeroSection.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/LegalPageLayout.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/Navbar.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/PostHogProvider.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/PricingSection.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/RevealObserver.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/SiteFooter.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/StructuredData.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/ui/badge.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/ui/button.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/ui/card.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/ui/input.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/ui/label.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/components/ui/textarea.tsx",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/constants/site.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/eslint.config.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/hooks/use-mobile.tsx",
+    "messages": [],
+    "suppressedMessages": [
+      {
+        "ruleId": "react-hooks/set-state-in-effect",
+        "severity": 2,
+        "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/Users/jango/Projects/Personal/Nexanod/smart-learning-static/hooks/use-mobile.tsx:18:5\n  16 |     mql.addEventListener('change', onChange);\n  17 |     // eslint-disable-next-line react-hooks/set-state-in-effect\n> 18 |     setIsMobile(mql.matches);\n     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  19 |     return () => mql.removeEventListener('change', onChange);\n  20 |   }, []);\n  21 |",
+        "line": 18,
+        "column": 5,
+        "nodeType": null,
+        "endLine": 18,
+        "endColumn": 16,
+        "suppressions": [{ "kind": "directive", "justification": "" }]
+      }
+    ],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/lib/utils.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/next-env.d.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/next.config.ts",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "/Users/jango/Projects/Personal/Nexanod/smart-learning-static/postcss.config.mjs",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  }
+]

@@ -1,0 +1,77 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Environment files
+.env*
+
+# Logs
+*.log
+logs/
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Temporary directories
+.tmp/
+tmp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.idea/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Testing
+__snapshots__/
+
+# Package manager files
+package-lock.json
+
+# Generated files
+next-env.d.ts
+public/sw.js
+public/workbox-*.js
+
+# Minified files
+*.min.js
+*.min.css
+
+# Documentation build
+docs/.vitepress/dist/
+
+# Auto-generated API documentation
+api-docs/
+
+# Compiled binary addons
+build/Release
+
+# Miscellaneous
+*.tsbuildinfo
+
+#TinyMCE
+/public/tinymce
+/public/mathtype
+
+# Agents
+.agents/
+.agent/
+_agents/
+_agent/
+.gemini/
