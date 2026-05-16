@@ -1,4 +1,5 @@
 'use client';
+import { usePostHog } from '@posthog/react';
 import Link from 'next/link';
 
 import CustomCursor from '@/components/CustomCursor';
@@ -60,6 +61,8 @@ const milestones = [
 // stats unused
 
 export default function AboutPage() {
+  const posthog = usePostHog();
+
   return (
     <main className='min-h-screen'>
       <CustomCursor />
@@ -193,6 +196,11 @@ export default function AboutPage() {
             href='/contact'
             className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'
             style={{ transitionDelay: '0.2s' }}
+            onClick={() =>
+              posthog.capture('about_cta_clicked', {
+                location: 'about_cta',
+              })
+            }
           >
             Get in Touch
           </Link>

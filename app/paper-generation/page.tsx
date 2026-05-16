@@ -1,4 +1,5 @@
 'use client';
+import { usePostHog } from '@posthog/react';
 import {
   LayoutGrid,
   Activity,
@@ -68,6 +69,8 @@ const capabilities = [
 ];
 
 export default function PaperGenerationPage() {
+  const posthog = usePostHog();
+
   return (
     <main className='min-h-screen'>
       <CustomCursor />
@@ -114,6 +117,11 @@ export default function PaperGenerationPage() {
                 <a
                   href='https://signup.smartlearning.pk'
                   className='brutal-border px-8 py-4 bg-[#cc5500] text-white font-mono text-sm tracking-wider hover-target no-underline'
+                  onClick={() =>
+                    posthog.capture('paper_gen_cta_clicked', {
+                      location: 'paper_gen_hero',
+                    })
+                  }
                 >
                   Try Paper Gen
                 </a>
@@ -254,6 +262,11 @@ export default function PaperGenerationPage() {
             href='/contact'
             className='brutal-border inline-block px-8 py-4 bg-stone-900 text-white font-mono text-sm tracking-wider hover-target no-underline reveal-up'
             style={{ transitionDelay: '0.2s' }}
+            onClick={() =>
+              posthog.capture('paper_gen_demo_clicked', {
+                location: 'paper_gen_cta',
+              })
+            }
           >
             Schedule a Demo
           </Link>
